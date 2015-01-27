@@ -1,0 +1,31 @@
+{
+	"name": "AdnNodeJsServerSample",
+	"description": "A node.js server sample",
+	"version": "1.0.0",
+	"repository": "Developer-Autodesk/workflow-node.js-server-view.and.data.api",
+	"dependencies": {
+		"express": "*",
+		"request": "*",
+		"fs": "*",
+		"cron": "*",
+		"connect-multiparty": "*",
+		"path": "*",
+		"util": "*",
+		"stream": "*"
+	},
+	"files": [
+		"LICENSE",
+		"README.md"
+	],
+	"engines": {
+		"node": ">= 0.10.0"
+	},
+	"contributors": [
+		"Cyrille Fauvel <cyrille@autodesk.com>"
+	],
+	"license": "MIT",
+	
+	"scripts": {
+		"start": "node server/start.js"
+	}
+}

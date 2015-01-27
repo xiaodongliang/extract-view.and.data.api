@@ -1,0 +1,80 @@
+<html>
+
+	<head>
+		<title>ADN Node.js Server Sample</title>
+
+		<script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
+		
+		<script src="flow.js"></script>
+		<!--
+		<link type="text/css" rel="stylesheet" href="joint.css" />
+		<script src="joint.js"></script>
+		-->
+		<script src="raphael-min.js"></script>
+		
+<!--
+		<link type="text/css" rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css" />
+		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
+-->
+		
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script>
+			$(document).ready (function () {
+/*				var adnViewerMng = new Autodesk.ADN.Toolkit.Viewer.AdnViewerManager(
+					'http://' + window.location.host + '/node/basic/api/token',
+					document.getElementById('viewerDiv'));
+					var paramUrn = Autodesk.Viewing.Private.getParameterByName('urn');
+*/
+			}) ;
+
+		</script>
+	</head>
+
+	<body style="margin:0">
+		<div id="viewerDiv"></div>
+		
+		<div id="frame">
+
+			<h3>Demo</h3>
+			<div class="flow-error">
+			Your browser, unfortunately, is not supported by Flow.js. The library requires support for
+				<a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with
+				<a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+			</div>
+
+			<div class="flow-drop" ondragenter="jQuery(this).addClass('flow-dragover');"
+				 ondragend="jQuery(this).removeClass('flow-dragover');" ondrop="jQuery(this).removeClass('flow-dragover');">
+			Drop files here to upload or <a class="flow-browse-folder"><u>select folder</u></a>
+			or <a class="flow-browse"><u>select from your computer</u></a> or <a class="flow-browse-image"><u>select images</u></a>
+			</div>
+
+			<div class="flow-progress">
+				<table>
+					<tr>
+						<td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+						<td class="progress-text" nowrap="nowrap"></td>
+						<td class="progress-pause" nowrap="nowrap">
+							<a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="resume.png" title="Resume upload" /></a>
+							<a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="pause.png" title="Pause upload" /></a>
+							<a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="cancel.png" title="Cancel upload" /></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<ul class="flow-list"></ul>
+			
+			<details id="dependencies-editor">
+				<summary>Edit dependencies</summary>
+				<div class="dependencies-editor flow-drop"></div>
+			</details>
+			
+			
+			<script src="upload-flow.js"></script>
+			<script src="dependency-editor.js"></script>
+
+		</div>
+		
+	</body>
+	
+</html>
