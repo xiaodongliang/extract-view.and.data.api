@@ -52,6 +52,32 @@
 			file.cancel () ;
 			$self.remove () ;
 		}) ;
+        
+        $('#dependencies-editor-area').append ('<div class="w" id="root-' + file.uniqueIdentifier + '">' + file.name + '<div class="ep"></div></div>') ;
+        jsPlumbInstance.draggable ('root-' + file.uniqueIdentifier, { containment: 'dependencies-editor-area' }) ;
+        jsPlumbInstance.makeSource ('root-' + file.uniqueIdentifier, {
+            filter: ".ep",
+            anchor: "Continuous",
+            connector: [ "StateMachine", { curviness: 20 } ],
+            connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+            //maxConnections: 5,
+            //onMaxConnections: function (info, e) {
+            //	alert ("Maximum connections (" + info.maxConnections + ") reached") ;
+            //}
+        }) ;
+        jsPlumbInstance.makeTarget ('root-' + file.uniqueIdentifier, {
+            dropOptions: { hoverClass: "dragHover" },
+            anchor: "Continuous",
+            allowLoopback: true
+        }) ;
+        
+        var elts =jsPlumbInstance.getSelector (".statemachine .w") ;
+        if ( elts.length == 2 ) {
+            jsPlumbInstance.addClass (elts [1], 'rootc') ;
+            jsPlumbInstance.connect ({ source: "lmv-root", target: "root-" + file.uniqueIdentifier }) ;
+        }
+        autoArrange () ;
+                
 	}) ;
 	r.on ('filesSubmitted', function (file) {
 		r.upload () ;

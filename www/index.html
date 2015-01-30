@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 
 	<head>
@@ -6,11 +7,8 @@
 		<script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
 		
 		<script src="flow.js"></script>
-		<!--
-		<link type="text/css" rel="stylesheet" href="joint.css" />
-		<script src="joint.js"></script>
-		-->
-		<script src="raphael-min.js"></script>
+        <script src="dom.jsPlumb-1.7.2.js"></script>
+        <script src="dagre.js"></script>
 		
 <!--
 		<link type="text/css" rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css" />
@@ -35,7 +33,7 @@
 		
 		<div id="frame">
 
-			<h3>Demo</h3>
+			<h3>LMV Node.js Sample</h3>
 			<div class="flow-error">
 			Your browser, unfortunately, is not supported by Flow.js. The library requires support for
 				<a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with
@@ -64,14 +62,17 @@
 
 			<ul class="flow-list"></ul>
 			
-			<details id="dependencies-editor">
-				<summary>Edit dependencies</summary>
-				<div class="dependencies-editor flow-drop"></div>
-			</details>
-			
+            <br />
+            <h3>Edit dependencies</h3>
+            <p>Click and drag new dependencies from the orange square in each element. Click on a connection to delete it. </p>
+            <div id="dependencies-editor-area" class="dependencies-editor statemachine">
+                <div class="w" id="lmv-root">LMV ROOT<div class="ep"></div></div>
+            </div>
+            <button onclick="autoArrange ();">test</button>
 			
 			<script src="upload-flow.js"></script>
 			<script src="dependency-editor.js"></script>
+            <script src="auto-arrange.js"></script>
 
 		</div>
 		
