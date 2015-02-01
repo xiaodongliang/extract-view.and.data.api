@@ -6,6 +6,7 @@
 	"dependencies": {
 		"express": "*",
 		"request": "*",
+		"body-parser": "*",
 		"fs": "*",
 		"cron": "*",
 		"connect-multiparty": "*",

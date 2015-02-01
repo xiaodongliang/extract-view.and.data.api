@@ -43,8 +43,8 @@ router.post ('/upload', multipartMiddleware, function (req, res) {
 				"urn": ""
 			} ;
 			fs.writeFile ('files.txt', JSON.stringify (data), function (err) {
-				if (err)
-					return (console.log (err)) ;
+				if ( err )
+					console.log (err) ;
 			}) ;
 			//fs.renameSync () ;
 		}

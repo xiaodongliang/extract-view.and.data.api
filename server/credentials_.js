@@ -19,10 +19,11 @@
 // UNINTERRUPTED OR ERROR FREE.
 //
 var credentials =function () {
-    this.BaseUrl ='https://developer.api.autodesk.com' ;
-    this.ClientId ='Replace_with_your_own_consumer_key' ;
-    this.ClientSecret ='Replace_with_your_own_secret_key' ;
-    this.AuthenticateUrl =this.BaseUrl + '/authentication/v1/authenticate' ;
-}
+	this.Hostname ='developer.api.autodesk.com' ;
+	this.BaseUrl ='https://' + this.Hostname ;
+	this.ClientId ='Replace_with_your_own_consumer_key' ;
+	this.ClientSecret ='Replace_with_your_own_secret_key' ;
+	this.AuthenticateUrl =this.BaseUrl + '/authentication/v1/authenticate' ;
+} ;
 
 module.exports =credentials ;

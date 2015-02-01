@@ -18,25 +18,17 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //
-
-// to avoid the EXDEV rename error, see http://stackoverflow.com/q/21071303/76173
-process.env.TMPDIR ='tmp' ;
-//process.env ['NODE_TLS_REJECT_UNAUTHORIZED'] ='0' ; // Ignore 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' authorization error
-
 var express =require ('express') ;
 var request =require ('request') ;
-var fs =require ('fs') ;
-var lmvToken =require ('./server/lmv-token') ;
-var lmvProject =require ('./server/lmv-project') ;
-var fileupload =require ('./server/fileupload') ;
+var lmv =require ('./lmv') ;
 
-var app =express () ;
-app.use (express.static (__dirname + '/www')) ;
-app.use ('/api', lmvToken) ;
-app.use ('/api', lmvProject) ;
-app.use (fileupload) ;
+var seconds =1700 ; // Service returns 1799 seconds bearer token
+setInterval (lmv.Lmv.refreshToken, seconds * 1000) ;
+lmv.Lmv.refreshToken () ;
 
-app.set ('port', process.env.PORT || 80) ;
-var server =app.listen (app.get ('port'), function () {
-    console.log ('Server listening on port ' + server.address ().port) ;
+var router =express.Router () ;
+router.get ('/token', function (req, res) {
+	res.send (lmv.Lmv.getToken ()) ;
 }) ;
+
+module.exports =router ;
