@@ -28,21 +28,15 @@ var ACCESS_CONTROLL_ALLOW_ORIGIN =false ;
 var router =express.Router () ;
 var multipartMiddleware =multipart () ;
 
-router.post ('/upload', multipartMiddleware, function (req, res) {
+router.post ('/file', multipartMiddleware, function (req, res) {
 	flow.post (req, function (status, filename, original_filename, identifier) {
 		console.log ('POST', status, original_filename, identifier) ;
 		if ( status == 'done' ) {
-			var data ;
-			try {
-				data =JSON.parse (fs.readFileSync ('files.txt')) ;
-			} catch ( err ) {
-				data ={} ;
-			}
-			data [identifier] ={
-				"name": original_filename,
-				"urn": ""
+			var data ={
+				'key': identifier,
+				'name': original_filename
 			} ;
-			fs.writeFile ('files.txt', JSON.stringify (data), function (err) {
+			fs.writeFile ('data/' + identifier + '.json', JSON.stringify (data), function (err) {
 				if ( err )
 					console.log (err) ;
 			}) ;
@@ -54,7 +48,7 @@ router.post ('/upload', multipartMiddleware, function (req, res) {
 	}) ;
 }) ;
 
-router.options ('/upload', function(req, res) {
+router.options ('/file', function(req, res) {
 	console.log ('OPTIONS') ;
 	//if ( ACCESS_CONTROLL_ALLOW_ORIGIN )
 	//	res.header ("Access-Control-Allow-Origin", "*") ;
@@ -62,7 +56,7 @@ router.options ('/upload', function(req, res) {
 }) ;
 
 // Handle status checks on chunks through Flow.js
-router.get ('/upload', function (req, res) {
+router.get ('/file', function (req, res) {
 	flow.get (req, function (status, filename, original_filename, identifier) {
 		console.log ('GET', status) ;
 		//if ( ACCESS_CONTROLL_ALLOW_ORIGIN )
@@ -70,23 +64,32 @@ router.get ('/upload', function (req, res) {
 		if ( status == 'found' )
 			status =200 ;
 		else
-			status =404 ;
+			status =404 ; //- 404 Not Found
 		res.status (status).send () ;
 	}) ;
 }) ;
 
-router.get ('/download/*', function (req, res) {
+router.get ('/file/*/details', function (req, res) {
 	//console.log ('GET', req) ;
-	var data =fs.readFileSync ('files.txt') ;
+	var identifier =req.url.split ('/') [2] ;
+	var data =fs.readFileSync ('data/' + identifier + '.json') ;
+	data =JSON.parse (data) ;
+	res.setHeader ('Content-Type', 'application/json') ;
+	res.json (data) ;
+}) ;
+
+router.get ('/file/*', function (req, res) {
+	//console.log ('GET', req) ;
+	var identifier =req.url.split ('/') [2] ;
+	var data =fs.readFileSync ('data/' + identifier + '.json') ;
 	data =JSON.parse (data) ;
 	//console.log (JSON.stringify (data)) ;
-	var key =req.url.split ('/') [2] ;
-	var serverFile =__dirname + '/../tmp/flow-' + key + '.1' ;
+	var serverFile =__dirname + '/../tmp/flow-' + identifier + '.1' ;
 	fs.exists (serverFile, function (exists) {
 		if ( exists )
-			res.download (serverFile, data [key].name) ;
+			res.download (serverFile, data.name) ;
 		else
-			res.status (404).end () ;
+			res.status (404).end () ; //- 404 Not Found
 	}) ;
 }) ;
 

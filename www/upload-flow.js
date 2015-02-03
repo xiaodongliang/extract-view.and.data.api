@@ -19,7 +19,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 //
 $(document).ready (function () {
-	var r =new Flow ({ target: '/upload', chunkSize: 1024 * 1024, testChunks: false }) ;
+	var r =new Flow ({ target: '/api/file', chunkSize: 1024 * 1024, testChunks: false }) ;
 	// Flow.js isn't supported, fall back on a different method
 	if ( !r.support ) {
 		$('.flow-error').show () ;
@@ -45,19 +45,19 @@ $(document).ready (function () {
 			+ 'Download'
 			+ '</a> '
 			+ '<span class="flow-file-pause">'
-			+ ' <img src="pause.png" title="Pause upload" />'
+			+ ' <img src="img/pause.png" title="Pause upload" />'
 			+ '</span>'
 			+ '<span class="flow-file-resume">'
-			+ ' <img src="resume.png" title="Resume upload" />'
+			+ ' <img src="img/resume.png" title="Resume upload" />'
 			+ '</span>'
 			+ '<span class="flow-file-cancel">'
-			+ ' <img src="cancel.png" title="Cancel upload" />'
+			+ ' <img src="img/cancel.png" title="Cancel upload" />'
 			+ '</span>'
 		) ;
 		var $self =$('.flow-file-' + file.uniqueIdentifier) ;
 		$self.find ('.flow-file-name').text (file.name) ;
 		$self.find ('.flow-file-size').text (readablizeBytes (file.size)) ;
-		$self.find ('.flow-file-download').attr ('href', '/download/' + file.uniqueIdentifier).hide () ;
+		$self.find ('.flow-file-download').attr ('href', '/api/file/' + file.uniqueIdentifier).hide () ;
 		$self.find ('.flow-file-pause').on ('click', function () {
 			file.pause () ;
 			$self.find ('.flow-file-pause').hide () ;
@@ -111,7 +111,7 @@ $(document).ready (function () {
 		// Reflect that the file upload has completed
 		$self.find ('.flow-file-progress').text ('(completed)') ;
 		$self.find ('.flow-file-pause, .flow-file-resume').remove () ;
-		$self.find ('.flow-file-download').attr ('href', '/download/' + file.uniqueIdentifier).show () ;
+		$self.find ('.flow-file-download').attr ('href', '/api/file/' + file.uniqueIdentifier).show () ;
 	}) ;
 	r.on ('fileError', function(file, message){
 		// Reflect that the file upload has resulted in error

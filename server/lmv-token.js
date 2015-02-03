@@ -28,6 +28,7 @@ lmv.Lmv.refreshToken () ;
 
 var router =express.Router () ;
 router.get ('/token', function (req, res) {
+	res.setHeader ('Content-Type', 'text/plain') ;
 	res.send (lmv.Lmv.getToken ()) ;
 }) ;
 

@@ -19,7 +19,7 @@
 		<script src="upload-flow.js"></script>
 		<script src="dependency-editor.js"></script>
         <script src="auto-arrange.js"></script>
-		<script src="submit-project.js"></script>
+        <script src="projects.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 
@@ -76,17 +76,30 @@
 			<div>Once files are uploaded, dependencies edited, give a unique bucket name (all lowercase), and submit your project for translation.<br />
 			bucket names can be a bucket you already created before, no need to create a new bucket everytime.</div>
 			<div id="project-submission">
-				<form id="submit-project" action="/api/submit" method="post" enctype="application/json">
+				<form id="submit-project" action="/api/projects" method="post" enctype="application/json">
 					<div>
-						<label for="bucket">Bucket name: </label>
-						<input id="bucket" type="text" width="75" min="3" maxlength="63" style="text-transform: lowercase;" required
-							   placeholder="Enter a valid email bucket name" pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+"
-							   />
-						<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">
-							<img src="img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
-					</div>
+                        <div>
+    						<label for="bucket">Bucket name: </label>
+                            <input id="bucket" type="text" width="75" min="3" maxlength="63" style="text-transform: lowercase;" required
+                                   placeholder="Enter a valid email bucket name" pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+"
+                                   />
+                            <select id="policy">
+                                <option value="transient" default>transient</option>
+                                <option value="temporary">temporary</option>
+                                <option value="persistent">persistent</option>
+                            </select>
+                            &nbsp;&nbsp;
+                            <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">
+                                <img src="img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
+                        </div>
+                        <div id="project-list" class="left">
+                            <h5>Existing bucket(s):</h5>
+                        </div>
+
+                    </div>
 					<div>
 						<div class="right"><input type="image" src="img/submit.png" title="Submit Project" /></a></div>
+                        <progress id="project-progress-bar" class="right" value="0" max="100"></progress>
 						<div class="clear"></div>
 					</div>
 				</form>

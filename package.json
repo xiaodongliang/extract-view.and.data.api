@@ -12,7 +12,10 @@
 		"connect-multiparty": "*",
 		"path": "*",
 		"util": "*",
-		"stream": "*"
+		"stream": "*",
+		"unirest": "*",
+		"async": "*",
+		"xhr2" : "*"
 	},
 	"files": [
 		"LICENSE",

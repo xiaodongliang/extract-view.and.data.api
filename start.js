@@ -25,16 +25,20 @@ process.env.TMPDIR ='tmp' ;
 
 var express =require ('express') ;
 var request =require ('request') ;
+var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var lmvToken =require ('./server/lmv-token') ;
-var lmvProject =require ('./server/lmv-project') ;
-var fileupload =require ('./server/fileupload') ;
+var lmvProjects =require ('./server/lmv-projects') ;
+//var lmvProject =require ('./server/lmv-project') ;
+var lmvFile =require ('./server/file') ;
 
 var app =express () ;
+app.use (bodyParser.json ()) ;
 app.use (express.static (__dirname + '/www')) ;
 app.use ('/api', lmvToken) ;
-app.use ('/api', lmvProject) ;
-app.use (fileupload) ;
+app.use ('/api', lmvProjects) ;
+//app.use ('/api', lmvProject) ;
+app.use ('/api', lmvFile) ;
 
 app.set ('port', process.env.PORT || 80) ;
 var server =app.listen (app.get ('port'), function () {
