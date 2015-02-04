@@ -42,6 +42,32 @@ if ( !Number.isInteger ) {
 	} ;
 }
 
+Object.defineProperty (global, '__stack', {
+	get: function () {
+		var orig =Error.prepareStackTrace ;
+		Error.prepareStackTrace = function (_, stack) {
+			return (stack) ;
+		} ;
+		var err =new Error ;
+		Error.captureStackTrace (err, arguments.callee) ;
+		var stack =err.stack ;
+		Error.prepareStackTrace =orig ;
+		return (stack);
+	}
+}) ;
+
+Object.defineProperty (global, '__line', {
+	get: function () {
+		return (__stack [1].getLineNumber ()) ;
+	}
+}) ;
+
+Object.defineProperty (global, '__function', {
+	get: function () {
+		return (__stack [1].getFunctionName ()) ;
+	}
+}) ;
+
 function Lmv (bucketName) {
 	events.EventEmitter.call (this) ;
 	this.bucket =bucketName ;
@@ -101,8 +127,17 @@ Lmv.prototype.checkBucket =function () {
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
 				console.log ('Bucket ' + JSON.stringify (data)) ;
-				self.emit ('success', data) ;
+				try {
+					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
+						if ( err )
+							return (console.log ('ERROR: bucket data not saved :(')) ;
+						self.emit ('success', data) ;
+					}) ;
+				} catch ( err ) {
+					self.emit ('success', data) ;
+				}
 			} else {
+				console.log (__function + ' ' + __line) ;
 				self.emit ('fail', data) ;
 			}
 		},
@@ -123,12 +158,17 @@ Lmv.prototype.createBucket =function (policy) {
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
 				console.log ('Bucket ' + JSON.stringify (data)) ;
-				fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
-					if ( err )
-						return (console.log ('ERROR: bucket data not saved :(')) ;
-				}) ;
-				self.emit ('success', data) ;
+				try {
+					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
+						if ( err )
+							return (console.log ('ERROR: bucket data not saved :(')) ;
+						self.emit ('success', data) ;
+					}) ;
+				} catch ( err ) {
+					self.emit ('success', data) ;
+				}
 			} else {
+				console.log (__function + ' ' + __line) ;
 				self.emit ('fail', data) ;
 			}
 		},
@@ -174,33 +214,65 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 	return (this) ;
 } ;
 
+Lmv.prototype.getItemDetail =function (bucket, identifier) {
+	var self =this ;
+	var creds =new credentials () ;
+	var encodedURN =new Buffer (urn).toString ('base64') ;
+
+	var endpoint ='/viewingservice/v1/' + encodedURN + '/status' ;
+	unirest.get (creds.BaseUrl + endpoint)
+		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.end (function (response) {
+		try {
+			if ( response.statusCode != 200 )
+				throw response.statusCode ;
+			self.emit ('success', { 'status': 'ok', 'statusCode': 200, 'progress': response.body.progress, 'body': response.body }) ;
+		} catch ( err ) {
+			self.emit ('fail', err) ;
+		}
+	})
+	;
+	return (this) ;
+
+} ;
+
 Lmv.prototype.uploadFile =function (identifier) {
 	var self =this ;
 	var creds =new credentials () ;
-	var data =fs.readFileSync ('data/' + identifier + '.json') ;
-	data =JSON.parse (data) ;
+	var idData =fs.readFileSync ('data/' + identifier + '.json') ;
+	idData =JSON.parse (idData) ;
 	var serverFile =__dirname + '/../tmp/flow-' + identifier + '.1' ;
+	var file =fs.readFile (serverFile, function (err, data) {
+		if ( err ) {
+			self.emit ('fail', err) ;
+			return ;
+		}
 
-	var endpoint ='/oss/v1/buckets/' + this.bucket + '/objects/' + data.name.replace (/ /g, '+') ;
-	unirest.put (creds.BaseUrl + endpoint)
-		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
-		.attach ('file', serverFile)
-		.end (function (response) {
-			//console.log (response.body) ;
-			try {
-				if ( response.statusCode != 200 )
-					throw response.statusCode ;
-				fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
-					if ( err )
-						throw err ;
-					self.emit ('success', response.body) ;
-				}) ;
-			} catch ( err ) {
-				fs.unlinkSync ('data/' + self.bucket + '.' + identifier + '.json') ;
-				self.emit ('fail', err) ;
-			}
-		})
-	;
+		var endpoint ='/oss/v1/buckets/' + self.bucket + '/objects/' + idData.name.replace (/ /g, '+') ;
+		unirest.put (creds.BaseUrl + endpoint)
+			.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+			//.attach ('file', serverFile)
+			.send (data)
+			.end (function (response) {
+				//console.log (response.body) ;
+				try {
+					if ( response.statusCode != 200 )
+						throw response.statusCode ;
+					fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
+						if ( err )
+							throw err ;
+						self.emit ('success', response.body) ;
+					}) ;
+				} catch ( err ) {
+					console.log (__function + ' ' + __line) ;
+					fs.unlinkSync ('data/' + self.bucket + '.' + identifier + '.json') ;
+					self.emit ('fail', err) ;
+				}
+			})
+		;
+
+	}) ;
+
 	return (this) ;
 } ;
 
@@ -210,21 +282,28 @@ Lmv.prototype.getURN =function (identifier) {
 		data =JSON.parse (data) ;
 		return (data.objects [0].id) ;
 	} catch ( err ) {
-		console.log (err) ;
+		//console.log (__function + ' ' + __line) ;
+		//console.log (err) ;
 	}
 	return ('') ;
 } ;
 
 /*static*/ Lmv.getFilename =function (identifier) {
-	var data =fs.readFileSync ('data/' + identifier + '.json') ;
-	data =JSON.parse (data) ;
-	return (data.name) ;
+	try {
+		var data =fs.readFileSync ('data/' + identifier + '.json') ;
+		data =JSON.parse (data) ;
+		return (data.name) ;
+	} catch ( err ) {
+		console.log (__function + ' ' + __line) ;
+		console.log (err) ;
+	}
+	return ('') ;
 } ;
 
 Lmv.prototype.setDependencies =function (connections) {
 	var self =this ;
 	if ( connections == null ) {
-		self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ;
+		setTimeout (function () { self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ; }, 100) ;
 		return (this) ;
 	}
 	var creds =new credentials () ;
@@ -248,6 +327,7 @@ Lmv.prototype.setDependencies =function (connections) {
 			}
 		}
 	}
+	console.log (__function + ' ' + __line) ;
 	fs.writeFile ('data/' + this.bucket + '.' + master + '.connections.json', JSON.stringify (desc), function (err) {
 		if ( err )
 			console.log ('ERROR: bucket project connections not saved :(') ;

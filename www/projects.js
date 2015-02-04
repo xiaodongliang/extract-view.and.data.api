@@ -66,7 +66,7 @@ $(document).ready (function () {
 			//-   3. register the translation of the files
 			//- We know can wait for the service to complete
 			$('#project-progress-bar').val (0) ;
-			projectProgress (bucket, connections ['lmv-root'] [0]) ;
+			setTimeout (function () { projectProgress (bucket, connections ['lmv-root'] [0]) ; }, 5000) ;
 		}).fail (function (xhr, ajaxOptions, thrownError) {
 			alert ('Failed to create your project!') ;
 			$('#project-progress-bar').hide () ;
