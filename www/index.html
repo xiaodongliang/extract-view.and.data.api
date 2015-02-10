@@ -1,113 +1,114 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-	<head>
-		<title>ADN Node.js Server Sample</title>
+<head>
+    <meta charset="UTF-8">
+    <title>ADN Node.js Server Sample</title>
 
-		<!-- External libraries -->
-		<script src="https://code.jquery.com/jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
-		<script src="js/flow.js"></script>
-		<script src="js/dom.jsPlumb-1.7.2.js"></script>
-        <script src="js/dagre.js"></script>
+    <!-- External libraries -->
+    <script src="https://code.jquery.com/jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
+    <script src="js/flow.js"></script>
+    <script src="js/dom.jsPlumb-1.7.2.js"></script>
+    <script src="js/dagre.js"></script>
 
-		<!-- Autodesk View & Data API - - >
-		<link type="text/css" rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css" />
-		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
-		-->
+    <!-- Our scripts -->
+    <script src="upload-flow.js"></script>
+    <script src="dependency-editor.js"></script>
+    <script src="auto-arrange.js"></script>
+    <script src="projects.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 
-		<!-- Our scripts -->
-		<script src="upload-flow.js"></script>
-		<script src="dependency-editor.js"></script>
-        <script src="auto-arrange.js"></script>
-        <script src="projects.js"></script>
-		<link rel="stylesheet" type="text/css" href="style.css" />
-	</head>
+<body style="margin:0">
 
-	<body style="margin:0">
-		<div id="viewerDiv"></div>
-		
-		<div id="project">
+    <div id="project">
 
-			<hr />
-			<h3>LMV Node.js Sample</h3>
-			<div class="flow-error">
-			Your browser, unfortunately, is not supported by Flow.js. The library requires support for
-				<a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with
-				<a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
-			</div>
+        <hr />
+        <h3>LMV Node.js Sample</h3>
+        <div class="flow-error">
+        Your browser, unfortunately, is not supported by Flow.js. The library requires support for
+            <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with
+            <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+        </div>
 
-			<div class="flow-drop" ondragenter="jQuery(this).addClass('flow-dragover');" ondragleave="jQuery(this).removeClass('flow-dragover');"
-				 ondragend="jQuery(this).removeClass('flow-dragover');" ondrop="jQuery(this).removeClass('flow-dragover');">
-			Drop files here to upload or <a class="flow-browse-folder"><u>select folder</u></a>
-			or <a class="flow-browse"><u>select from your computer</u></a> or <a class="flow-browse-image"><u>select images</u></a>
-			</div>
+        <div class="flow-drop" ondragenter="jQuery(this).addClass('flow-dragover');" ondragleave="jQuery(this).removeClass('flow-dragover');"
+             ondragend="jQuery(this).removeClass('flow-dragover');" ondrop="jQuery(this).removeClass('flow-dragover');">
+        Drop files here to upload or <a class="flow-browse-folder"><u>select folder</u></a>
+        or <a class="flow-browse"><u>select from your computer</u></a> or <a class="flow-browse-image"><u>select images</u></a>
+        </div>
 
-			<div class="flow-progress">
-				<table>
-					<tr>
-						<td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
-						<td class="progress-text" nowrap="nowrap"></td>
-						<td class="progress-pause" nowrap="nowrap">
-							<a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="img/resume.png" title="Resume upload" /></a>
-							<a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="img/pause.png" title="Pause upload" /></a>
-							<a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="img/cancel.png" title="Cancel upload" /></a>
-						</td>
-					</tr>
-				</table>
-			</div>
+        <div class="flow-progress">
+            <table>
+                <tr>
+                    <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+                    <td class="progress-text" nowrap="nowrap"></td>
+                    <td class="progress-pause" nowrap="nowrap">
+                        <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="img/resume.png" title="Resume upload" /></a>
+                        <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="img/pause.png" title="Pause upload" /></a>
+                        <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="img/cancel.png" title="Cancel upload" /></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-			<ul class="flow-list"></ul>
-            <br />
-			
-			<hr />
-            <h3>Edit dependencies</h3>
-			<div>
-				<div class="left">Click and drag new dependencies from the orange square in each element. Click on a connection to delete it.</div>
-				<div class="right"><a href="#" onclick="autoArrange () ;"><img src="img/refresh.png" width="20" /></a></div>
-				<div class="clear"></div>
-			</div>
-			<div id="dependencies-editor-area" class="dependencies-editor statemachine">
-                <div class="w" id="lmv-root">LMV ROOT<div class="ep"></div></div>
-            </div>
-			<br />
-			
-			<hr />
-			<h3>Submit your project</h3>
-			<div>Once files are uploaded, dependencies edited, give a unique bucket name (all lowercase), and submit your project for translation.<br />
-			bucket names can be a bucket you already created before, no need to create a new bucket everytime.</div>
-			<div id="project-submission">
-				<form id="submit-project" action="/api/projects" method="post" enctype="application/json">
-					<div>
-                        <div>
-    						<label for="bucket">Bucket name: </label>
-                            <input id="bucket" type="text" width="75" min="3" maxlength="63" style="text-transform: lowercase;" required
-                                   placeholder="Enter a valid email bucket name" pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+"
-                                   />
-                            <select id="policy">
-                                <option value="transient" default>transient</option>
-                                <option value="temporary">temporary</option>
-                                <option value="persistent">persistent</option>
-                            </select>
-                            &nbsp;&nbsp;
-                            <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">
-                                <img src="img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
-                        </div>
-                        <div id="project-list" class="left">
-                            <h5>Existing bucket(s):</h5>
-                        </div>
+        <ul class="flow-list"></ul>
+        <br />
 
+        <hr />
+        <h3>Edit dependencies</h3>
+        <div>
+            <div class="left">Click and drag new dependencies from the orange square in each element. Click on a connection to delete it.</div>
+            <div class="right"><a href="#" onclick="autoArrange () ;"><img src="img/refresh.png" width="20" /></a></div>
+            <div class="clear"></div>
+        </div>
+        <div id="dependencies-editor-area" class="dependencies-editor statemachine">
+            <div class="w" id="lmv-root">LMV ROOT<div class="ep"></div></div>
+        </div>
+        <br />
+
+        <hr />
+        <h3>Submit your project</h3>
+        <div>Once files are uploaded, dependencies edited, give a unique bucket name (all lowercase), and submit your project for translation.<br />
+        bucket names can be a bucket you already created before, no need to create a new bucket everytime.</div>
+        <div id="project-submission">
+            <form id="submit-project" action="/api/projects" method="post" enctype="application/json">
+                <div>
+                    <div>
+                        <label for="bucket">Bucket name: </label>
+                        <input id="bucket" type="text" width="75" min="3" maxlength="63" style="text-transform: lowercase;" required
+                               placeholder="Enter a valid bucket name" pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+"
+                               />
+                        <select id="policy">
+                            <option value="transient" default>transient</option>
+                            <option value="temporary">temporary</option>
+                            <option value="persistent">persistent</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">
+                            <img src="img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
                     </div>
-					<div>
-						<div class="right"><input type="image" src="img/submit.png" title="Submit Project" /></a></div>
-                        <progress id="project-progress-bar" class="right" value="0" max="100"></progress>
-						<div class="clear"></div>
-					</div>
-				</form>
-			</div>
-			
+                    <div id="project-list" class="left">
+                        <h5>Existing bucket(s):</h5>
+                    </div>
 
-		</div>
-		
-	</body>
-	
+                </div>
+                <div>
+                    <div class="right"><input type="image" src="img/submit.png" title="Submit Project" /></a></div>
+                    <div id="project-progress">
+                        <span id="project-progress-indicator" class="right"> 0% </span>
+                        <progress id="project-progress-bar" class="right" value="0" max="100"></progress>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+
+        <hr />
+        <h3>Existing projects</h3>
+        <div>Once a project get translated, you can either view or inspect data.</div>
+        <div id="project-results" class="flex-container-style"></div>
+
+    </div>
+
+</body>
 </html>

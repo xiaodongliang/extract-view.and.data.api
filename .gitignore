@@ -27,6 +27,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+Thumbs.db
+
 credentials.js
 token.txt
 files.txt

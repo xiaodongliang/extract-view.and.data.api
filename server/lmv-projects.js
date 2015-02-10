@@ -55,16 +55,17 @@ router.get ('/projects', function (req, res) {
 }) ;
 
 // Get the progress on translating the bucket/identifier
-router.get ('/projects/*/progress', function (req, res) {
-	var bucket =req.url.split ('/') [2] ;
-	var identifier =req.url.split ('/') [3] ;
-
+router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
+	var bucket =req.params.bucket ;
+	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
 		return (res.json ({ progress: 0 })) ;
 	new lmv.Lmv (bucket).status (urn)
 		.on ('success', function (data) {
 			//console.log (data) ;
+			if ( data.progress == 'complete' )
+				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data.body), function (err) {}) ;
 			res.json (data) ;
 		})
 		.on ('fail', function (err) {
@@ -74,10 +75,34 @@ router.get ('/projects/*/progress', function (req, res) {
 	;
 }) ;
 
+// Download a single file from its bucket/identifier pair
+router.get ('/projects/:bucket/:identifier/get', function (req, res) {
+	var bucket =req.params.bucket ;
+	var identifier =req.params.identifier ;
+	new lmv.Lmv (bucket).download (identifier)
+		.on ('success', function (data) {
+			//console.log (data) ;
+			res.setHeader ('Content-Type', data ['content-type']) ;
+			res.setHeader ('Content-Transfer-Encoding', 'binary') ;
+			res.attachment (data.filename) ;
+			res.send (data.body).end () ;
+		})
+		.on ('fail', function (err) {
+			//console.log (err) ;
+			res.status (404).end () ;
+		})
+	;
+}) ;
+
+// Another way is to use *
+//router.get ('/projects/*/*', function (req, res) {
+//	var bucket =req.url.split ('/') [2] ;
+//	var identifier =req.url.split ('/') [3] ;
+
 // Get details on the bucket/identifier item
-router.get ('/projects/*/*', function (req, res) {
-	var bucket =req.url.split ('/') [2] ;
-	var identifier =req.url.split ('/') [3] ;
+router.get ('/projects/:bucket/:identifier', function (req, res) {
+	var bucket =req.params.bucket ;
+	var identifier =req.params.identifier ;
 	// GET /oss/{apiversion}/buckets/{bucketkey}/objects/{objectKey}/details
 	// would work as well, but since we saved it locally, use the local version
 	try {
@@ -99,9 +124,8 @@ router.get ('/projects/*/*', function (req, res) {
 }) ;
 
 // Get details on the bucket
-router.get ('/projects/*', function (req, res) {
-	//console.log ('GET', req) ;
-	var identifier =req.url.split ('/') [2] ;
+router.get ('/projects/:identifier', function (req, res) {
+	var identifier =req.params.identifier ;
 	// GET /oss/{api version}/buckets/{bucket key}/details
 	// would work as well, but since we saved it locally, use the local version
 	try {
@@ -133,9 +157,10 @@ router.post ('/projects', function (req, res) {
 
 	async.series ([
 		function (callbacks1) {
+			console.log ('createBucketIfNotExist') ;
 			new lmv.Lmv (bucket).createBucketIfNotExist (policy)
 				.on ('success', function (data) {
-					console.log ('Bucket already exist!') ;
+					console.log ('Bucket already or now exist!') ;
 					callbacks1 (null, 1) ;
 				})
 				.on ('fail', function (err) {
@@ -146,8 +171,10 @@ router.post ('/projects', function (req, res) {
 		},
 
 		function (callbacks2) {
+			console.log ('async uploads') ;
 			async.each (items,
-				function (item, callback) { //- Each tasks execution
+				function (item, callback) { // Each tasks execution
+					console.log ('async upload ' + item) ;
 					new lmv.Lmv (bucket).uploadFile (item)
 						.on ('success', function (data) {
 							console.log (item + ' upload completed!') ;

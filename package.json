@@ -15,7 +15,8 @@
 		"stream": "*",
 		"unirest": "*",
 		"async": "*",
-		"xhr2" : "*"
+		"url": "*",
+		"ejs" : "*"
 	},
 	"files": [
 		"LICENSE",

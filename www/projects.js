@@ -19,11 +19,10 @@
 // UNINTERRUPTED OR ERROR FREE.
 //
 $(document).ready (function () {
-	$('#project-progress-bar').hide () ;
+	$('#project-progress').hide () ;
 
-	//- List existing projects
-	// TODO: change for Ajax and worker
-	var getProjectList =function() {
+	// List existing buckets
+	/*var getProjectList =function() {
 		var xhr =new XMLHttpRequest () ;
 		xhr.open ('GET', 'http://' + window.location.host + '/api/projects', false) ;
 		xhr.send (null) ;
@@ -33,9 +32,45 @@ $(document).ready (function () {
 	var projects =getProjectList () ;
 	for ( var i =0 ; i < projects.length ; i++ ) {
 		$('#project-list').append ('<div><a href="#" onclick="$(\'#bucket\').val (this.text)">' + projects [i] + '</a></div>') ;
-	}
+	}*/
+	$.ajax ({
+		url: 'http://' + window.location.host + '/api/projects',
+		type: 'get',
+		//data: null,
+		contentType: 'application/json',
+		complete: null
+	}).done (function (projects) {
+		for ( var i =0 ; i < projects.length ; i++ )
+			$('#project-list').append ('<div><a href="#" onclick="$(\'#bucket\').val (this.text)">' + projects [i] + '</a></div>') ;
+	}) ;
 
-	//- Add event on the form submit
+	// List existing project results
+	$.ajax ({
+		url: 'http://' + window.location.host + '/api/results',
+		type: 'get',
+		//data: null,
+		contentType: 'application/json',
+		complete: null
+	}).done (function (results) {
+		for ( var i =0 ; i < results.length ; i++ ) {
+			var parts =results [i].name.split ('.') ;
+			var file =parts [parts.length - 1] ;
+			parts.splice (parts.length - 1, 1) ;
+			var bucket =parts.join ('.') ;
+			$('#project-results').append (
+				  '<div class="view view-first flex-item">'
+				+	'<center><img src="images/' + results [i].name + '.png" /></center>'
+				+ 	'<div class="mask">'
+				+		'<h2>' + bucket + '<br />' + file + '</h2>'
+				+		'<p>' + results [i].status + '</p>'
+				+		'<a href="' + results [i].name + '" class="info" target="' + results [i].name + '">Explore</a>'
+				+	'</div>'
+				+ '</div>'
+			) ;
+		}
+	}) ;
+
+	// Add event on the form submit
 	$('#submit-project').submit (function (evt) {
 		evt.preventDefault () ;
 
@@ -66,10 +101,12 @@ $(document).ready (function () {
 			//-   3. register the translation of the files
 			//- We know can wait for the service to complete
 			$('#project-progress-bar').val (0) ;
+			$('#project-progress-indicator').val ('0%') ;
+			$('#project-progress').show () ;
 			setTimeout (function () { projectProgress (bucket, connections ['lmv-root'] [0]) ; }, 5000) ;
 		}).fail (function (xhr, ajaxOptions, thrownError) {
 			alert ('Failed to create your project!') ;
-			$('#project-progress-bar').hide () ;
+			$('#project-progress').hide () ;
 		}) ;
 
 	});
@@ -77,7 +114,6 @@ $(document).ready (function () {
 }) ;
 
 function projectProgress (bucket, root) {
-	$('#project-progress-bar').show () ;
 	$.ajax ({
 		url: '/api/projects/' + bucket + '/' + root + '/progress',
 		type: 'get',
@@ -85,17 +121,19 @@ function projectProgress (bucket, root) {
 		contentType: 'application/json',
 		complete: null
 	}).done (function (response) {
-		//$('#project-progress-bar').val (value) ;
-		if ( response.progress !== 'complete' ) {
-			$('#project-progress-bar').val (response.progress) ;
-			setTimeout (function () { projectProgress (bucket, root) ; }, 500) ;
-		} else {
+		//$('#project-progress').val (value) ;
+		if ( response.progress == 'complete' ) {
 			$('#project-progress-bar').val (100) ;
-			$('#project-progress-bar').hide () ;
+			$('#project-progress-indicator').val ('100%') ;
+			$('#project-progress').hide () ;
+		} else {
+			$('#project-progress-bar').val (parseInt (response.success)) ;
+			$('#project-progress-indicator').val (response.success) ;
+			setTimeout (function () { projectProgress (bucket, root) ; }, 500) ;
 		}
 	}).fail (function (xhr, ajaxOptions, thrownError) {
-		//$('#project-progress-bar')
+		//$('#project-progress')
 		console.log ('Progress request failed!') ;
-		$('#project-progress-bar').hide () ;
+		$('#project-progress').hide () ;
 	}) ;
 }

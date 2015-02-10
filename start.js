@@ -29,15 +29,19 @@ var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var lmvToken =require ('./server/lmv-token') ;
 var lmvProjects =require ('./server/lmv-projects') ;
-//var lmvProject =require ('./server/lmv-project') ;
+var lmvResults =require ('./server/lmv-results') ;
 var lmvFile =require ('./server/file') ;
+var ejs =require ('./server/ejs') ;
 
+// http://garann.github.io/template-chooser/
 var app =express () ;
 app.use (bodyParser.json ()) ;
 app.use (express.static (__dirname + '/www')) ;
+app.set ('view engine', 'ejs') ;
+app.use ('/project', ejs) ;
 app.use ('/api', lmvToken) ;
 app.use ('/api', lmvProjects) ;
-//app.use ('/api', lmvProject) ;
+app.use ('/api', lmvResults) ;
 app.use ('/api', lmvFile) ;
 
 app.set ('port', process.env.PORT || 80) ;

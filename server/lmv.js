@@ -23,9 +23,12 @@
 var express =require ('express') ;
 var request =require ('request') ;
 var https =require ('https') ;
+// unirest (http://unirest.io/) or SuperAgent (http://visionmedia.github.io/superagent/)
 var unirest =require('unirest') ;
+var XMLHttpRequest =require ('xhr2') ;
 var events =require('events') ;
 var util =require ('util') ;
+var urlmod =require ('url') ;
 //var querystring =require ('querystring') ;
 var fs =require ('fs') ;
 var credentials =require ('./credentials') ;
@@ -108,8 +111,8 @@ util.inherits (Lmv, events.EventEmitter) ;
 } ;
 
 /*static*/ Lmv.getToken =function () {
-	var data =fs.readFileSync ('data/token.json') ;
 	try {
+		var data =fs.readFileSync ('data/token.json') ;
 		var authResponse =JSON.parse (data) ;
 		return (authResponse.access_token) ;
 	} catch ( err ) {
@@ -162,6 +165,7 @@ Lmv.prototype.createBucket =function (policy) {
 					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
 						if ( err )
 							return (console.log ('ERROR: bucket data not saved :(')) ;
+						console.log ('Bucket saved.') ;
 						self.emit ('success', data) ;
 					}) ;
 				} catch ( err ) {
@@ -385,12 +389,122 @@ Lmv.prototype.status =function (urn) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', { 'status': 'ok', 'statusCode': 200, 'progress': response.body.progress, 'body': response.body }) ;
+				self.emit ('success', { 'status': 'ok', 'statusCode': 200, 'progress': response.body.progress, 'success': response.body.success, 'body': response.body }) ;
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
 		})
 	;
+	return (this) ;
+} ;
+
+Lmv.prototype.download =function (identifier) {
+	var self =this ;
+	var creds =new credentials () ;
+
+	var endpoint ='' ;
+	var filename ='default.bin'
+	var accept ='application/octet-stream' ;
+	try {
+		var data =fs.readFileSync ('data/' + this.bucket + '.' + identifier + '.json') ;
+		data =JSON.parse (data) ;
+		endpoint =data.objects [0].location ;
+		filename =data.objects [0].key ;
+		accept =data.objects [0] ['content-type'] ;
+	} catch ( err ) {
+		// Try to rebuild it ourself
+		filename =lmv.Lmv.getFilename (identifier) ;
+		if ( filename == '' ) {
+			self.emit ('fail', err) ;
+			return (this) ;
+		}
+		endpoint =creds.BaseUrl + '/oss/v1/buckets/' + this.bucket + '/objects/' + filename.replace (/ /g, '+') ;
+	}
+
+	unirest.get (endpoint)
+		.headers ({ 'Accept': accept, 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 )
+					throw response.statusCode ;
+				self.emit ('success', { body: response.body, 'content-type': accept, 'filename': filename }) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+	return (this) ;
+}
+
+Lmv.prototype.downloadurn =function (urn) {
+	var self =this ;
+	var creds =new credentials () ;
+
+	unirest.get (creds.BaseUrl + '/viewingservice/v1/items/' + encodeURIComponent (urn))
+		.headers ({ 'Accept': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 )
+					throw response.statusCode ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+	return (this) ;
+} ;
+
+Lmv.prototype.thumbnail =function (urn, width, height) {
+	var self =this ;
+	var creds =new credentials () ;
+	var encodedURN =new Buffer (urn).toString ('base64') ;
+
+	var endpoint ='/viewingservice/v1/thumbnails/' + encodedURN ;
+	var query ={} ;
+	if ( width !== undefined )
+		query.width =width ;
+	if ( height !== undefined )
+		query.height =height ;
+	endpoint =urlmod.format ({ 'query': query, pathname: endpoint }) ;
+
+	unirest.get (creds.BaseUrl + endpoint)
+		.headers ({ 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.encoding (null)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 )
+					throw response.statusCode ;
+				self.emit ('success', response.raw_body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+
+	/*var xhr =new XMLHttpRequest () ;
+	xhr.open ('GET', creds.BaseUrl + endpoint, true) ;
+	xhr.setRequestHeader ('Authorization', 'Bearer ' + Lmv.getToken ()) ;
+	xhr.responseType ='arraybuffer' ;
+	xhr.onload =function (e) {
+		if ( this.status == 200 ) {
+			try {
+				var byteArray =new Uint8Array (this.response) ;
+				var buffer =new Buffer (byteArray.length) ;
+				for ( var i =0 ; i < byteArray.length ; i++)
+					buffer.writeUInt8 (byteArray [i], i) ;
+				self.emit ('success', buffer) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		}
+	} ;
+	try {
+		xhr.send () ;
+	} catch ( err ) {
+		self.emit ('fail', err) ;
+	}*/
+
 	return (this) ;
 } ;
 
