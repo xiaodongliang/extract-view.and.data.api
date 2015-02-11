@@ -28,17 +28,21 @@ var lmv =require ('./lmv') ;
 
 var router =express.Router () ;
 
-router.get ('/explore/:bucket.:identifier', function (req, res) {
+router.get ('/:bucket.:identifier', function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
-	var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
-	data =JSON.parse (data) ;
-	var obj ={
-		urn: 'urn:' + data.urn,
-		accessToken: lmv.Lmv.getToken ()
-	} ;
+	try {
+		var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
+		data =JSON.parse (data) ;
+		var obj ={
+			urn: 'urn:' + data.urn,
+			accessToken: lmv.Lmv.getToken ()
+		} ;
 
-	res.render ('explore', obj) ;
+		res.render ('explore', obj) ;
+	} catch ( err ) {
+		res.status (404).end () ;
+	}
 }) ;
 
 module.exports =router ;

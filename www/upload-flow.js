@@ -45,13 +45,13 @@ $(document).ready (function () {
 			+ 'Download'
 			+ '</a> '
 			+ '<span class="flow-file-pause">'
-			+ ' <img src="img/pause.png" title="Pause upload" />'
+			+ ' <img src="/img/pause.png" title="Pause upload" />'
 			+ '</span>'
 			+ '<span class="flow-file-resume">'
-			+ ' <img src="img/resume.png" title="Resume upload" />'
+			+ ' <img src="/img/resume.png" title="Resume upload" />'
 			+ '</span>'
 			+ '<span class="flow-file-cancel">'
-			+ ' <img src="img/cancel.png" title="Cancel upload" />'
+			+ ' <img src="/img/cancel.png" title="Cancel upload" />'
 			+ '</span>'
 		) ;
 		var $self =$('.flow-file-' + file.uniqueIdentifier) ;
@@ -115,7 +115,7 @@ $(document).ready (function () {
 	}) ;
 	r.on ('fileError', function(file, message){
 		// Reflect that the file upload has resulted in error
-		$('.flow-file-'+file.uniqueIdentifier + ' .flow-file-progress').html ('(file could not be uploaded: '+message+')') ;
+		$('.flow-file-'+file.uniqueIdentifier + ' .flow-file-progress').html ('(file could not be uploaded: ' + message + ')') ;
 	}) ;
 	r.on ('fileProgress', function (file){
 		// Handle progress for both the file and the overall upload

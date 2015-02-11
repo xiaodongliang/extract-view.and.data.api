@@ -38,7 +38,7 @@ var app =express () ;
 app.use (bodyParser.json ()) ;
 app.use (express.static (__dirname + '/www')) ;
 app.set ('view engine', 'ejs') ;
-app.use ('/project', ejs) ;
+app.use ('/explore', ejs) ;
 app.use ('/api', lmvToken) ;
 app.use ('/api', lmvProjects) ;
 app.use ('/api', lmvResults) ;

@@ -16,40 +16,56 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
 
     <script>
-        function initialize () {
-            var options ={ "document": '<%= urn %>', env: '"AutodeskProduction' } ;
-            var viewerElement =$("#viewer") ;
-            var viewer =new Autodesk.Viewing.Viewer3D (viewerElement, {}) ; //Autodesk.Viewing.Viewer3D
+        var oViewer =null ;
+        $(document).ready (function () {
+            var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
+            //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
+            oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
             Autodesk.Viewing.Initializer (options, function () {
-                viewer.initialize () ;
-                loadDocument (viewer, '<%= accessToken %>', options.document) ;
+                oViewer.initialize () ;
+                loadDocument (oViewer, options) ;
             }) ;
-        }
+        }) ;
 
-        function loadDocument (viewer, auth, documentId) {
-            // Find the first 3d geometry and load that.
-            Autodesk.Viewing.Document.load (documentId, auth,
-                function (doc) { // onLoadCallback
-                    var geometryItems =[] ;
-                    geometryItems =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { "type" : "geometry", "role" : "3d" }, true) ;
-                    if ( geometryItems.length > 0 )
-                        viewer.load (doc.getViewablePath (geometryItems [0])) ;
-                },
-                function (errorMsg) { // onErrorCallback
-                    alert("Load Error: " + errorMsg) ;
-                }
+        function loadDocument (viewer, options) {
+            if ( options.document.substring (0, 4) === 'urn:' )
+                options.document =options.document.substring (4) ;
+
+            Autodesk.Viewing.Document.load ('urn:' + options.document, //options.accessToken,
+                    function (doc) { // onLoadCallback
+                        var geometryItems =[] ;
+                        geometryItems =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { "type" : "geometry", "role" : "3d" }, true) ;
+                        if ( geometryItems.length > 0 )
+                            oViewer.load (doc.getViewablePath (geometryItems [0])) ;
+                    },
+                    function (errorMsg) { // onErrorCallback
+                        alert("Load Error: " + errorMsg) ;
+                    }
             ) ;
         }
     </script>
 </head>
 
-<body style="margin:0" onload="initialize ();">
+<body>
 
     <div id="project">
 
         <hr />
         <h3>LMV Node.js Sample</h3>
-        <div id="viewer" width="800" height="450"></div>
+        <div id="viewer"></div>
+        <br />
+
+        <hr />
+        <h3>Edit dependencies</h3>
+        <div>
+            <div class="left">Click and drag new dependencies from the orange square in each element. Click on a connection to delete it.</div>
+            <div class="right"><a href="#" onclick="autoArrange () ;"><img src="/img/refresh.png" width="20" /></a></div>
+            <div class="clear"></div>
+        </div>
+        <div id="dependencies-editor-area" class="dependencies-editor statemachine">
+            <div class="w" id="lmv-root">LMV ROOT<div class="ep"></div></div>
+        </div>
+        <br />
 
     </div>
 

@@ -7,19 +7,19 @@
 
     <!-- External libraries -->
     <script src="https://code.jquery.com/jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
-    <script src="js/flow.js"></script>
-    <script src="js/dom.jsPlumb-1.7.2.js"></script>
-    <script src="js/dagre.js"></script>
+    <script src="/js/flow.js"></script>
+    <script src="/js/dom.jsPlumb-1.7.2.js"></script>
+    <script src="/js/dagre.js"></script>
 
     <!-- Our scripts -->
-    <script src="upload-flow.js"></script>
-    <script src="dependency-editor.js"></script>
-    <script src="auto-arrange.js"></script>
-    <script src="projects.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="/upload-flow.js"></script>
+    <script src="/dependency-editor.js"></script>
+    <script src="/auto-arrange.js"></script>
+    <script src="/projects.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 
-<body style="margin:0">
+<body>
 
     <div id="project">
 
@@ -43,9 +43,9 @@
                     <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
                     <td class="progress-text" nowrap="nowrap"></td>
                     <td class="progress-pause" nowrap="nowrap">
-                        <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="img/resume.png" title="Resume upload" /></a>
-                        <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="img/pause.png" title="Pause upload" /></a>
-                        <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="img/cancel.png" title="Cancel upload" /></a>
+                        <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="/img/resume.png" title="Resume upload" /></a>
+                        <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="/img/pause.png" title="Pause upload" /></a>
+                        <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="/img/cancel.png" title="Cancel upload" /></a>
                     </td>
                 </tr>
             </table>
@@ -58,7 +58,7 @@
         <h3>Edit dependencies</h3>
         <div>
             <div class="left">Click and drag new dependencies from the orange square in each element. Click on a connection to delete it.</div>
-            <div class="right"><a href="#" onclick="autoArrange () ;"><img src="img/refresh.png" width="20" /></a></div>
+            <div class="right"><a href="#" onclick="autoArrange () ;"><img src="/img/refresh.png" width="20" /></a></div>
             <div class="clear"></div>
         </div>
         <div id="dependencies-editor-area" class="dependencies-editor statemachine">
@@ -85,7 +85,7 @@
                         </select>
                         &nbsp;&nbsp;
                         <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">
-                            <img src="img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
+                            <img src="/img/info.png" width="24" align="middle" target ="_blank" /> More info on bucket name</a>
                     </div>
                     <div id="project-list" class="left">
                         <h5>Existing bucket(s):</h5>
@@ -93,11 +93,7 @@
 
                 </div>
                 <div>
-                    <div class="right"><input type="image" src="img/submit.png" title="Submit Project" /></a></div>
-                    <div id="project-progress">
-                        <span id="project-progress-indicator" class="right"> 0% </span>
-                        <progress id="project-progress-bar" class="right" value="0" max="100"></progress>
-                    </div>
+                    <div class="right"><input type="image" src="/img/submit.png" title="Submit Project" /></a></div>
                     <div class="clear"></div>
                 </div>
             </form>

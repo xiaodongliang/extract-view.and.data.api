@@ -58,12 +58,12 @@ $(document).ready (function () {
 			parts.splice (parts.length - 1, 1) ;
 			var bucket =parts.join ('.') ;
 			$('#project-results').append (
-				  '<div class="view view-first flex-item">'
-				+	'<center><img src="images/' + results [i].name + '.png" /></center>'
+				  '<div class="view view-first flex-item" id="' + results [i].name + '">'
+				+	'<img src="/images/' + results [i].name + '.png" />'
 				+ 	'<div class="mask">'
 				+		'<h2>' + bucket + '<br />' + file + '</h2>'
 				+		'<p>' + results [i].status + '</p>'
-				+		'<a href="' + results [i].name + '" class="info" target="' + results [i].name + '">Explore</a>'
+				+		'<a href="/explore/' + results [i].name + '" class="info" target="' + results [i].name + '">Explore</a>'
 				+	'</div>'
 				+ '</div>'
 			) ;
@@ -86,6 +86,7 @@ $(document).ready (function () {
 
 		var bucket =$('#bucket').val () ;
 		var policy =$('#policy').val () ;
+		var root =connections ['lmv-root'] [0] ;
 
 		var data ={ 'bucket': bucket, 'policy': policy, 'connections': connections } ;
 		$.ajax ({
@@ -97,18 +98,26 @@ $(document).ready (function () {
 		}).done (function (response) {
 			//- At this stage we asked the server to:
 			//-   1. upload the files on the Autodesk server
-			//-   2. set teh dependencies between files
+			//-   2. set the dependencies between files
 			//-   3. register the translation of the files
 			//- We know can wait for the service to complete
-			$('#project-progress-bar').val (0) ;
-			$('#project-progress-indicator').val ('0%') ;
-			$('#project-progress').show () ;
-			setTimeout (function () { projectProgress (bucket, connections ['lmv-root'] [0]) ; }, 5000) ;
+			$('#project-results').append (
+				'<div class="view view-first flex-item" id="' + bucket + '.' + root + '">'
+				+	'<img src="/images/processing.png" />'
+				+ 	'<div class="mask">'
+				+		'<h2>' + bucket + '<br />' + root + '</h2>'
+				+		'<p>requested (0%)</p>'
+				+		'<a href="#" class="info" onclick="projectProgress (\'' + bucket + '\', \'' + root + '\')">Status</a>'
+				+	'</div>'
+				+	'<progress class="project-progress-bar" value="0" max="100"></progress>'
+				+ '</div>'
+			) ;
+			$('#' + bucket + '.' + root + ' progress').val (0) ;
+
+			setTimeout (function () { projectProgress (bucket, root) ; }, 5000) ;
 		}).fail (function (xhr, ajaxOptions, thrownError) {
 			alert ('Failed to create your project!') ;
-			$('#project-progress').hide () ;
 		}) ;
-
 	});
 
 }) ;
@@ -123,17 +132,28 @@ function projectProgress (bucket, root) {
 	}).done (function (response) {
 		//$('#project-progress').val (value) ;
 		if ( response.progress == 'complete' ) {
-			$('#project-progress-bar').val (100) ;
-			$('#project-progress-indicator').val ('100%') ;
-			$('#project-progress').hide () ;
+			$('#' + bucket + '.' + root + ' div p').text ('success (100%)') ;
+			$('#' + bucket + '.' + root + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + bucket + '.' + root) ;
+			$('#' + bucket + '.' + root + ' progress').remove () ;
+
+			$.ajax ({
+				url: '/api/projects/' + bucket + '/' + root + '/thumbnail',
+				type: 'get',
+				complete: null
+			}).done (function (response) {
+				$('#' + bucket + '.' + root + ' img').attr ('src', '/images/' + bucket + '.' + root + '.png') ;
+			}) ;
+
 		} else {
-			$('#project-progress-bar').val (parseInt (response.success)) ;
-			$('#project-progress-indicator').val (response.success) ;
+			$('#' + bucket + '.' + root + ' progress').val (parseInt (response.success)) ;
+			$('#' + bucket + '.' + root + ' div p').text (response.success) ;
+
 			setTimeout (function () { projectProgress (bucket, root) ; }, 500) ;
 		}
 	}).fail (function (xhr, ajaxOptions, thrownError) {
 		//$('#project-progress')
 		console.log ('Progress request failed!') ;
-		$('#project-progress').hide () ;
+		$('#' + bucket + '.' + root + ' progress').remove () ;
+		$('#' + bucket + '.' + root + ' div p').text ('Failed!') ;
 	}) ;
 }

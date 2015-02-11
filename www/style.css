@@ -110,9 +110,9 @@ div#project-results { width: auto; padding: 10px; margin-top: 5px; margin-bottom
 }*/
 
 .view { width: 215px; height: 146px; margin: 10px; float: left; border: 10px solid #fff; overflow: hidden; position: relative; text-align: center;
-	box-shadow: 1px 1px 2px #e6e6e6; cursor: default; background: #fff url(img/bgimg.jpg) no-repeat center center; }
+	box-shadow: 1px 1px 2px #e6e6e6; cursor: default; background: #fff url(/images/bgimg.jpg) no-repeat center center; }
 .view .mask, .view .content { width: 215px; height: 146px; position: absolute; overflow: hidden; top: 0; left: 0; }
-.view img { display: block; position: relative; height: 146px; }
+.view img { display: block; position: relative; height: 146px; display: block; margin-left: auto; margin-right: auto; }
 .view h2 { text-transform: uppercase; color: #fff; text-align: center; position: relative; font-size: 12px; padding: 8px; background: rgba(0, 0, 0, 0.8); margin: 15px 0 0 0; }
 .view p { font-family: Georgia, serif; font-style: italic; font-size: 10px; position: relative; color: #fff; padding: 8px 20px 8px; text-align: center; }
 .view a.info { display: inline-block; text-decoration: none; padding: 7px 14px; background: #000; color: #fff; text-transform: uppercase; box-shadow: 0 0 1px #000; }
@@ -153,3 +153,7 @@ path { cursor: pointer; }
 
 #project-progress-bar { height: 7px; width: 450px; background: #cd3a86; position: relative; top: 13px; left: 0px; margin-right: 10px; }
 #project-progress-indicator { width: 25px; position: relative; top: 10px; left: 0px; margin-right: 10px; text-align: center; }
+.project-progress-bar { height: 7px; width: 100%; background: #cd3a86; position: absolute; bottom: 0; left: 0; }
+
+div#viewer { width: auto; height: 700px; cursor: pointer; padding: 0px; margin-bottom: 20px; position: relative; overflow: hidden;
+	background-color: #eee; border: 2px dashed #aaa; border-radius: 10px; }

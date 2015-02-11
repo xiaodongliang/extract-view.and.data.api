@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/ejs.js" afterPath="$PROJECT_DIR$/server/ejs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/explore.ejs" afterPath="$PROJECT_DIR$/views/explore.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-projects.js" afterPath="$PROJECT_DIR$/server/lmv-projects.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv.js" afterPath="$PROJECT_DIR$/server/lmv.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/projects.js" afterPath="$PROJECT_DIR$/www/projects.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start.js" afterPath="$PROJECT_DIR$/start.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/style.css" afterPath="$PROJECT_DIR$/www/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/upload-flow.js" afterPath="$PROJECT_DIR$/www/upload-flow.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
@@ -36,12 +36,13 @@
       <file leaf-file-name="lmv-projects.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="1768">
+            <state vertical-scroll-proportion="0.0" vertical-offset="597" max-vertical-offset="1411">
               <caret line="56" column="6" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="6" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#1947#2513#0" expanded="false" />
                 <element signature="e#2645#3114#0" expanded="false" />
+                <element signature="e#3396#4127#0" expanded="false" />
                 <element signature="e#4218#4764#0" expanded="false" />
                 <element signature="e#4865#7162#0" expanded="false" />
               </folding>
@@ -49,36 +50,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/start.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="629">
-              <caret line="39" column="32" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ejs.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/ejs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="833">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="901">
+              <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2023">
-              <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#form#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -87,8 +65,50 @@
       <file leaf-file-name="explore.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/explore.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.086513996" vertical-offset="0" max-vertical-offset="1088">
-              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.13561471" vertical-offset="97" max-vertical-offset="1360">
+              <caret line="12" column="91" selection-start-line="12" selection-start-column="91" selection-end-line="12" selection-end-column="91" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.2307692" vertical-offset="61" max-vertical-offset="1377">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="projects.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/projects.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1651" max-vertical-offset="2465">
+              <caret line="147" column="90" selection-start-line="147" selection-start-column="90" selection-end-line="147" selection-end-column="90" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1168" max-vertical-offset="1955">
+              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#form#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1986" max-vertical-offset="2788">
+              <caret line="151" column="35" selection-start-line="151" selection-start-column="35" selection-end-line="151" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -97,10 +117,9 @@
       <file leaf-file-name="lmv-results.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="16" max-vertical-offset="1207">
-              <caret line="75" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="884">
+              <caret line="72" column="22" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="22" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#filterProject#0" expanded="false" />
                 <element signature="e#1450#2172#0" expanded="false" />
                 <element signature="e#3151#4106#0" expanded="false" />
@@ -112,10 +131,9 @@
       <file leaf-file-name="lmv.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/lmv.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1393" max-vertical-offset="3281">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1244" max-vertical-offset="2057">
               <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <element signature="e#2391#3299#0" expanded="false" />
                 <element signature="e#3340#3538#0" expanded="false" />
                 <element signature="e#3581#4276#0" expanded="false" />
@@ -129,18 +147,9 @@
                 <element signature="e#10939#11635#0" expanded="false" />
                 <element signature="e#11685#12753#0" expanded="false" />
                 <element signature="e#12797#13274#0" expanded="false" />
+                <element signature="e#13333#14691#0" expanded="false" />
                 <element signature="e#14774#15590#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lmv-token.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/lmv-token.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="374">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="34" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -158,7 +167,6 @@
         <option value="$PROJECT_DIR$/server/credentials.js" />
         <option value="$PROJECT_DIR$/server/flow-node.js" />
         <option value="$PROJECT_DIR$/server/fileupload.js" />
-        <option value="$PROJECT_DIR$/www/upload-flow.js" />
         <option value="$PROJECT_DIR$/server/lmv-token.js" />
         <option value="$PROJECT_DIR$/www/submit-project.js" />
         <option value="$PROJECT_DIR$/server/lmv-project.js" />
@@ -167,17 +175,19 @@
         <option value="$PROJECT_DIR$/server/lmv-projects.js" />
         <option value="events.js" />
         <option value="$PROJECT_DIR$/server/lmv.js" />
-        <option value="$PROJECT_DIR$/www/style.css" />
-        <option value="$PROJECT_DIR$/www/projects.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/www/ejs/register.html" />
         <option value="$PROJECT_DIR$/www/ejs/register.ejs" />
-        <option value="$PROJECT_DIR$/start.js" />
         <option value="$PROJECT_DIR$/www/ejs/explore.ejs" />
         <option value="$PROJECT_DIR$/server/lmv-results.js" />
-        <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/explore.html" />
+        <option value="$PROJECT_DIR$/start.js" />
+        <option value="$PROJECT_DIR$/www/upload-flow.js" />
+        <option value="$PROJECT_DIR$/www/index.html" />
+        <option value="$PROJECT_DIR$/www/projects.js" />
         <option value="$PROJECT_DIR$/server/ejs.js" />
+        <option value="$PROJECT_DIR$/www/style.css" />
+        <option value="$PROJECT_DIR$/www/test.html" />
         <option value="$PROJECT_DIR$/views/explore.ejs" />
       </list>
     </option>
@@ -186,8 +196,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="399" />
-    <option name="y" value="49" />
+    <option name="x" value="249" />
+    <option name="y" value="77" />
     <option name="width" value="1913" />
     <option name="height" value="1375" />
   </component>
@@ -243,34 +253,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -381,7 +363,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="399" y="49" width="1913" height="1375" extended-state="0" />
+    <frame x="249" y="77" width="1913" height="1375" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -390,8 +372,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.124123044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32475883" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12628171" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32234725" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889416" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -408,22 +390,22 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32904264" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32421562" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32475883" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889416" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13525641" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.124123044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -444,10 +426,17 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/www/projects.js</url>
+          <line>147</line>
+          <option name="timeStamp" value="326" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="323" />
+      <option name="time" value="327" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
@@ -466,6 +455,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -485,7 +475,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1370" max-vertical-offset="2193">
           <caret line="113" column="65" selection-start-line="113" selection-start-column="65" selection-end-line="113" selection-end-column="65" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#form#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
@@ -495,6 +484,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2499">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -503,7 +493,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="273" max-vertical-offset="1530">
           <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#filterProject#0" expanded="false" />
             <element signature="e#1450#2172#0" expanded="false" />
             <element signature="e#3151#4106#0" expanded="false" />
@@ -516,7 +505,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2788">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -530,6 +518,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -543,6 +532,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -553,7 +543,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="374">
           <caret line="31" column="12" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -562,7 +551,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="274" max-vertical-offset="1088">
           <caret line="30" column="57" selection-start-line="30" selection-start-column="57" selection-end-line="30" selection-end-column="57" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#filterProject#0" expanded="false" />
             <element signature="e#1450#2172#0" expanded="false" />
             <element signature="e#3151#4106#0" expanded="false" />
@@ -575,7 +563,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="16" max-vertical-offset="6256">
           <caret line="288" column="3" selection-start-line="288" selection-start-column="3" selection-end-line="288" selection-end-column="3" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -589,6 +576,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -610,6 +598,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -621,7 +610,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2646" max-vertical-offset="4284">
           <caret line="226" column="0" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -635,6 +623,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -656,6 +645,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -666,7 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="374">
           <caret line="31" column="12" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -685,6 +674,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -696,7 +686,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2941">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -710,6 +699,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -719,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="374">
           <caret line="31" column="12" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -738,6 +727,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -749,7 +739,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2941">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -763,6 +752,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -780,7 +770,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="371" max-vertical-offset="2227">
           <caret line="93" column="41" selection-start-line="93" selection-start-column="41" selection-end-line="93" selection-end-column="41" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -794,6 +783,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -803,7 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="374">
           <caret line="31" column="12" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -815,6 +804,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1947#2513#0" expanded="false" />
             <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
             <element signature="e#4218#4764#0" expanded="false" />
             <element signature="e#4865#7162#0" expanded="false" />
           </folding>
@@ -833,7 +823,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3774">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -847,6 +836,7 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
@@ -894,13 +884,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/upload-flow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="2890">
-          <caret line="129" column="38" selection-start-line="129" selection-start-column="38" selection-end-line="129" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/file.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.74876845" vertical-offset="497" max-vertical-offset="1411">
@@ -922,60 +905,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/style.css">
+    <entry file="file://$PROJECT_DIR$/server/lmv-token.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1769" max-vertical-offset="2720">
-          <caret line="114" column="63" selection-start-line="114" selection-start-column="63" selection-end-line="114" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/projects.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1314" max-vertical-offset="2125">
-          <caret line="54" column="53" selection-start-line="54" selection-start-column="53" selection-end-line="54" selection-end-column="53" />
-          <folding />
+        <state vertical-scroll-proportion="0.38931298" vertical-offset="0" max-vertical-offset="786">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/start.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
-          <caret line="39" column="32" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
+          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/upload-flow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0065789474" vertical-offset="1674" max-vertical-offset="2890">
+          <caret line="117" column="110" selection-start-line="117" selection-start-column="110" selection-end-line="117" selection-end-column="110" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="2023">
-          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1168" max-vertical-offset="1955">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#form#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
+    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="1768">
-          <caret line="56" column="6" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+          <caret line="72" column="22" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="22" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#1947#2513#0" expanded="false" />
-            <element signature="e#2645#3114#0" expanded="false" />
-            <element signature="e#4218#4764#0" expanded="false" />
-            <element signature="e#4865#7162#0" expanded="false" />
+            <element signature="n#!!block;n#filterProject#0" expanded="false" />
+            <element signature="e#1450#2172#0" expanded="false" />
+            <element signature="e#3151#4106#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/lmv.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1393" max-vertical-offset="3281">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1244" max-vertical-offset="2057">
           <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="e#2391#3299#0" expanded="false" />
             <element signature="e#3340#3538#0" expanded="false" />
             <element signature="e#3581#4276#0" expanded="false" />
@@ -989,54 +974,65 @@
             <element signature="e#10939#11635#0" expanded="false" />
             <element signature="e#11685#12753#0" expanded="false" />
             <element signature="e#12797#13274#0" expanded="false" />
+            <element signature="e#13333#14691#0" expanded="false" />
             <element signature="e#14774#15590#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-token.js">
+    <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="34" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="1768">
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="6" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1947#2513#0" expanded="false" />
+            <element signature="e#2645#3114#0" expanded="false" />
+            <element signature="e#3396#4127#0" expanded="false" />
+            <element signature="e#4218#4764#0" expanded="false" />
+            <element signature="e#4865#7162#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+    <entry file="file://$PROJECT_DIR$/www/projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="16" max-vertical-offset="1207">
-          <caret line="75" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#filterProject#0" expanded="false" />
-            <element signature="e#1450#2172#0" expanded="false" />
-            <element signature="e#3151#4106#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="1651" max-vertical-offset="2465">
+          <caret line="147" column="90" selection-start-line="147" selection-start-column="90" selection-end-line="147" selection-end-column="90" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/ejs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="833">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="88" max-vertical-offset="901">
+          <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/www/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38931298" vertical-offset="0" max-vertical-offset="786">
-          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1986" max-vertical-offset="2788">
+          <caret line="151" column="35" selection-start-line="151" selection-start-column="35" selection-end-line="151" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2307692" vertical-offset="61" max-vertical-offset="1377">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/explore.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.086513996" vertical-offset="0" max-vertical-offset="1088">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.13561471" vertical-offset="97" max-vertical-offset="1360">
+          <caret line="12" column="91" selection-start-line="12" selection-start-column="91" selection-end-line="12" selection-end-column="91" />
           <folding />
         </state>
       </provider>
