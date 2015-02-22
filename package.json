@@ -11,12 +11,14 @@
 		"cron": "*",
 		"connect-multiparty": "*",
 		"path": "*",
+		"mkdirp": "*",
 		"util": "*",
 		"stream": "*",
 		"unirest": "*",
 		"async": "*",
 		"url": "*",
-		"ejs" : "*"
+		"ejs" : "*",
+		"adm-zip": "*"
 	},
 	"files": [
 		"LICENSE",

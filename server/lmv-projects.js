@@ -65,7 +65,7 @@ router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
 		.on ('success', function (data) {
 			//console.log (data) ;
 			if ( data.progress == 'complete' )
-				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data.body), function (err) {}) ;
+				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 			res.json (data) ;
 		})
 		.on ('fail', function (err) {
@@ -110,16 +110,7 @@ router.get ('/projects/:bucket/:identifier', function (req, res) {
 		res.setHeader ('Content-Type', 'application/json') ;
 		res.end (data) ;
 	} catch ( err ) {
-		var dataFile =fs.readFileSync ('data/' + identifier + '.json') ;
-		dataFile =JSON.parse (dataFile) ;
-		new lmv.Lmv (identifier).getItemDetail (bucket, dataFile.name)
-			.on ('success', function (data) {
-				res.json (data) ;
-			})
-			.on ('fail', function (err) {
-				res.status (404).end ('No such bucket') ;
-			})
-		;
+		return (res.status (404).end ()) ;
 	}
 }) ;
 
@@ -186,7 +177,7 @@ router.post ('/projects', function (req, res) {
 						})
 					;
 				},
-				function (err) { //- All tasks are cone
+				function (err) { //- All tasks are done
 					if ( err !== undefined )
 						return (console.log ('Something wrong happened during upload')) ;
 
@@ -197,7 +188,22 @@ router.post ('/projects', function (req, res) {
 							new lmv.Lmv (bucket).register (connections)
 								.on ('success', function (data) {
 									console.log ('URN registered for translation') ;
-									//- We are done for now!
+									// We are done for now!
+
+									// Just remember locally we did submit the project for translation
+									var identifier =connections ['lmv-root'] [0] ;
+									var urn =new lmv.Lmv (bucket).getURN (identifier) ;
+									urn =new Buffer (urn).toString ('base64') ;
+
+									data ={
+										'guid': urn,
+										'progress': '0% complete',
+										'startedAt': new Date ().toUTCString (),
+										'status': 'requested',
+										'success': '0%',
+										'urn': urn
+									} ;
+									fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 								})
 								.on ('fail', function (err) {
 									console.log ('URN registration for translation failed: ' + err) ;
@@ -214,12 +220,11 @@ router.post ('/projects', function (req, res) {
 		}
 	], function (err, results) {
 		//- We are done!
-		var i=0 ;
 	}) ;
 
 	res
 		//.statux (202) //- 202 Accepted
-		.json ({ "status": "submitted" }) ;
+		.json ({ 'status': 'submitted' }) ;
 }) ;
 
 module.exports =router ;

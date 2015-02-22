@@ -35,10 +35,11 @@ router.get ('/:bucket.:identifier', function (req, res) {
 		var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
 		data =JSON.parse (data) ;
 		var obj ={
-			urn: 'urn:' + data.urn,
+			urn: data.urn,
+			'bucket': bucket,
+			root: identifier,
 			accessToken: lmv.Lmv.getToken ()
 		} ;
-
 		res.render ('explore', obj) ;
 	} catch ( err ) {
 		res.status (404).end () ;

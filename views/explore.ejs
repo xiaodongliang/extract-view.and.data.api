@@ -7,6 +7,12 @@
 
     <!-- External libraries -->
     <script src="https://code.jquery.com/jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script> <!-- http://jqueryui.com/ -->
+
+    <!-- link type="text/css" rel="stylesheet" href="https://raw.githubusercontent.com/mar10/fancytree/master/dist/skin-win8/ui.fancytree.min.css" / -->
+    <link type="text/css" rel="stylesheet" href="/fancytree/skin-win8/ui.fancytree.min.css" />
+    <!-- script src="https://raw.githubusercontent.com/mar10/fancytree/master/dist/jquery.fancytree-all.min.js"></script -->
+    <script src="/fancytree/jquery.fancytree-all.min.js"></script>
 
     <!-- Autodesk View & Data API -->
     <link type="text/css" rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css" />
@@ -17,6 +23,7 @@
 
     <script>
         var oViewer =null ;
+        var oViewable =null ;
         $(document).ready (function () {
             var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
@@ -32,16 +39,62 @@
                 options.document =options.document.substring (4) ;
 
             Autodesk.Viewing.Document.load ('urn:' + options.document, //options.accessToken,
-                    function (doc) { // onLoadCallback
-                        var geometryItems =[] ;
-                        geometryItems =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { "type" : "geometry", "role" : "3d" }, true) ;
-                        if ( geometryItems.length > 0 )
-                            oViewer.load (doc.getViewablePath (geometryItems [0])) ;
-                    },
-                    function (errorMsg) { // onErrorCallback
-                        alert("Load Error: " + errorMsg) ;
-                    }
+                function (doc) { // onLoadCallback
+                    var geometryItems =[] ;
+                    geometryItems =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { 'type' : 'geometry', 'role' : '3d' }, true) ;
+                    if ( geometryItems.length > 0 )
+                        oViewer.load (doc.getViewablePath (geometryItems [0])) ;
+
+                    var root ={ 'title': doc.myData.children [0].name, 'key': doc.myData.guid, 'folder': true, 'children': [] } ;
+                    root.children =loopDoc (doc.myData) ;
+                    $('#doctree').fancytree ({
+                        source: [ root ],
+                        checkbox: false
+                    }) ;
+
+                    $.ajax ({
+                        url: '/api/results/<%= bucket %>/<%= root %>',
+                        type: 'get',
+                        complete: null
+                    }).done (function (response) {
+                        oViewable =response ;
+                        var root ={ 'title': response.children [0].name, 'key': response.guid, 'folder': true, 'children': [] } ;
+                        root.children =loopDoc (response) ;
+                        $('#fulltree').fancytree ({
+                            source: [ root ],
+                            checkbox: false
+                        }) ;
+                        $('#fulltree').fancytree ('getTree').visit (function (node){
+                            node.setExpanded (true) ;
+                        }) ;
+                    }).fail (function (xhr, ajaxOptions, thrownError) {
+                        alert ('Failed to get server data!') ;
+                    }) ;
+                },
+                function (errorMsg) { // onErrorCallback
+                    alert("Load Error: " + errorMsg) ;
+                }
             ) ;
+        }
+
+        function loopDoc (doc) {
+            var data =[] ;
+            $.each (doc.children, function (key, value) {
+                var folder =(value.children !== undefined && value.children.length > 0) ;
+                var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder } ;
+                if ( folder == true )
+                    node.children =loopDoc (value) ;
+                data.push (node) ;
+            }) ;
+            return (data) ;
+        }
+
+        function getName (value) {
+            if ( value.name !== undefined )
+                return (value.name) ;
+            else if ( value.role !== undefined && value.urn !== undefined )
+                return (value.urn.split ('/').pop ()) ;
+            return ('?') ;
         }
     </script>
 </head>
@@ -56,15 +109,17 @@
         <br />
 
         <hr />
-        <h3>Edit dependencies</h3>
+        <h3>Document Data</h3>
+        <div id="doctree"></div>
+        <br />
+
+        <hr />
         <div>
-            <div class="left">Click and drag new dependencies from the orange square in each element. Click on a connection to delete it.</div>
-            <div class="right"><a href="#" onclick="autoArrange () ;"><img src="/img/refresh.png" width="20" /></a></div>
+            <div class="left"><h3>Full Viewable Data</h3></div>
+            <div class="right"><a href="/api/results/<%= bucket %>/<%= root %>/project"><img src="/img/download.png" title="Download Viewables" /></a></div>
             <div class="clear"></div>
         </div>
-        <div id="dependencies-editor-area" class="dependencies-editor statemachine">
-            <div class="w" id="lmv-root">LMV ROOT<div class="ep"></div></div>
-        </div>
+        <div id="fulltree"></div>
         <br />
 
     </div>

@@ -25,10 +25,9 @@ var request =require ('request') ;
 var https =require ('https') ;
 // unirest (http://unirest.io/) or SuperAgent (http://visionmedia.github.io/superagent/)
 var unirest =require('unirest') ;
-var XMLHttpRequest =require ('xhr2') ;
 var events =require('events') ;
 var util =require ('util') ;
-var urlmod =require ('url') ;
+//var urlmod =require ('url') ;
 //var querystring =require ('querystring') ;
 var fs =require ('fs') ;
 var credentials =require ('./credentials') ;
@@ -78,6 +77,7 @@ function Lmv (bucketName) {
 //Lmv.prototype.__proto__ =events.EventEmitter.prototype ;
 util.inherits (Lmv, events.EventEmitter) ;
 
+// POST /authentication/v1/authenticate
 /*static*/ Lmv.refreshToken =function () {
 	console.log ('Refreshing Autodesk Service token') ;
 
@@ -121,6 +121,7 @@ util.inherits (Lmv, events.EventEmitter) ;
 	return ('') ;
 } ;
 
+// GET /oss/v1/buckets/:bucket/details
 Lmv.prototype.checkBucket =function () {
 	var self =this ;
 	this.performRequest (
@@ -151,6 +152,7 @@ Lmv.prototype.checkBucket =function () {
 	return (this) ;
 } ;
 
+// POST /oss/v1/buckets
 Lmv.prototype.createBucket =function (policy) {
 	policy =policy || 'transient' ;
 	var self =this ;
@@ -218,28 +220,7 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 	return (this) ;
 } ;
 
-Lmv.prototype.getItemDetail =function (bucket, identifier) {
-	var self =this ;
-	var creds =new credentials () ;
-	var encodedURN =new Buffer (urn).toString ('base64') ;
-
-	var endpoint ='/viewingservice/v1/' + encodedURN + '/status' ;
-	unirest.get (creds.BaseUrl + endpoint)
-		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
-		.end (function (response) {
-		try {
-			if ( response.statusCode != 200 )
-				throw response.statusCode ;
-			self.emit ('success', { 'status': 'ok', 'statusCode': 200, 'progress': response.body.progress, 'body': response.body }) ;
-		} catch ( err ) {
-			self.emit ('fail', err) ;
-		}
-	})
-	;
-	return (this) ;
-
-} ;
-
+// PUT /oss/v1/buckets/:bucket/objects/:filename
 Lmv.prototype.uploadFile =function (identifier) {
 	var self =this ;
 	var creds =new credentials () ;
@@ -304,6 +285,7 @@ Lmv.prototype.getURN =function (identifier) {
 	return ('') ;
 } ;
 
+// POST /references/v1/setreference
 Lmv.prototype.setDependencies =function (connections) {
 	var self =this ;
 	if ( connections == null ) {
@@ -354,6 +336,7 @@ Lmv.prototype.setDependencies =function (connections) {
 	return (this) ;
 } ;
 
+// POST /viewingservice/v1/register
 Lmv.prototype.register =function (connections) {
 	var self =this ;
 	var creds =new credentials () ;
@@ -377,19 +360,23 @@ Lmv.prototype.register =function (connections) {
 	return (this) ;
 } ;
 
-Lmv.prototype.status =function (urn) {
+// GET /viewingservice/v1/:encodedURN/status
+// status/all/bubbles params { guid : '067e6162-3b6f-4ae2-a171-2470b63dff12' }
+Lmv.prototype.status =function (urn, params) {
 	var self =this ;
 	var creds =new credentials () ;
 	var encodedURN =new Buffer (urn).toString ('base64') ;
+	params =params || {} ;
 
 	var endpoint ='/viewingservice/v1/' + encodedURN + '/status' ;
 	unirest.get (creds.BaseUrl + endpoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.query (params)
 		.end (function (response) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', { 'status': 'ok', 'statusCode': 200, 'progress': response.body.progress, 'success': response.body.success, 'body': response.body }) ;
+				self.emit ('success', response.body) ;
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -398,6 +385,56 @@ Lmv.prototype.status =function (urn) {
 	return (this) ;
 } ;
 
+// GET /viewingservice/v1/:encodedURN/all
+Lmv.prototype.all =function (urn, params) {
+	var self =this ;
+	var creds =new credentials () ;
+	var encodedURN =new Buffer (urn).toString ('base64') ;
+	params =params || {} ;
+
+	var endpoint ='/viewingservice/v1/' + encodedURN + '/all' ;
+	unirest.get (creds.BaseUrl + endpoint)
+		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.query (params)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 )
+					throw response.statusCode ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+	return (this) ;
+} ;
+
+// GET /viewingservice/v1/:encodedURN
+Lmv.prototype.bubbles =function (urn, params) {
+	var self =this ;
+	var creds =new credentials () ;
+	var encodedURN =new Buffer (urn).toString ('base64') ;
+	params =params || {} ;
+
+	//unirest.get (creds.BaseUrl + '/viewingservice/v1/' + encodeURIComponent (urn))
+	var endpoint ='/viewingservice/v1/' + encodedURN ;
+	unirest.get (creds.BaseUrl + endpoint)
+		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.query (params)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 )
+					throw response.statusCode ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+	return (this) ;
+} ;
+
+// GET /oss/v1/buckets/:bucket/objects/:filename
 Lmv.prototype.download =function (identifier) {
 	var self =this ;
 	var creds =new credentials () ;
@@ -436,17 +473,21 @@ Lmv.prototype.download =function (identifier) {
 	return (this) ;
 }
 
-Lmv.prototype.downloadurn =function (urn) {
+// GET /viewingservice/v1/items/:encodedURN
+Lmv.prototype.downloadItem =function (urn) { // TODO: range header?
 	var self =this ;
 	var creds =new credentials () ;
+	var encodedURN =encodeURIComponent (urn) ;
+	console.log ('Downloading: ' + urn) ;
 
-	unirest.get (creds.BaseUrl + '/viewingservice/v1/items/' + encodeURIComponent (urn))
-		.headers ({ 'Accept': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+	unirest.get (creds.BaseUrl + '/viewingservice/v1/items/' + encodedURN)
+		.headers ({ 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.encoding (null)
 		.end (function (response) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', response.body) ;
+				self.emit ('success', response.raw_body) ;
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -455,6 +496,7 @@ Lmv.prototype.downloadurn =function (urn) {
 	return (this) ;
 } ;
 
+// GET /viewingservice/v1/thumbnails/:encodedURN
 Lmv.prototype.thumbnail =function (urn, width, height) {
 	var self =this ;
 	var creds =new credentials () ;
@@ -466,10 +508,11 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 		query.width =width ;
 	if ( height !== undefined )
 		query.height =height ;
-	endpoint =urlmod.format ({ 'query': query, pathname: endpoint }) ;
+	//endpoint =urlmod.format ({ 'query': query, pathname: endpoint }) ;
 
 	unirest.get (creds.BaseUrl + endpoint)
 		.headers ({ 'Authorization': ('Bearer ' + Lmv.getToken ()) })
+		.query (query)
 		.encoding (null)
 		.end (function (response) {
 			try {
