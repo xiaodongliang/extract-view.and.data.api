@@ -27,6 +27,7 @@ var mkdirp =require ('mkdirp') ;
 var async =require ('async') ;
 var lmv =require ('./lmv') ;
 var AdmZip =require ('adm-zip') ;
+var ejs =require ('ejs') ;
 
 Array.prototype.unique =function () {
 	var a =this.concat () ;
@@ -139,10 +140,13 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 		return (res.status (404).end ()) ;
 
 	try {
-		fs.mkdirSync ('data/' + identifier) ;
+		//fs.mkdirSync ('data/' + identifier) ;
+		if ( !fs.existsSync ('data/' + identifier) )
+			mkdirp.sync ('data/' + identifier) ;
 	} catch ( err ) {
 	}
 	async.waterfall ([
+		// Get latest full details
 		function (callbacks1) {
 			new lmv.Lmv (bucket).all (urn)
 				.on ('success', function (data) {
@@ -155,7 +159,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 				})
 			;
 		},
-
+		// From full details, get all individuals elements to download
 		function (data, callbacks2) {
 			var items =loopObject (data) ;
 			items =items.filter (function (item) { return (item !== undefined) ; }) ;
@@ -171,7 +175,11 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 							try {
 								if ( !fs.existsSync (filepath) )
 									mkdirp.sync (filepath) ;
-								fs.writeFile (fullpath, data, 'binary', function (err) {}) ;
+								console.log ('Saving: ' + fullpath) ;
+								fs.writeFile (fullpath, data, function (err) {
+									if ( err )
+										console.log (err) ;
+								}) ;
 							} catch ( err ) {
 							}
 							callback (null, { urn: item, name: fullpath.substring (5), content: data }) ;
@@ -188,24 +196,45 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 				}
 			) ;
 		},
-
+		// Any elements which has a .svf extension contains additional references to download
 		function (results, callbacks3) {
 			var uris =[ results ] ;
-			for ( var i =0 ; i < results.length ; i++ )
-				if ( path.extname (results [i].name) == '.svf' )
-					break ;
-			var content =results [i].content ;
-			var ozip =new AdmZip (content) ;
-			var zipEntries =ozip.getEntries () ;
-			zipEntries.forEach (function (zipEntry) {
-				if ( !zipEntry.isDirectory ) {
-					if ( zipEntry.entryName == 'manifest.json' ) {
-						var manifest =JSON.parse (zipEntry.getData ().toString ('utf8')) ;
-						uris =uris.concat (loopManifest (manifest, path.dirname (results [i].urn))) ;
-					}
-				}
-			}) ;
+			// Collect the additional elements
+			for ( var i =0 ; i < results.length ; i++ ) {
+				if ( path.extname (results [i].name) == '.svf' ) {
+					// Get manifest file
+					var content =results [i].content ;
+					var ozip =new AdmZip (content) ;
+					var zipEntries =ozip.getEntries () ;
+					zipEntries.forEach (function (zipEntry) {
+						if ( !zipEntry.isDirectory ) {
+							if ( zipEntry.entryName == 'manifest.json' ) {
+								var manifest =JSON.parse (zipEntry.getData ().toString ('utf8')) ;
+								uris =uris.concat (loopManifest (manifest, path.dirname (results [i].urn))) ;
+							}
+						}
+					}) ;
 
+					// Generate the html for local view
+					var pathname =results [i].name.substring (results [i].name.indexOf ('/output/') + 8) ;
+					pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
+					var fullname =identifier + '/' + path.basename (results [i].name) + '.html' ;
+					var st =fs.readFileSync ('views/view.ejs', 'utf-8') ;
+					var obj ={ svf: pathname, 'urn': '' } ;
+					var data =ejs.render (st, obj) ;
+					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
+					uris.push ({ name: fullname, content: data }) ;
+
+					pathname =path.basename (fullname) ;
+					st =fs.readFileSync ('views/go.ejs', 'utf-8') ;
+					obj ={ html: pathname } ;
+					data =ejs.render (st, obj) ;
+					fullname =identifier + '/' + pathname + '.bat' ;
+					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
+					uris.push ({ name: fullname, content: data }) ;
+				}
+			}
+			// Download the additional elements
 			async.map (uris,
 				function (item, callback) { // Each tasks execution
 					if ( typeof item != 'string' )
@@ -219,7 +248,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 							try {
 								if ( !fs.existsSync (filepath) )
 									mkdirp.sync (filepath) ;
-								fs.writeFile (fullpath, data, 'binary', function (err) {}) ;
+								fs.writeFile (fullpath, data, function (err) {}) ;
 							} catch ( err ) {
 							}
 							callback (null, { urn: item, name: fullpath.substring (5), content: data }) ;
@@ -229,7 +258,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 						})
 					;
 				},
-				function (err, results) { //- All tasks are done
+				function (err, results) { // All tasks are done
 					if ( err !== undefined )
 						console.log ('Something wrong happened during download') ;
 					callbacks3 (err, results) ;
@@ -237,10 +266,14 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 			) ;
 		}
 
-	], function (err, results) {
+	],
+	// Create a ZIP file and return all elements
+	function (err, results) {
 		if ( err )
 			return (res.status (404).end ()) ;
-		//- We are done! Create a ZIP file and return
+		// We got all d/l
+
+		// We are done! Create a ZIP file and return
 		var ozip =new AdmZip () ;
 		try {
 			var merged =[] ;
@@ -250,7 +283,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 		} catch ( err ) {
 		}
 		var data =ozip.toBuffer () ;
-		ozip.writeZip ('data/' + identifier + '/' +identifier + '.zip') ;
+		ozip.writeZip ('data/' + identifier + '/' + identifier + '.zip') ;
 
 		res.setHeader ('Content-Type', 'application/zip') ;
 		res.attachment (identifier + '.zip') ;
@@ -281,32 +314,43 @@ function loopManifest (doc, urnParent) {
 	return (data) ;
 }
 
-// Download a single file from its bucket/identifier pair
-router.get ('/results/:bucket/:identifier/xxx', function (req, res) {
+// Download a single file from its bucket/identifier/fragment pair
+router.get ('/results/file/:bucket/:identifier/:fragment', function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
+	var fragment =req.params.fragment ;
 
 	var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
 	data =JSON.parse (data) ;
+	var guid =data.urn ;
 
-	var urn ="urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y3lyaWxsZS0yMDE1MDIxOS9TdG9ja2JldHQuZHdn/output/b1ff643c-c779-b885-0009-33db311f4f75/0.svf" ;
-	//var urn ="urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y3lyaWxsZS0yMDE1MDIwNC9BdS5vYmo=/output/properties.db" ;
-	//var urn ="dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y3lyaWxsZS0yMDE1MDIwNC9BdS5vYmo=" ;
-
+	var urn ='urn:adsk.viewing:fs.file:' + guid + '/output/' + fragment ;
 	new lmv.Lmv (bucket).downloadItem (urn)
 		.on ('success', function (data) {
-			//console.log (data) ;
 			res.setHeader ('Content-Type', 'application/octet-stream') ;
-			res.setHeader ('Content-Transfer-Encoding', 'binary') ;
-			res.attachment ('Au.obj.svf') ;
-			//res.attachment ('xxx.db') ;
-			res.send (data).end () ;
+			res.attachment (path.basename (fragment)) ;
+			res.end (data, 'binary') ;
 		})
 		.on ('fail', function (err) {
 			//console.log (err) ;
 			res.status (404).end () ;
 		})
 	;
+}) ;
+
+router.get ('/results/test', function (req, res) {
+	fs.readFile ('views/view.ejs', 'utf-8', function (err, data) {
+		if ( !err ) {
+			var obj = {
+				urn: 'urn',
+				svf: 'test'
+			} ;
+			var st =ejs.render (data, obj) ;
+			res.end (st) ;
+		} else {
+			res.status (500). end () ;
+		}
+	}) ;
 }) ;
 
 module.exports =router ;

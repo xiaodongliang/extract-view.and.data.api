@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+    <title>ADN Node.js Server Sample (local view)</title>
+
+    <!-- External libraries -->
+    <script src="./jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
+    <script src="./jquery-ui.js"></script> <!-- http://jqueryui.com/ -->
+
+    <!-- Autodesk View & Data API -->
+    <link type="text/css" rel="stylesheet" href="./viewer3DStyle.css">
+    <script src="./viewer3D.min.js"></script>
+
+    <!-- Our scripts -->
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <script>
+        var oViewer =null ;
+        $(document).ready (function () {
+            //var options ={ 'document': '<%= urn %>', 'env': 'AutodeskProduction' } ;
+            var options ={ 'svf': '<%= svf %>', env: '' } ;
+            //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
+            oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
+            oViewer.initialize () ;
+            oViewer.load (options.svf) ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+    <div id="project">
+
+        <hr>
+        <h3>LMV Node.js Sample (local view)</h3>
+        <div id="viewer"></div>
+        <br>
+
+    </div>
+
+</body>
+</html>
