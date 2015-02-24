@@ -17,7 +17,7 @@ This sample will go through all the required steps.
 ## Description
 
 The workflow-node.js-server-view.and.data.api sample exercises demonstrates the Autodesk View and Data API authorization,
-translation, viewing processes mentioned in the Quick Start guide. It also demonstrates how to extract the 'bubble' files
+translation, viewing processes mentioned in the Quick Start guide. It also demonstrates how to extract the 'bubbles' files
 from the Autodesk server for storing and viewing them locally.
 
 It closely follows the steps described in the documentation:
@@ -80,12 +80,12 @@ The sample was created using Node.js and javascript.
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
    the required node modules automatically for you.
-   These modules are only required for the translation/extraction processes.
+   These modules are only required for the translation/extraction processes.<br />
    ```
    npm install
    ```
 6. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
-   sudo is required on OSX and Linux.
+   sudo is required only on OSX and Linux.<br />
    ```
    sudo node start.js
    ```
@@ -101,8 +101,9 @@ Translating files / Extracting 'bubbles'
    starting from the parent 'yellow' square to the child dependency.
 4. Once all files are uploaded on your local server and connections/dependencies are correct, give a bucket name,
    and submit the project to the Autodesk server for translating your file to a lightweight WEBGL format.
-5. After the translation completed successfully, move you mouse over the project thumbnail and press the 'Explore' button,
-6. Press the 'Download' button to download your 'bubbles' files.
+5. After the translation completed successfully, move your mouse over the project thumbnail at the bottom of the page
+   and press the 'Explore' button,
+6. On the new page, press the 'Download' button to download your 'bubbles' files.
 7. You are done with translation and extraction.
 
 Viewing 'bubbles' offline using Node.js
@@ -113,26 +114,37 @@ Viewing 'bubbles' offline using Node.js
    ```
 2. Unzip the project result zip file into a folder.
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
-4. Start your local node http-server server
+4. Start your local node http-server server.<br />
    ```
    [sudo] http-server <myfolder>
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost:8080/](http://localhost:8080/)
-   and select any of the html *.svf.* files <br />
-   or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh'.
+   and select any of the html *.svf.* files.<br />
+   (or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh')
 
 Viewing 'bubbles' offline using Python
 
-1. This step needs to be done only once per machine. Setup the http Python server.
+1. This step needs to be done only once per machine. Downlaod and install Python on your computer.
 2. Unzip the project result zip file into a folder.
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
-4. Start your local Python http server
-   '''
+4. Start your local Python http server.<br />
+   ```
    cd <myfolder>
    python -m SimpleHTTPServer
-   '''
+   ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
    [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
+
+
+### Deploy offline viewing solutions
+
+# Deploy with Python
+
+Simply copy the Python directory on your CD, and launch the server via a script when your application wants to show a LMV result.
+
+# Deploy with Node/http-server
+
+TBD
 
 
 --------
