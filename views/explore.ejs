@@ -48,7 +48,7 @@
                     var root ={ 'title': doc.myData.children [0].name, 'key': doc.myData.guid, 'folder': true, 'children': [] } ;
                     root.children =loopDoc (doc.myData) ;
                     $('#doctree').fancytree ({
-                        source: [ root ],
+                        source: [ root.children [0] ],
                         checkbox: false
                     }) ;
 
@@ -61,7 +61,7 @@
                         var root ={ 'title': response.children [0].name, 'key': response.guid, 'folder': true, 'children': [] } ;
                         root.children =loopDoc (response) ;
                         $('#fulltree').fancytree ({
-                            source: [ root ],
+                            source: [ root.children [0] ],
                             checkbox: false
                         }) ;
                         $('#fulltree').fancytree ('getTree').visit (function (node){
@@ -120,6 +120,20 @@
             <div class="clear"></div>
         </div>
         <div id="fulltree"></div>
+        <br />
+
+        <hr />
+        <h3>Instructions to view files locally</h3>
+        <div>Once you downloaded the 'bubbles' files using the <img src="/img/download.png" width="16" /> button above:
+            <ul style="list-style: lower-roman; padding-left: 30px;">
+                <li>unzip that file in a folder</li>
+                <li>download and unzip the '<a href="/adsk-viewer.zip">Autodesk viewer engine</a>' in the same folder</li>
+                <li>setup Node.js or the http Python server following the <a href="https://github.com/cyrillef/workflow-node.js-server-view.and.data.api">instructions on the GitHub repository</a></li>
+                <li>execute any .bat file located in your folder - usually '0.svf.html.bat'</li>
+            </ul>
+        </div>
+
+
         <br />
 
     </div>

@@ -18,7 +18,9 @@
 		"async": "*",
 		"url": "*",
 		"ejs" : "*",
-		"adm-zip": "*"
+		"adm-zip": "*",
+		"archiver": "*",
+		"rimraf": "*"
 	},
 	"files": [
 		"LICENSE",

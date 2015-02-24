@@ -24,9 +24,11 @@ var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var path =require ('path') ;
 var mkdirp =require ('mkdirp') ;
+var rimraf =require ('rimraf') ;
 var async =require ('async') ;
 var lmv =require ('./lmv') ;
 var AdmZip =require ('adm-zip') ;
+var archiver =require ('archiver') ;
 var ejs =require ('ejs') ;
 
 Array.prototype.unique =function () {
@@ -140,9 +142,9 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 		return (res.status (404).end ()) ;
 
 	try {
-		//fs.mkdirSync ('data/' + identifier) ;
-		if ( !fs.existsSync ('data/' + identifier) )
-			mkdirp.sync ('data/' + identifier) ;
+		if ( fs.existsSync ('data/' + identifier) )
+			rimraf.sync ('data/' + identifier) ;
+		mkdirp.sync ('data/' + identifier) ;
 	} catch ( err ) {
 	}
 	async.waterfall ([
@@ -175,11 +177,8 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 							try {
 								if ( !fs.existsSync (filepath) )
 									mkdirp.sync (filepath) ;
-								console.log ('Saving: ' + fullpath) ;
-								fs.writeFile (fullpath, data, function (err) {
-									if ( err )
-										console.log (err) ;
-								}) ;
+								//console.log ('Saving: ' + fullpath) ;
+								fs.writeFile (fullpath, data, function (err) {}) ;
 							} catch ( err ) {
 							}
 							callback (null, { urn: item, name: fullpath.substring (5), content: data }) ;
@@ -274,22 +273,42 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 		// We got all d/l
 
 		// We are done! Create a ZIP file and return
-		var ozip =new AdmZip () ;
+		res.setHeader ('Content-Type', 'application/zip') ;
+		res.attachment (identifier + '.zip') ;
+
+		var archive =archiver ('zip') ;
+		archive.on ('error', function (err) {
+			res.status (500).send ({ error: err.message }) ;
+		}) ;
+		res.on ('close', function () {
+			//console.log ('Archive wrote %d bytes', archive.pointer ()) ;
+			return (res.send ('OK').end ()) ;
+		}) ;
+		archive.pipe (res) ;
+
+		var output =fs.createWriteStream ('data/' + identifier + '/' + identifier + '.zip') ;
+		archive.pipe (output) ;
+
 		try {
 			var merged =[] ;
 			merged =merged.concat.apply (merged, results) ;
 			for ( var i =0 ; i < merged.length ; i++ )
-				ozip.addFile (merged [i].name, merged [i].content) ;
+				archive.append (merged [i].content, { name: merged [i].name }) ;
+			archive.finalize () ;
+			//fs.writeFile ('data/' + identifier + '/' + identifier + '.zip', archive.pointer (), function (err) {}) ;
 		} catch ( err ) {
+			res.status (500).send ({ error: err }) ;
 		}
-		var data =ozip.toBuffer () ;
-		ozip.writeZip ('data/' + identifier + '/' + identifier + '.zip') ;
 
-		res.setHeader ('Content-Type', 'application/zip') ;
-		res.attachment (identifier + '.zip') ;
-		res.end (data, 'binary') ;
+		/*walk ('data/' + identifier, function (err, results) {
+			if ( err )
+				throw err ;
+			for ( var i =0 ; i < results.length ; i++ )
+				archive.append (fs.createReadStream (results [i]), { name: results [i].substring (5) }) ;
+			archive.finalize () ;
+		}) ;*/
+
 	}) ;
-
 }) ;
 
 function loopObject (doc) {
@@ -351,6 +370,54 @@ router.get ('/results/test', function (req, res) {
 			res.status (500). end () ;
 		}
 	}) ;
+}) ;
+
+var walk =function (dir, done) {
+	var results =[] ;
+	fs.readdir (dir, function (err, list) {
+		if ( err )
+			return (done (err)) ;
+		var pending =list.length ;
+		if ( !pending )
+			return (done (null, results)) ;
+		list.forEach (function (file) {
+			file =dir + '/' + file ;
+			fs.stat (file, function (err, stat) {
+				if ( stat && stat.isDirectory () ) {
+					walk (file, function (err, res) {
+						results =results.concat (res) ;
+						if ( !--pending )
+							done (null, results) ;
+					}) ;
+				} else {
+					results.push (file) ;
+					if ( !--pending )
+						done (null, results) ;
+				}
+			}) ;
+		}) ;
+	}) ;
+} ;
+
+router.get ('/results/test2', function (req, res) {
+	var archive =archiver ('zip') ;
+	var output =fs.createWriteStream ('data/example-output.zip') ;
+	archive.pipe (output) ;
+
+	walk ('data/773432-Stockbettdwg', function (err, results) {
+		if ( err )
+			throw err ;
+		//console.log (results) ;
+
+		for ( var i =0 ; i < results.length ; i++ ) {
+			var data =fs.createReadStream (results [i]) ;
+			archive.append (data, { name: results [i].substring (5) }) ;
+		}
+		archive.finalize (function (err) {}) ;
+	}) ;
+
+	res.end ('ok') ;
+
 }) ;
 
 module.exports =router ;
