@@ -1,17 +1,24 @@
 # workflow-node.js-server-view.and.data.api sample
 
-<b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.  Visit this [page](https://developer.autodesk.com) for instructions to get on-board.
+<b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.
+Visit this [page](https://developer.autodesk.com) for instructions to get on-board.
 
 ## Motivation
 
-Our View and Data API Beta adds powerful 2D and 3D viewing functionality to your web apps. Our REST and JavaScript API makes it easier to create applications that can view, zoom and interact with 2D and 3D models from over 60+ model formats with just a web browser, no plugin required!
+Our View and Data API Beta adds powerful 2D and 3D viewing functionality to your web apps.
+Our REST and JavaScript API makes it easier to create applications that can view, zoom and interact with 2D and
+3D models from over 60+ model formats with just a web browser, no plugin required!
 
-But what if you wanted to view them offline? Many people ask how to proceed, while the documentation does not explicitly says how to do, the API is public. This sample will go through all the required steps.
+But what if you wanted to view them offline? Many people ask how to proceed, while the documentation
+does not explicitly says how to proceed, however the API is public and documented.
+This sample will go through all the required steps.
 
 
 ## Description
 
-The workflow-node.js-server-view.and.data.api sample exercises demonstrates the Autodesk View and Data API authorization, translation, viewing processes mentioned in the Quick Start guide. It also demonstrate how to extract the 'bubbles' file from the Autodesk server for storing and viewing them locally.
+The workflow-node.js-server-view.and.data.api sample exercises demonstrates the Autodesk View and Data API authorization,
+translation, viewing processes mentioned in the Quick Start guide. It also demonstrates how to extract the 'bubble' files
+from the Autodesk server for storing and viewing them locally.
 
 It closely follows the steps described in the documentation:
 
@@ -30,30 +37,34 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
 
 1. Node.js
 
-    Node.js - built on Chrome's JavaScript runtime for easily building fast, scalable network applications<br />
-	you need at least version v0.10.0. You can get this component [here](http://nodejs.org/)<br /><br />
+    Node.js - built on Chrome's JavaScript runtime for easily building fast, scalable network applications.
+	You need at least version v0.10.0. You can get Node.js from [here](http://nodejs.org/)<br /><br />
 	Node.js modules:
-		"express": ">= 4.11.1",
-		"request": ">= 2.51.0",
-		"body-parser": ">= 1.11.0",
-		"fs": ">= 0.0.2",
-		"cron": ">= 1.0.6",
-		"connect-multiparty": ">= 1.2.5",
-		"path": ">= 0.11.14",
-		"mkdirp": ">= 0.5.0",
-		"util": ">= 0.10.3",
-		"stream": ">= 0.0.2",
-		"unirest": ">= 0.4.0",
-		"async": ">= 0.9.0",
-		"url": ">= 0.10.2",
-		"ejs" : ">= 2.2.4",
-		"adm-zip": ">= 0.4.7",
-		"archiver": ">= 0.14.3",
-		"rimraf": " >= 2.2.8"
+	```
+    "express": ">= 4.11.1",
+    "request": ">= 2.51.0",
+    "body-parser": ">= 1.11.0",
+    "fs": ">= 0.0.2",
+    "cron": ">= 1.0.6",
+    "connect-multiparty": ">= 1.2.5",
+    "path": ">= 0.11.14",
+    "mkdirp": ">= 0.5.0",
+    "util": ">= 0.10.3",
+    "stream": ">= 0.0.2",
+    "unirest": ">= 0.4.0",
+    "async": ">= 0.9.0",
+    "url": ">= 0.10.2",
+    "ejs" : ">= 2.2.4",
+    "adm-zip": ">= 0.4.7",
+    "archiver": ">= 0.14.3",
+    "rimraf": " >= 2.2.8"
+	```
 		
-2. flow.js - A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable file uploads via the HTML5 File API, available [here](https://github.com/flowjs/flow.js).
+2. flow.js - A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable
+   file uploads via the HTML5 File API, available [here](https://github.com/flowjs/flow.js).
 
-3. fancytree.js - Tree plugin for jQuery with support for persistence, keyboard, checkboxes, tables (grid), drag'n'drop, and lazy loading, available [here](https://github.com/mar10/fancytree).
+3. fancytree.js - Tree plugin for jQuery with support for persistence, keyboard, checkboxes, tables (grid), drag'n'drop,
+   and lazy loading, available [here](https://github.com/mar10/fancytree).
 
 	 
 ## Setup/Usage Instructions
@@ -69,7 +80,7 @@ The sample was created using Node.js and javascript.
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
    the required node modules automatically for you.
-   These modules are only required for the translation/extraction modules.
+   These modules are only required for the translation/extraction processes.
    ```
    npm install
    ```
