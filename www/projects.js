@@ -109,7 +109,7 @@ Project.projectProgress =function (bucket, root) {
 			$(name + ' progress').remove () ;
 
 			$.ajax ({
-				url: '/api/projects/' + bucket + '/' + root + '/thumbnail',
+				url: '/api/results/' + bucket + '/' + root + '/thumbnail',
 				type: 'get',
 				complete: null
 			}).done (function (response) {

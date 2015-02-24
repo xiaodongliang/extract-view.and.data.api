@@ -130,7 +130,6 @@ Lmv.prototype.checkBucket =function () {
 		null,
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
-				console.log ('Bucket ' + JSON.stringify (data)) ;
 				try {
 					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
 						if ( err )
@@ -141,7 +140,6 @@ Lmv.prototype.checkBucket =function () {
 					self.emit ('success', data) ;
 				}
 			} else {
-				console.log (__function + ' ' + __line) ;
 				self.emit ('fail', data) ;
 			}
 		},
@@ -162,19 +160,16 @@ Lmv.prototype.createBucket =function (policy) {
 		{ 'bucketKey': this.bucket, 'policy': policy },
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
-				console.log ('Bucket ' + JSON.stringify (data)) ;
 				try {
 					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
 						if ( err )
 							return (console.log ('ERROR: bucket data not saved :(')) ;
-						console.log ('Bucket saved.') ;
 						self.emit ('success', data) ;
 					}) ;
 				} catch ( err ) {
 					self.emit ('success', data) ;
 				}
 			} else {
-				console.log (__function + ' ' + __line) ;
 				self.emit ('fail', data) ;
 			}
 		},
@@ -194,8 +189,15 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 		null,
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
-				console.log ('Bucket ' + JSON.stringify (data)) ;
-				self.emit ('success', data) ;
+				try {
+					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
+						if ( err )
+							return (console.log ('ERROR: bucket data not saved :(')) ;
+						self.emit ('success', data) ;
+					}) ;
+				} catch ( err ) {
+					self.emit ('success', data) ;
+				}
 			} else {
 				self.emit ('fail', data) ;
 			}
