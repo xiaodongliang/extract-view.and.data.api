@@ -66,11 +66,13 @@ The sample was created using Node.js and javascript.
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
-5. Go in the sample root folder and execute 'npm install', this command will download and install the required node modules automatically for you. These modules are only required for the translation/extraction modules.
+5. Go in the sample root folder and execute 'npm install', this command will download and install the required node modules automatically for you.
+   These modules are only required for the translation/extraction modules.
    ```sh
    npm install
    ```
-6. You are done for the setup, launch the node server using the command '[sudo] node start.js'. sudo is required on OSX and Linux.
+6. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
+   sudo is required on OSX and Linux.
    ```sh
    sudo node start.js
    ```
@@ -79,8 +81,9 @@ The sample was created using Node.js and javascript.
 
 Translating files / Extracting 'bubbles'
 
-1. Start your favorite browser supporting HTML5 and WEBGL and browse to http://localhost/
-2. Drag'n Drop your files into the 'Drop area' or browse for individual files. Tips: start with the main file in your file has dependencies, that will build the connections automatically.
+1. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/)
+2. Drag'n Drop your files into the 'Drop area' or browse for individual files.
+   Tips: start with the main file in your file has dependencies, that will build the connections automatically.
 3. If a connection is not correct, delete the connection by click on the connection line, and build a new connection starting from the parent 'yellow' square to the child dependency.
 4. Once all files are uploaded on your local server and connections/dependencies are correct, give a bucket name, and submit the project to the Autodesk server for translating your file to a lightweight WEBGL format.
 5. After the translation completed successfully, move you mouse over the project thumbnail and press the 'Explore' button,
@@ -89,7 +92,7 @@ Translating files / Extracting 'bubbles'
 
 Viewing 'bubbles' offline using Node.js
 
-1. This step needs to be done only once per machine. Setup Node.js http-server server.
+1. This step needs to be done only once per machine. Setup Node.js http-server server.<br />
    ```sh
    npm install http-server -g
    ```
@@ -99,7 +102,7 @@ Viewing 'bubbles' offline using Node.js
    ```
    [sudo] http-server <myfolder>
    ```
-5. Start your favorite browser supporting HTML5 and WEBGL and browse to http://localhost:8080/ and select any of the html *.svf.* files <br />
+5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost:8080/](http://localhost:8080/) and select any of the html *.svf.* files <br />
 or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh'.
 
 Viewing 'bubbles' offline using Python
