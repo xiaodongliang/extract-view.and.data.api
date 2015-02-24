@@ -68,7 +68,6 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
 
 	 
 ## Setup/Usage Instructions
----------------------------
 
 The sample was created using Node.js and javascript.
 
@@ -136,13 +135,13 @@ Viewing 'bubbles' offline using Python
    [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
 
 
-### Deploy offline viewing solutions
+## Deploy offline viewing solutions
 
-# Deploy with Python
+### Deploy with Python
 
 Simply copy the Python directory on your CD, and launch the server via a script when your application wants to show a LMV result.
 
-# Deploy with Node/http-server
+### Deploy with Node/http-server
 
 TBD
 
