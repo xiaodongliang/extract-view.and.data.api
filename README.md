@@ -67,13 +67,13 @@ The sample was created using Node.js and javascript.
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install the required node modules automatically for you. These modules are only required for the translation/extraction modules.
-```sh
-npm install
-```
+   ```sh
+   npm install
+   ```
 6. You are done for the setup, launch the node server using the command '[sudo] node start.js'. sudo is required on OSX and Linux.
-```sh
-sudo node start.js
-```
+   ```sh
+   sudo node start.js
+   ```
 
 ### Use of the sample
 
@@ -90,15 +90,15 @@ Translating files / Extracting 'bubbles'
 Viewing 'bubbles' offline using Node.js
 
 1. This step needs to be done only once per machine. Setup Node.js http-server server.
-```sh
-npm install http-server -g
-```
+   ```sh
+   npm install http-server -g
+   ```
 2. Unzip the project result zip file into a folder.
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
 4. Start your local node http-server server
-```
-[sudo] http-server <myfolder>
-```
+   ```
+   [sudo] http-server <myfolder>
+   ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to http://localhost:8080/ and select any of the html *.svf.* files <br />
 or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh'.
 
@@ -108,10 +108,10 @@ Viewing 'bubbles' offline using Python
 2. Unzip the project result zip file into a folder.
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
 4. Start your local Python http server
-'''sh
-cd <myfolder>
-python -m SimpleHTTPServer
-'''
+   '''sh
+   cd <myfolder>
+   python -m SimpleHTTPServer
+   '''
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to http://localhost:8000/ and select any of the html *.svf.* files.
 
 
