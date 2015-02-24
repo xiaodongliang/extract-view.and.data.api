@@ -67,30 +67,34 @@ Project.listProjects =function () {
 			var identifier =parts [parts.length - 1] ;
 			parts.splice (parts.length - 1, 1) ;
 			var bucket =parts.join ('.') ;
-			Project.createProjectVignette (bucket, identifier, results [i].progress, results [i].success) ;
+			Project.createProjectVignette (bucket, identifier, results [i]) ;
 		}
 	}) ;
 } ;
 
-Project.createProjectVignette =function (bucket, identifier, progress, percentage) {
-	progress =progress || 'complete' ;
-	percentage =percentage || '100%' ;
+Project.createProjectVignette =function (bucket, identifier, data) {
+	data.hasThumbnail =data.hasThumbnail || 'false' ;
+	data.progress =data.progress || 'complete' ;
+	if ( data.hasThumbnail == 'false' )
+		data.progress ='failed' ;
+	data.success =data.success || '100%' ;
 	var name =bucket + '.' + identifier ;
-	var progressui =(progress != 'complete' ? '<progress class="project-progress-bar" value="' + parseInt (percentage) + '" max="100"></progress>' : '') ;
-	var imageui =(progress != 'complete' ? 'processing' : name) ;
+	var progressui =(data.progress != 'complete' && data.progress != 'failed' ? '<progress class="project-progress-bar" value="' + parseInt (data.success) + '" max="100"></progress>' : '') ;
+	var imageui =(data.progress == 'complete' ? name : (data.progress == 'failed' ? 'failed' : 'processing')) ;
+	var url =(data.progress != 'failed' ? '/explore/' + name : '#') ;
 	$('#project-results').append (
 		'<div class="view view-first flex-item" id="' + name + '">'
 		//+	'<a href="#' + name + '" />'
 		+	'<img src="/images/' + imageui + '.png" />'
 		+ 	'<div class="mask">'
 		+		'<h2>' + bucket + '<br />' + identifier + '</h2>'
-		+		'<p>' + progress + ' (' + percentage + ')</p>'
-		+		'<a href="/explore/' + name + '" class="info" target="' + name + '">Explore</a>'
+		+		'<p>' + data.progress + ' (' + data.success + ')</p>'
+		+		'<a href="' + url + '" class="info" target="' + name + '">Explore</a>'
 		+	'</div>'
 		+	progressui
 		+ '</div>'
 	) ;
-	if ( progress != 'complete' )
+	if ( data.progress != 'complete' && data.progress != 'failed' )
 		setTimeout (function () { Project.projectProgress (bucket, identifier) ; }, 5000) ;
 } ;
 
@@ -108,14 +112,20 @@ Project.projectProgress =function (bucket, root) {
 			$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + bucket + '.' + root) ;
 			$(name + ' progress').remove () ;
 
-			$.ajax ({
-				url: '/api/results/' + bucket + '/' + root + '/thumbnail',
-				type: 'get',
-				complete: null
-			}).done (function (response) {
-				$(name + ' img').attr ('src', '/images/' + bucket + '.' + root + '.png') ;
-			}) ;
-
+			if ( response.hasThumbnail == "true" ) {
+				$.ajax ({
+					url: '/api/results/' + bucket + '/' + root + '/thumbnail',
+					type: 'get',
+					complete: null
+				}).done (function (response) {
+					$(name + ' img').attr ('src', '/images/' + bucket + '.' + root + '.png') ;
+				}) ;
+			} else {
+				$(name + ' div p').text ('failed') ;
+				$(name + ' img').attr ('src', '/images/failed.png') ;
+				$(name + ' div a.info').attr ('href', '#') ;
+				// TODO: show error message
+			}
 		} else {
 			$(name + ' progress').val (parseInt (response.progress)) ;
 			$(name + ' div p').text ('progress') ;
@@ -179,7 +189,7 @@ $(document).ready (function () {
 			//-   2. set the dependencies between files
 			//-   3. register the translation of the files
 			//- We know can wait for the service to complete
-			Project.createProjectVignette (bucket, root, 'requested', '0%') ;
+			Project.createProjectVignette (bucket, root, { 'progress': 'requested', 'success': '0%', 'hasThumbnail': 'true' }) ;
 			setTimeout (function () { Project.scrollTo (bucket, root) ; }, 100) ;
 			setTimeout (function () { Project.projectProgress (bucket, root) ; }, 5000) ;
 		}).fail (function (xhr, ajaxOptions, thrownError) {

@@ -72,6 +72,7 @@ router.get ('/results', function (req, res) {
 						name: files [i],
 						urn: data.urn,
 						date: data.startedAt,
+						hasThumbnail: data.hasThumbnail,
 						status: data.status,
 						success: data.success,
 						progress: data.progress
