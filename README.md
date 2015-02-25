@@ -57,7 +57,7 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
     "ejs" : ">= 2.2.4",
     "adm-zip": ">= 0.4.7",
     "archiver": ">= 0.14.3",
-    "rimraf": " >= 2.2.8"
+    "rimraf": ">= 2.2.8"
 	```
 		
 2. flow.js - A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable
@@ -77,8 +77,8 @@ The sample was created using Node.js and javascript.
    a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js<br />
 	```
-    Windows > copy credentials_.js credential.js
-    OSX/Linux > cp credentials_.js credential.js
+    Windows - copy credentials_.js credential.js
+    OSX/Linux - cp credentials_.js credential.js
 	```
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
