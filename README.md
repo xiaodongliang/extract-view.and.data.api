@@ -77,8 +77,8 @@ The sample was created using Node.js and javascript.
    a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js<br />
    ```
-   Windows > copy credentials_.js credential.js
-   OSX/Linux > cp credentials_.js credential.js
+     Windows > copy credentials_.js credential.js <br />
+     OSX/Linux > cp credentials_.js credential.js
    ```
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
@@ -92,7 +92,8 @@ The sample was created using Node.js and javascript.
    ```
    sudo node start.js
    ```
-   <b>Note:<b> the port argument can be omitted and default to port 80. If port 80 is already in use by another
+   <br />
+   <b>Note:</b> the port argument can be omitted and default to port 80. If port 80 is already in use by another
    application, you can use any other free port such as 8000, 3000, etc... But in the next section you would
    need to specify the port to use, i.e. http://localhost[:port]/
 
