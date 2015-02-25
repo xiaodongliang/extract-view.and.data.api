@@ -105,7 +105,9 @@ The sample was created using Node.js and javascript.
 
 Translating files / Extracting 'bubbles'
 
-1. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/)
+1. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/).
+   <b>Note:</b> In case you use a different port above do not forget to include it in teh URL. I.e.
+   [http://localhost:3000/](http://localhost:3000/).
 2. Drag'n Drop your files into the 'Drop area' or browse for individual files.
    Tips: start with the main file in your file has dependencies, that will build the connections automatically.
 3. If a connection is not correct, delete the connection by click on the connection line, and build a new connection
