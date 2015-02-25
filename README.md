@@ -76,10 +76,10 @@ The sample was created using Node.js and javascript.
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
    a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js<br />
-   ```
-     Windows > copy credentials_.js credential.js <br />
-     OSX/Linux > cp credentials_.js credential.js
-   ```
+	```
+    Windows > copy credentials_.js credential.js
+    OSX/Linux > cp credentials_.js credential.js
+	```
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
    the required node modules automatically for you.
