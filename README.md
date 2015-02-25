@@ -142,11 +142,12 @@ Viewing 'bubbles' offline using Python
    [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
 
 
-## Deploy offline viewing solutions
+## Package an offline viewing solutions
 
-### Deploy with Python
+### Package with Python
 
-Simply copy the Python directory on your CD, and launch the server via a script when your application wants to show a LMV result.
+On Windows only: simply copy the Python directory on your CD, and launch the server via a script when your application wants to show a LMV result. Make sure to set the PATH to point to your CD Python location to avoid errors.
+On OSX, Linux: Python is already installed, so you can use the default Python on these OS.
 
 ### Deploy with Node/http-server
 
