@@ -76,6 +76,10 @@ The sample was created using Node.js and javascript.
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
    a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js
+   ```
+   Windows > copy credentials_.js credential.js
+   OSX/Linux > cp credentials_.js credential.js
+   ```
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
    the required node modules automatically for you.
@@ -83,11 +87,14 @@ The sample was created using Node.js and javascript.
    ```
    npm install
    ```
-6. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
+6. You are done for the setup, launch the node server using the command '[sudo] node start.js [port]'.
    sudo is required only on OSX and Linux.<br />
    ```
    sudo node start.js
    ```
+   <b>Note:<b> the port argument can be omitted and default to port 80. If port 80 is already in use by another
+   application, you can use any other free port such as 8000, 3000, etc... But in the next section you would
+   need to specify the port to use, i.e. http://localhost[:port]/
 
 ### Use of the sample
 
