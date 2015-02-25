@@ -77,8 +77,8 @@ The sample was created using Node.js and javascript.
    a location where you have write permission, at least the 'tmp' and 'data' folders)
 3. Go in the ./server folder, and copy the credentials_.js into credentials.js
    ```
-   Windows > copy credentials_.js credential.js
-   OSX/Linux > cp credentials_.js credential.js
+   Windows > copy credentials_.js credential.js <br />
+   OSX/Linux > cp credentials_.js credential.js <br />
    ```
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Go in the sample root folder and execute 'npm install', this command will download and install
