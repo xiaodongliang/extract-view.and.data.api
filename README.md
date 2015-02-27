@@ -75,18 +75,18 @@ The sample was created using Node.js and javascript.
 1. Download and install [Node.js](http://nodejs.org/) (that will install npm as well)
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
    a location where you have write permission, at least the 'tmp' and 'data' folders)
-3. Go in the ./server folder, and copy the credentials_.js into credentials.js<br />
+3. From the sample root folder, rename or copy the ./server/credentials_.js file into ./server/credentials.js<br />
    * Windows<br />
      ```
-     copy credentials_.js credential.js
+     copy server/credentials_.js server/credentials.js
      ```
    * OSX/Linux<br />
      ```
-     cp credentials_.js credential.js
+     cp server/credentials_.js server/credentials.js
      ```
+   Optionally, you can ignore step 3 and step 4, if you wish to configure the server on first usage.
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
-5. Go in the sample root folder and execute 'npm install', this command will download and install
-   the required node modules automatically for you.
+5. Execute 'npm install', this command will download and install the required node modules automatically for you.
    These modules are only required for the translation/extraction processes.<br />
    ```
    npm install
