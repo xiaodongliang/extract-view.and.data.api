@@ -45,10 +45,8 @@ app.use (function (req, res, next) {
 		|| req.url == '/api/setup'
 		|| ( !test && pattern.test (req.url) && req.url != '/' )
 	) {
-		console.log ('next: ' + req.url) ;
 		next () ;
 	} else {
-		console.log ('redirect: ' + req.url) ;
 		res.writeHead (301, { Location: '/setup.html' }) ;
 		res.end () ;
 	}
