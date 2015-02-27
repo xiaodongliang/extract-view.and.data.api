@@ -19,7 +19,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 //
 
-// to avoid the EXDEV rename error, see http://stackoverflow.com/q/21071303/76173
+// To avoid the EXDEV rename error, see http://stackoverflow.com/q/21071303/76173
 process.env.TMPDIR ='tmp' ;
 //process.env ['NODE_TLS_REJECT_UNAUTHORIZED'] ='0' ; // Ignore 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' authorization error
 
@@ -35,7 +35,24 @@ var ejs =require ('./server/ejs') ;
 
 // http://garann.github.io/template-chooser/
 var app =express () ;
+//app.use (bodyParser.urlencoded ({ extended: false })) ;
 app.use (bodyParser.json ()) ;
+app.use (function (req, res, next) {
+	var pattern =new RegExp (/^(?!\/explore|\/api|\/index\.html)/) ;
+	var test =fs.existsSync ('server/credentials.js') ;
+	if (   test
+		|| req.url == '/setup.html'
+		|| req.url == '/api/setup'
+		|| ( !test && pattern.test (req.url) && req.url != '/' )
+	) {
+		console.log ('next: ' + req.url) ;
+		next () ;
+	} else {
+		console.log ('redirect: ' + req.url) ;
+		res.writeHead (301, { Location: '/setup.html' }) ;
+		res.end () ;
+	}
+}) ;
 app.use (express.static (__dirname + '/www')) ;
 app.set ('view engine', 'ejs') ;
 app.use ('/explore', ejs) ;

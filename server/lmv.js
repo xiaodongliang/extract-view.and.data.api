@@ -30,7 +30,18 @@ var util =require ('util') ;
 //var urlmod =require ('url') ;
 //var querystring =require ('querystring') ;
 var fs =require ('fs') ;
-var credentials =require ('./credentials') ;
+var credentials =null ;
+
+function initializeApp () {
+	fs.exists ('server/credentials.js', function (exists) {
+		if ( exists ) {
+			credentials =require ('./credentials') ;
+		} else {
+			setTimeout (initializeApp, 1000) ;
+		}
+	}) ;
+}
+initializeApp () ;
 
 if ( !Number.isInteger ) {
 	Number.isInteger =function isInteger (nVal) {
@@ -80,6 +91,8 @@ util.inherits (Lmv, events.EventEmitter) ;
 // POST /authentication/v1/authenticate
 /*static*/ Lmv.refreshToken =function () {
 	console.log ('Refreshing Autodesk Service token') ;
+	if ( credentials == null )
+		credentials =require ('./credentials') ;
 
 	var creds =new credentials () ;
 	var params ={

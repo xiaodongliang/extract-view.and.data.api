@@ -232,6 +232,24 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 					fullname =identifier + '/' + pathname + '.bat' ;
 					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
 					uris.push ({ name: fullname, content: data }) ;
+				} else if ( path.extname (results [i].name) == '.f2d' ) {
+					// Generate the html for local view
+					var pathname =results [i].name.substring (results [i].name.indexOf ('/output/') + 8) ;
+					pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
+					var fullname =identifier + '/' + path.basename (results [i].name) + '.html' ;
+					var st =fs.readFileSync ('views/view.ejs', 'utf-8') ;
+					var obj ={ svf: pathname, 'urn': '' } ;
+					var data =ejs.render (st, obj) ;
+					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
+					uris.push ({ name: fullname, content: data }) ;
+
+					pathname =path.basename (fullname) ;
+					st =fs.readFileSync ('views/go.ejs', 'utf-8') ;
+					obj ={ html: pathname } ;
+					data =ejs.render (st, obj) ;
+					fullname =identifier + '/' + pathname + '.bat' ;
+					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
+					uris.push ({ name: fullname, content: data }) ;
 				}
 			}
 			// Download the additional elements
@@ -408,7 +426,6 @@ router.get ('/results/test2', function (req, res) {
 	walk ('data/773432-Stockbettdwg', function (err, results) {
 		if ( err )
 			throw err ;
-		//console.log (results) ;
 
 		for ( var i =0 ; i < results.length ; i++ ) {
 			var data =fs.createReadStream (results [i]) ;

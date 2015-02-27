@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ADN Node.js Server Sample</title>
+
+    <!-- External libraries -->
+    <script src="https://code.jquery.com/jquery-2.1.2.js"></script><!-- jquery-2.1.2.min.js -->
+
+    <!-- Our scripts -->
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+
+<body>
+    <div id="project">
+
+        <hr />
+        <h3>LMV Node.js Sample Setup</h3>
+        <form action="/api/setup" method="post">
+            <div>You did not setup your 'server/credentials.js' file, so let's do it now.</div>
+            <br />
+            <div>
+                <label for="key">You public key: </label>
+                <input id="key" name="key" type="text" width="75" min="3" maxlength="63" required />
+            </div>
+            <br />
+            <div>
+                <label for="secret">You secret key: </label>
+                <input id="secret" name="secret" type="text" width="75" min="3" maxlength="63" required />
+            </div>
+            <br />
+            <input type="submit" value="Create credentials.js file" />
+        </form>
+        <br />
+
+    </div>
+
+</body>
+</html>

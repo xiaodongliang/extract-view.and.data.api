@@ -75,8 +75,9 @@
                     <div>
                         <label for="bucket">Bucket name: </label>
                         <input id="bucket" type="text" width="75" min="3" maxlength="63" style="text-transform: lowercase;" required
-                               placeholder="Enter a valid bucket name" pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+"
+                               placeholder="Enter a valid bucket name" pattern="^[-_.a-z0-9]{3,128}$"
                                />
+                        <!-- AWS pattern="(?!.*([\.])\1{1})[a-z0-9_\-]+[a-z0-9_\-\.]{1,61}[a-z0-9_\-]+" -->
                         <select id="policy">
                             <option value="transient" default>transient</option>
                             <option value="temporary">temporary</option>

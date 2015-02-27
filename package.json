@@ -2,7 +2,6 @@
 	"name": "AdnNodeJsServerSample",
 	"description": "A node.js server sample",
 	"version": "1.0.0",
-	"repository": "Developer-Autodesk/workflow-node.js-server-view.and.data.api",
 	"dependencies": {
 		"express": ">= 4.11.1",
 		"request": ">= 2.51.0",
@@ -36,5 +35,9 @@
 	
 	"scripts": {
 		"start": "node start.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api.git"
 	}
 }
