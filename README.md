@@ -84,7 +84,7 @@ The sample was created using Node.js and javascript.
      ```
      cp server/credentials_.js server/credentials.js
      ```
-   Optionally, you can ignore step 3 and step 4, if you wish to configure the server on first usage.
+   <br /><b>Note</b>, you can ignore step 3 and step 4, if you wish to configure the server from the browser on first usage.
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Execute 'npm install', this command will download and install the required node modules automatically for you.
    These modules are only required for the translation/extraction processes.<br />
