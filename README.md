@@ -84,7 +84,8 @@ The sample was created using Node.js and javascript.
      ```
      cp server/credentials_.js server/credentials.js
      ```
-   <br /><b>Note</b>, you can ignore step 3 and step 4, if you wish to configure the server from the browser on first usage.
+   <br />
+   <b>Note</b>, you can ignore step 3 and step 4, if you wish to configure the server from the browser on first usage.
 4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
 5. Execute 'npm install', this command will download and install the required node modules automatically for you.
    These modules are only required for the translation/extraction processes.<br />
@@ -105,7 +106,7 @@ The sample was created using Node.js and javascript.
 
 Translating files / Extracting 'bubbles'
 
-1. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/).
+1. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/).<br />
    <b>Note:</b> In case you use a different port above do not forget to include it in the URL. I.e.
    [http://localhost:3000/](http://localhost:3000/).
 2. Drag'n Drop your files into the 'Drop area' or browse for individual files.
