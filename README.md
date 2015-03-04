@@ -92,15 +92,21 @@ The sample was created using Node.js and javascript.
    ```
    npm install
    ```
-6. You are done for the setup, launch the node server using the command '[sudo] node start.js [port]'.
+6. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
    sudo is required only on OSX and Linux.<br />
+   * Windows<br />
    ```
-   sudo node start.js
+   [set PORT=<port>]
+   node start.js
+   ```
+   * OSX/Linux<br />
+   ```
+   sudo [PORT=<port>] node start.js
    ```
    <br />
    <b>Note:</b> the port argument can be omitted and default to port 80. If port 80 is already in use by another
-   application, you can use any other free port such as 8000, 3000, etc... But in the next section you would
-   need to specify the port to use, i.e. http://localhost[:port]/
+   application (like Skype, or IIS, or Apacahe, ...), you can use any other free port such as 8000, 3000, etc... 
+   But in the next section you would need to specify the port to use, i.e. http://localhost[:port]/
 
 ### Use of the sample
 
