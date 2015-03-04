@@ -76,7 +76,7 @@ Project.createProjectVignette =function (bucket, identifier, data) {
 	data.hasThumbnail =data.hasThumbnail || 'false' ;
 	data.progress =data.progress || 'complete' ;
 	if ( data.hasThumbnail == 'false' )
-		data.progress ='failed' ;
+        data.progress ='project' ;
 	data.success =data.success || '100%' ;
 	var name =bucket + '.' + identifier ;
 	var progressui =(data.progress != 'complete' && data.progress != 'failed' ? '<progress class="project-progress-bar" value="' + parseInt (data.success) + '" max="100"></progress>' : '') ;
@@ -112,7 +112,7 @@ Project.projectProgress =function (bucket, root) {
 			$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + bucket + '.' + root) ;
 			$(name + ' progress').remove () ;
 
-			if ( response.hasThumbnail == "true" ) {
+			if ( response.hasThumbnail == 'true' ) {
 				$.ajax ({
 					url: '/api/results/' + bucket + '/' + root + '/thumbnail',
 					type: 'get',
@@ -121,10 +121,7 @@ Project.projectProgress =function (bucket, root) {
 					$(name + ' img').attr ('src', '/images/' + bucket + '.' + root + '.png') ;
 				}) ;
 			} else {
-				$(name + ' div p').text ('failed') ;
-				$(name + ' img').attr ('src', '/images/failed.png') ;
-				$(name + ' div a.info').attr ('href', '#') ;
-				// TODO: show error message
+                $(name + ' img').attr ('src', '/images/project.png') ;
 			}
 		} else {
 			$(name + ' progress').val (parseInt (response.progress)) ;

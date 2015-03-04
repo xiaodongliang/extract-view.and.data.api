@@ -311,12 +311,12 @@ Lmv.prototype.setDependencies =function (connections) {
 
 	var desc ={ 'dependencies': [] } ;
 	var master ='' ;
-	for ( var key in connections ) {
+    for ( var key =0 ; key < connections.length ; key++ ) {
 		if ( key == 'lmv-root' ) {
 			master =connections [key] [0] ;
 			desc.master =this.getURN (master) ;
 		} else { //if ( !data [key].hasOwnProperty (children) )
-			for ( var subkey in connections [key] ) {
+            for ( var subkey =0 ; subkey < connections [key].length ; subkey++ ) {
 				var obj = {
 					'file': this.getURN (connections [key] [subkey]),
 					'metadata': {
