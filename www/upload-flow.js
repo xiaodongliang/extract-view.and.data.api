@@ -38,7 +38,7 @@ $(document).ready (function () {
 		// Add the file to the list
 		$('.flow-list').append (
 			   '<li class="flow-file flow-file-' + file.uniqueIdentifier + '">'
-			+ 'Uploading <span class="flow-file-name"></span> '
+			+ '<span class="flow-file-prefix">Uploading </span><span class="flow-file-name"></span> '
 			+ '<span class="flow-file-size"></span> '
 			+ '<span class="flow-file-progress"></span> '
 			+ '<a href="" class="flow-file-download" target="_blank">'
@@ -105,10 +105,12 @@ $(document).ready (function () {
 	r.on ('complete', function () {
 		// Hide pause/resume when the upload has completed
 		$('.flow-progress .progress-resume-link, .flow-progress .progress-pause-link').hide () ;
+		$('.flow-progress').hide () ;
 	}) ;
 	r.on ('fileSuccess', function (file,message) {
 		var $self = $('.flow-file-'+file.uniqueIdentifier);
 		// Reflect that the file upload has completed
+		$self.find ('.flow-file-prefix').text ('') ;
 		$self.find ('.flow-file-progress').text ('(completed)') ;
 		$self.find ('.flow-file-pause, .flow-file-resume').remove () ;
 		$self.find ('.flow-file-download').attr ('href', '/api/file/' + file.uniqueIdentifier).show () ;

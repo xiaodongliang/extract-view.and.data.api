@@ -40,7 +40,14 @@ router.post ('/file', multipartMiddleware, function (req, res) {
 				if ( err )
 					console.log (err) ;
 			}) ;
-			//fs.renameSync () ;
+			var st =fs.createWriteStream ('./tmp/' + original_filename) ;
+			st.on ('finish', function () {}) ;
+			flow.write (identifier, st, {
+				end: true,
+				onDone: function () {
+					flow.clean (identifier) ;
+				}
+			}) ;
 		}
 		//if ( ACCESS_CONTROLL_ALLOW_ORIGIN )
 		//	res.header ("Access-Control-Allow-Origin", "*") ;
@@ -61,11 +68,7 @@ router.get ('/file', function (req, res) {
 		console.log ('GET', status) ;
 		//if ( ACCESS_CONTROLL_ALLOW_ORIGIN )
 		//	res.header("Access-Control-Allow-Origin", "*") ;
-		if ( status == 'found' )
-			status =200 ;
-		else
-			status =404 ; //- 404 Not Found
-		res.status (status).send () ;
+		res.status (status == 'found' ? 200 : 404).send () ; //- 404 Not Found
 	}) ;
 }) ;
 
@@ -84,7 +87,7 @@ router.get ('/file/*', function (req, res) {
 	var data =fs.readFileSync ('data/' + identifier + '.json') ;
 	data =JSON.parse (data) ;
 	//console.log (JSON.stringify (data)) ;
-	var serverFile =__dirname + '/../tmp/flow-' + identifier + '.1' ;
+	var serverFile =__dirname + '/../tmp/' + data.name ;
 	fs.exists (serverFile, function (exists) {
 		if ( exists )
 			res.download (serverFile, data.name) ;

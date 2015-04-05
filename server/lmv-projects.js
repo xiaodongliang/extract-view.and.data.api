@@ -60,7 +60,7 @@ router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
-		return (res.json ({ progress: 0 })) ;
+		return (res.json ({ 'guid': '', 'progress': '0% complete', 'startedAt': new Date ().toUTCString (), 'status': 'requested', 'success': '0%', 'urn': '' })) ;
 	new lmv.Lmv (bucket).status (urn)
 		.on ('success', function (data) {
 			//console.log (data) ;

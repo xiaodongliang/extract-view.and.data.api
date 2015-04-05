@@ -241,7 +241,7 @@ Lmv.prototype.uploadFile =function (identifier) {
 	var creds =new credentials () ;
 	var idData =fs.readFileSync ('data/' + identifier + '.json') ;
 	idData =JSON.parse (idData) ;
-	var serverFile =__dirname + '/../tmp/flow-' + identifier + '.1' ;
+	var serverFile =__dirname + '/../tmp/' + idData.name ;
 	var file =fs.readFile (serverFile, function (err, data) {
 		if ( err ) {
 			self.emit ('fail', err) ;

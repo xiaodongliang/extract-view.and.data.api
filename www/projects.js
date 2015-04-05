@@ -98,7 +98,8 @@ Project.createProjectVignette =function (bucket, identifier, data) {
 		setTimeout (function () { Project.projectProgress (bucket, identifier) ; }, 5000) ;
 } ;
 
-Project.projectProgress =function (bucket, root) {
+Project.projectProgress =function (bucket, root, nb) {
+	nb =nb || 0 ;
 	$.ajax ({
 		url: '/api/projects/' + bucket + '/' + root + '/progress',
 		type: 'get',
@@ -132,6 +133,12 @@ Project.projectProgress =function (bucket, root) {
 	}).fail (function (xhr, ajaxOptions, thrownError) {
 		var name ='#' + bucket + '\\.' + root ;
 		console.log ('Progress request failed!') ;
+
+		if ( nb < 2 ) {
+			setTimeout (function () { Project.projectProgress (bucket, root, ++nb) ; }, 2500) ;
+			return ;
+		}
+
 		$(name + ' progress').remove () ;
 		$(name + ' div p').text ('Failed!') ;
 		$(name + ' img').attr ('src', '/images/failed.png') ;
