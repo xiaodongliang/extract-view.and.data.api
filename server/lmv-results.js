@@ -353,7 +353,7 @@ function loopManifest (doc, urnParent) {
 	var data =[] ;
 	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
 		//data.push (urnParent + '/' + doc.URI) ;
-		data.push (path.normalize (urnParent + '/' + doc.URI).split ('\\').join ('/')) ;
+		data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
 	if ( doc.assets !== undefined ) {
 		for ( var i in doc.assets )
 			data =data.concat (loopManifest (doc.assets [i], urnParent)) ;
