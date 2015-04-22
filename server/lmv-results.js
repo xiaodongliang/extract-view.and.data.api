@@ -31,6 +31,7 @@ var AdmZip =require ('adm-zip') ;
 var archiver =require ('archiver') ;
 var ejs =require ('ejs') ;
 var timeout =require ('connect-timeout') ;
+var uncompress =require ('compress-buffer').uncompress ;
 
 Array.prototype.unique =function () {
 	var a =this.concat () ;
@@ -168,6 +169,15 @@ router.get ('/results/:bucket/:identifier/project', timeout('900s'), function (r
 			var items =loopObject (data) ;
 			items =items.filter (function (item) { return (item !== undefined) ; }) ;
 			items.shift () ;
+
+			// Get manifest & metadata files for f2d file
+			for ( var i =0 ; i < items.length ; i++ ) {
+				if ( path.extname (items [i]) == '.f2d' ) {
+					items.push (path.dirname (items [i]) + '/manifest.json.gz') ;
+					items.push (path.dirname (items [i]) + '/metadata.json.gz') ;
+				}
+			}
+
 			async.map (items,
 				function (item, callback) { // Each tasks execution
 					new lmv.Lmv (bucket).downloadItem (item)
@@ -251,6 +261,10 @@ router.get ('/results/:bucket/:identifier/project', timeout('900s'), function (r
 					fullname =identifier + '/' + pathname + '.bat' ;
 					fs.writeFile ('data/' + fullname, data, function (err) {}) ;
 					uris.push ({ name: fullname, content: data }) ;
+				} else if ( path.basename (results [i].name) == 'manifest.json.gz' ) {
+					var content =results [i].content ;
+					var manifest =JSON.parse (uncompress (content).toString ('utf8')) ;
+					uris =uris.concat (loopManifest (manifest, path.dirname (results [i].urn))) ;
 				}
 			}
 			// Download the additional elements
