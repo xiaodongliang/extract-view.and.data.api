@@ -30,6 +30,7 @@ var lmv =require ('./lmv') ;
 var AdmZip =require ('adm-zip') ;
 var archiver =require ('archiver') ;
 var ejs =require ('ejs') ;
+var timeout =require ('connect-timeout') ;
 
 Array.prototype.unique =function () {
 	var a =this.concat () ;
@@ -135,7 +136,7 @@ router.get ('/results/:bucket/:identifier', function (req, res) {
 }) ;
 
 // Get the bucket/identifier viewable data as a zip file containing all resources
-router.get ('/results/:bucket/:identifier/project', function (req, res) {
+router.get ('/results/:bucket/:identifier/project', timeout('900s'), function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
@@ -261,7 +262,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 						.on ('success', function (data) {
 							//var filename =item.split ('/').pop () ;
 							var filename =path.basename (item) ;
-							var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/output/') + 8)
+							var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/output/') + 8) ;
 							var filepath =path.dirname (fullpath) ;
 							try {
 								if ( !fs.existsSync (filepath) )
@@ -272,7 +273,14 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 							callback (null, { urn: item, name: fullpath.substring (5), content: data }) ;
 						})
 						.on ('fail', function (err) {
-							callback (err, null) ;
+							if ( err == 404 ) {
+								console.log ('Error 404 - ' + item + ' <ignoring>') ;
+								var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/output/') + 8) ;
+								callback (null, { urn: item, name: fullpath.substring (5), content: null }) ;
+							} else {
+								console.log ('Error ' + err + ' - item') ;
+								callback (err, null) ;
+							}
 						})
 					;
 				},
@@ -344,7 +352,8 @@ function loopObject (doc) {
 function loopManifest (doc, urnParent) {
 	var data =[] ;
 	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
-		data.push (urnParent + '/' + doc.URI) ;
+		//data.push (urnParent + '/' + doc.URI) ;
+		data.push (path.normalize (urnParent + '/' + doc.URI).split ('\\').join ('/')) ;
 	if ( doc.assets !== undefined ) {
 		for ( var i in doc.assets )
 			data =data.concat (loopManifest (doc.assets [i], urnParent)) ;
