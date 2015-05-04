@@ -163,10 +163,28 @@ Viewing 'bubbles' offline using Python
 On Windows only: simply copy the Python directory on your CD, and launch the server via a script when your application wants to show a LMV result. Make sure to set the PATH to point to your CD Python location to avoid errors.
 On OSX, Linux: Python is already installed, so you can use the default Python on these OS.
 
+Usage:
+```
+cd <my sample directory>
+python -m SimpleHTTPServer [port]
+```
+
 ### Package with Node/http-server
 
-TBD
+on all platform you may install the http-server utility. http-server is a simple, zero-configuration command-line http server. It is powerful enough for production usage, but it's simple and hackable enough to be used for testing, local development, and learning.
 
+To  install http-server, go on your node.js console and enter the following command:
+```
+npm install http-server -g
+```
+
+Usage:
+```
+cd <my sample directory>
+http-server [path] [options]
+```
+
+[path] defaults to ./public if the folder exists, and ./ otherwise.
 
 --------
 
