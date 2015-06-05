@@ -52,7 +52,7 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
     "util": ">= 0.10.3",
     "stream": ">= 0.0.2",
     "unirest": ">= 0.4.0",
-    "async": ">= 0.9.0",
+    "async": ">= 1.2.0",
     "url": ">= 0.10.2",
     "ejs" : ">= 2.2.4",
     "adm-zip": ">= 0.4.7",
