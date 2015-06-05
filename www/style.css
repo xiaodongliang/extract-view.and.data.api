@@ -157,3 +157,5 @@ path { cursor: pointer; }
 
 div#viewer { width: auto; height: 700px; cursor: pointer; padding: 0px; margin-bottom: 20px; position: relative; overflow: hidden;
 	background-color: #eee; border: 2px dashed #aaa; border-radius: 10px; }
+
+.viewableIcon { background-image: url('/img/pause.png'); background-position: 0px 0px; }

@@ -54,6 +54,7 @@
                                     $('#bubblesImg').attr ('src', '/img/download.png') ;
                                     $('#bubblesImg').attr ('title', 'Download Viewables') ;
                                     $('#bubblesA').attr ('href', '/extracted/<%= root %>.zip') ;
+                                    oExtracted =true ;
                                 }
                             }) ;
                         }, 5000) ;
@@ -93,6 +94,7 @@
                     var root ={ 'title': doc.myData.children [0].name, 'key': doc.myData.guid, 'folder': true, 'children': [] } ;
                     root.children =loopDoc (doc.myData) ;
                     $('#doctree').fancytree ({
+                        //imagePath: 'img/',
                         source: [ root.children [0] ],
                         checkbox: false,
                         click: fancyTreeClick
@@ -107,6 +109,7 @@
                         var root ={ 'title': response.children [0].name, 'key': response.guid, 'folder': true, 'children': [] } ;
                         root.children =loopDoc (response) ;
                         $('#fulltree').fancytree ({
+                            //imagePath: 'img/',
                             source: [ root.children [0] ],
                             checkbox: false,
                             click: fancyTreeClick
@@ -128,7 +131,9 @@
             var data =[] ;
             $.each (doc.children, function (key, value) {
                 var folder =(value.children !== undefined && value.children.length > 0) ;
-                var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder, 'role': value.role } ;
+                var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder, 'role': value.role } ; //'extraClasses': 'viewableIcon'
+                if ( value.role == '3d' || value.role == '2d' )
+                    node.data ={ icon: '/img/view.png'/*, isLocked: true*/ } ;
                 if ( folder == true )
                     node.children =loopDoc (value) ;
                 data.push (node) ;
@@ -166,6 +171,11 @@
         <hr />
         <h3>LMV Node.js Sample</h3>
         <div id="viewer"></div>
+        <br />
+
+        <hr />
+        <h3>Note</h3>
+        <div>You can switch views by clicking on items with the following icon <img src="/img/view.png" width="16"/></div>
         <br />
 
         <hr />
