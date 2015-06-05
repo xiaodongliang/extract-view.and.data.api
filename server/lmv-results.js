@@ -31,8 +31,8 @@ var AdmZip =require ('adm-zip') ;
 var archiver =require ('archiver') ;
 var ejs =require ('ejs') ;
 var zlib =require ('zlib') ;
-var nodemailer =require ('nodemailer') ;
-var directTransport =require ('nodemailer-direct-transport') ;
+//var nodemailer =require ('nodemailer') ;
+//var directTransport =require ('nodemailer-direct-transport') ;
 
 var router =express.Router () ;
 router.use (bodyParser.json ()) ;
