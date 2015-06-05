@@ -24,16 +24,32 @@ var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var lmv =require ('./lmv') ;
 
+var zlib =require ('zlib') ;
+
 function initializeApp () {
-	fs.exists ('server/credentials.js', function (exists) {
-		if ( exists ) {
-			var seconds =1700 ; // Service returns 1799 seconds bearer token
-			setInterval (lmv.Lmv.refreshToken, seconds * 1000) ;
-			lmv.Lmv.refreshToken () ;
-		} else {
-			setTimeout (initializeApp, 1000) ;
-		}
-	}) ;
+	var seconds =1700 ; // Service returns 1799 seconds bearer token
+	setInterval (lmv.Lmv.refreshToken, seconds * 1000) ;
+	lmv.Lmv.refreshToken () ;
+
+	//var input = new Buffer('lorem ipsum dolor sit amet', 'utf8') ;
+	//zlib.deflate(input) ;
+	//zlib.deflate(input).toString('utf8') ;
+	//zlib.inflate(zlib.deflate(input)) ;
+	//zlib.inflate(zlib.deflate(input)).toString('utf8') ;
+
+	//var st =fs.readFileSync ('server/objects_attrs.json.gz', 'utf-8') ;
+
+	/*var st =fs.readFile ('data/objects_attrs.json.gz', function (err, data) {
+		var buffer = new Buffer ('eJzT0yMAAGTvBe8=', 'base64');
+		zlib.unzip (data, function (err, buffer) {
+			if ( !err ) {
+				console.log (buffer.toString ());
+			}
+		});
+	}) ;*/
+	//var st =fs.readFileSync ('data/objects_attrs.json.gz') ;
+	//var gg =zlib.unzip (st) ;
+
 }
 initializeApp () ;
 
@@ -53,8 +69,8 @@ router.post ('/setup', bodyParser.urlencoded ({ extended: false }), function (re
 		}
 
 		data =data.toString ('utf8') ;
-		data =data.replace ('Replace_with_your_own_consumer_key', key) ;
-		data =data.replace ('Replace_with_your_own_secret_key', secret) ;
+		data =data.replace ('<replace with your consumer key>', key) ;
+		data =data.replace ('<replace with your consumer secret>', secret) ;
 
 		fs.writeFile ('server/credentials.js', data, function (err) {
 			if ( err ) {

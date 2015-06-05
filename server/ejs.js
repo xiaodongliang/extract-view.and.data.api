@@ -31,6 +31,14 @@ var router =express.Router () ;
 router.get ('/:bucket.:identifier', function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
+
+	var zipExist =false ;
+	try {
+		fs.lstatSync ('www/extracted/' + identifier + '.zip') ;
+		zipExist =true ;
+	} catch ( err ) {
+	}
+
 	try {
 		var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
 		data =JSON.parse (data) ;
@@ -38,7 +46,8 @@ router.get ('/:bucket.:identifier', function (req, res) {
 			urn: data.urn,
 			'bucket': bucket,
 			root: identifier,
-			accessToken: lmv.Lmv.getToken ()
+			accessToken: lmv.Lmv.getToken (),
+			extracted: zipExist.toString ()
 		} ;
 		res.render ('explore', obj) ;
 	} catch ( err ) {

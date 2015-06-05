@@ -60,7 +60,7 @@ router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
-		return (res.json ({ 'guid': '', 'progress': '0% complete', 'startedAt': new Date ().toUTCString (), 'status': 'requested', 'success': '0%', 'urn': '' })) ;
+		return (res.json ({ 'guid': '', 'progress': 'uploading to oss', 'startedAt': new Date ().toUTCString (), 'status': 'requested', 'success': '0%', 'urn': '' })) ;
 	new lmv.Lmv (bucket).status (urn)
 		.on ('success', function (data) {
 			//console.log (data) ;
@@ -151,7 +151,7 @@ router.post ('/projects', function (req, res) {
 			console.log ('createBucketIfNotExist') ;
 			new lmv.Lmv (bucket).createBucketIfNotExist (policy)
 				.on ('success', function (data) {
-					console.log ('Bucket already or now exist!') ;
+					console.log ('Bucket created (or did exist already)!') ;
 					callbacks1 (null, 1) ;
 				})
 				.on ('fail', function (err) {
@@ -162,10 +162,10 @@ router.post ('/projects', function (req, res) {
 		},
 
 		function (callbacks2) {
-			console.log ('async uploads') ;
+			console.log ('async uploading(s)') ;
 			async.each (items,
 				function (item, callback) { // Each tasks execution
-					console.log ('async upload ' + item) ;
+					console.log ('async uploading ' + item) ;
 					new lmv.Lmv (bucket).uploadFile (item)
 						.on ('success', function (data) {
 							console.log (item + ' upload completed!') ;
@@ -178,7 +178,7 @@ router.post ('/projects', function (req, res) {
 					;
 				},
 				function (err) { //- All tasks are done
-					if ( err !== undefined )
+					if ( err !== undefined && err !== null )
 						return (console.log ('Something wrong happened during upload')) ;
 
 					console.log ('All files uploaded') ;
@@ -223,7 +223,7 @@ router.post ('/projects', function (req, res) {
 	}) ;
 
 	res
-		//.statux (202) //- 202 Accepted
+		//.status (202) //- 202 Accepted
 		.json ({ 'status': 'submitted' }) ;
 }) ;
 

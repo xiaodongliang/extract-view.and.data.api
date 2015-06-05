@@ -18,12 +18,20 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //
-var credentials =function () {
-	this.Hostname ='developer.api.autodesk.com' ;
-	this.BaseUrl ='https://' + this.Hostname ;
-	this.ClientId ='Replace_with_your_own_consumer_key' ;
-	this.ClientSecret ='Replace_with_your_own_secret_key' ;
-	this.AuthenticateUrl =this.BaseUrl + '/authentication/v1/authenticate' ;
+var config ={
+	credentials: {
+		// Replace placeholder below by the Consumer Key and Consumer Secret you got from
+		// http://developer.autodesk.com/ for the production server
+		client_id: process.env.CONSUMERKEY || '<replace with your consumer key>',
+		client_secret: process.env.CONSUMERSECRET || '<replace with your consumer secret>',
+		grant_type: 'client_credentials'
+	},
+
+	// If you which to use the Autodesk View & Data API on the staging server, change this url
+	BaseEndPoint: 'https://developer.api.autodesk.com',
+	Version: 'v1'
 } ;
 
-module.exports =credentials ;
+config.AuthenticateEndPoint =config.BaseEndPoint + '/authentication/' + config.Version + '/authenticate'
+
+module.exports =config ;

@@ -125,8 +125,8 @@ Project.projectProgress =function (bucket, root, nb) {
                 $(name + ' img').attr ('src', '/images/project.png') ;
 			}
 		} else {
-			$(name + ' progress').val (parseInt (response.progress)) ;
-			$(name + ' div p').text ('progress') ;
+			$(name + ' progress').val (parseInt (response.progress) || 0) ;
+			$(name + ' div p').text (response.progress) ;
 
 			setTimeout (function () { Project.projectProgress (bucket, root) ; }, 500) ;
 		}

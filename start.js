@@ -37,20 +37,6 @@ var ejs =require ('./server/ejs') ;
 var app =express () ;
 //app.use (bodyParser.urlencoded ({ extended: false })) ;
 app.use (bodyParser.json ()) ;
-app.use (function (req, res, next) {
-	var pattern =new RegExp (/^(?!\/explore|\/api|\/index\.html)/) ;
-	var test =fs.existsSync ('server/credentials.js') ;
-	if (   test
-		|| req.url == '/setup.html'
-		|| req.url == '/api/setup'
-		|| ( !test && pattern.test (req.url) && req.url != '/' )
-	) {
-		next () ;
-	} else {
-		res.writeHead (301, { Location: '/setup.html' }) ;
-		res.end () ;
-	}
-}) ;
 app.use (express.static (__dirname + '/www')) ;
 app.set ('view engine', 'ejs') ;
 app.use ('/explore', ejs) ;

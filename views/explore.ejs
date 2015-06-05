@@ -22,9 +22,45 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
 
     <script>
-        var oViewer =null ;
-        var oViewable =null ;
+        var oExtracted =<%= extracted %> ;
+        var oDocument =null, oViewer =null ;
+        var oViewables =null, oViews3D =null, oViews2D =null ;
         $(document).ready (function () {
+            if ( oExtracted ) {
+                $('#bubblesImg').attr ('src', '/img/download.png') ;
+                $('#bubblesImg').attr ('title', 'Download Viewables') ;
+                $('#bubblesA').attr ('href', '/extracted/<%= root %>.zip') ;
+            } else {
+                //
+                $('#bubblesA').click (function (e) {
+                    $('#bubblesImg').attr ('src', '/img/extracting.gif') ;
+                    $('#bubblesImg').attr ('title', 'Extracting Viewables') ;
+
+                    $.ajax ({
+                        url: 'http://' + window.location.host + '/api/results/<%= bucket %>/<%= root %>/project',
+                        type: 'get',
+                        complete: null
+                    }).done (function (results) {
+                        var intervalRef =setInterval (function () {
+                            $.ajax ({
+                                url: 'http://' + window.location.host + '/extracted/<%= root %>.zip',
+                                type: 'HEAD',
+                                error: function () {
+                                    // not yet there
+                                },
+                                success: function () {
+                                    clearInterval (intervalRef) ;
+                                    $('#bubblesImg').attr ('src', '/img/download.png') ;
+                                    $('#bubblesImg').attr ('title', 'Download Viewables') ;
+                                    $('#bubblesA').attr ('href', '/extracted/<%= root %>.zip') ;
+                                }
+                            }) ;
+                        }, 5000) ;
+                    }) ;
+                    $('#bubblesA').prop ('onclick', null).off ('click') ;
+                }) ;
+            }
+
             var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
             oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
@@ -40,16 +76,25 @@
 
             Autodesk.Viewing.Document.load ('urn:' + options.document, //options.accessToken,
                 function (doc) { // onLoadCallback
-                    var geometryItems =[] ;
-                    geometryItems =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { 'type' : 'geometry', 'role' : '3d' }, true) ;
-                    if ( geometryItems.length > 0 )
-                        oViewer.load (doc.getViewablePath (geometryItems [0])) ;
+                    oDocument =doc ;
+                    // Get all the 3D and 2D views (but keep in separate arrays so we can differentiate in the UI)
+                    oViews3D =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { 'type': 'geometry', 'role': '3d' }, true) ;
+                    oViews2D =Autodesk.Viewing.Document.getSubItemsWithProperties (doc.getRootItem (), { 'type': 'geometry', 'role': '2d' }, true) ;
+
+                    // Load up first a 3D view by default
+                    if ( oViews3D.length > 0 )
+                        oViewer.load (doc.getViewablePath (oViews3D [0])) ;
+                    else if ( oViews2D.length > 0 )
+                        oViewer.load (doc.getViewablePath (oViews2D [0])) ;
+                    else
+                        return (alert ('ERROR: No 3D or 2D views found in this document!')) ;
 
                     var root ={ 'title': doc.myData.children [0].name, 'key': doc.myData.guid, 'folder': true, 'children': [] } ;
                     root.children =loopDoc (doc.myData) ;
                     $('#doctree').fancytree ({
                         source: [ root.children [0] ],
-                        checkbox: false
+                        checkbox: false,
+                        click: fancyTreeClick
                     }) ;
 
                     $.ajax ({
@@ -57,12 +102,13 @@
                         type: 'get',
                         complete: null
                     }).done (function (response) {
-                        oViewable =response ;
+                        oViewables =response ;
                         var root ={ 'title': response.children [0].name, 'key': response.guid, 'folder': true, 'children': [] } ;
                         root.children =loopDoc (response) ;
                         $('#fulltree').fancytree ({
                             source: [ root.children [0] ],
-                            checkbox: false
+                            checkbox: false,
+                            click: fancyTreeClick
                         }) ;
                         $('#fulltree').fancytree ('getTree').visit (function (node){
                             node.setExpanded (true) ;
@@ -81,7 +127,7 @@
             var data =[] ;
             $.each (doc.children, function (key, value) {
                 var folder =(value.children !== undefined && value.children.length > 0) ;
-                var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder } ;
+                var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder, 'role': value.role } ;
                 if ( folder == true )
                     node.children =loopDoc (value) ;
                 data.push (node) ;
@@ -95,6 +141,19 @@
             else if ( value.role !== undefined && value.urn !== undefined )
                 return (value.urn.split ('/').pop ()) ;
             return ('?') ;
+        }
+
+        function fancyTreeClick (event, data) {
+            if ( data.targetType == 'expander' )
+                return ;
+            var node =data.node ; // key title
+            if ( node.data.role != '3d' && node.data.role != '2d' )
+                return ;
+            var viewObj =Autodesk.Viewing.Document.getSubItemsWithProperties (oDocument.getRootItem (), { 'type': 'geometry', 'role': node.data.role, 'guid': node.key }, true) ;
+            if ( viewObj.length == 0 )
+                return ;
+            var path =oDocument.getViewablePath (viewObj [0]) ;
+            oViewer.load (path, oDocument.getPropertyDbPath ()) ;
         }
     </script>
 </head>
@@ -116,7 +175,7 @@
         <hr />
         <div>
             <div class="left"><h3>Full Viewable Data</h3></div>
-            <div class="right"><a href="/api/results/<%= bucket %>/<%= root %>/project"><img src="/img/download.png" title="Download Viewables" /></a></div>
+            <div class="right"><a id="bubblesA" href="javascript:void(0)"><img id="bubblesImg" src="/img/extract.png" title="Extract Viewables" /></a></div>
             <div class="clear"></div>
         </div>
         <div id="fulltree"></div>

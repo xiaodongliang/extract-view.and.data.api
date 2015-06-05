@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/file.js" afterPath="$PROJECT_DIR$/server/file.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/credentials_.js" afterPath="$PROJECT_DIR$/server/credentials_.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/ejs.js" afterPath="$PROJECT_DIR$/server/ejs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/explore.ejs" afterPath="$PROJECT_DIR$/views/explore.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-projects.js" afterPath="$PROJECT_DIR$/server/lmv-projects.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-results.js" afterPath="$PROJECT_DIR$/server/lmv-results.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-token.js" afterPath="$PROJECT_DIR$/server/lmv-token.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv.js" afterPath="$PROJECT_DIR$/server/lmv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/projects.js" afterPath="$PROJECT_DIR$/www/projects.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/upload-flow.js" afterPath="$PROJECT_DIR$/www/upload-flow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start.js" afterPath="$PROJECT_DIR$/start.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
@@ -30,17 +35,47 @@
     <favorites_list name="workflow-node.js-server-view.and.data.api" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="lmv-results.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.87994146" vertical-offset="3224" max-vertical-offset="4437">
+              <caret line="436" column="1" selection-start-line="436" selection-start-column="1" selection-end-line="436" selection-end-column="1" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#1470#2265#0" expanded="false" />
+                <element signature="n#!!block;n#filterProject#0" expanded="false" />
+                <element signature="e#2702#3375#0" expanded="false" />
+                <element signature="e#3487#3991#0" expanded="false" />
+                <element signature="e#4150#5344#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GetItems#0" expanded="false" />
+                <element signature="n#!!block;n#DownloadAndSaveItemToDisk#0" expanded="false" />
+                <element signature="n#!!block;n#filterItems#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
+                <element signature="n#!!block;n#wf1End_PackPackItems#0" expanded="false" />
+                <element signature="n#!!block;n#loopObject#0" expanded="false" />
+                <element signature="n#!!block;n#loopManifest#0" expanded="false" />
+                <element signature="e#16787#17401#0" expanded="false" />
+                <element signature="e#17455#17697#0" expanded="false" />
+                <element signature="e#17733#18320#0" expanded="false" />
+                <element signature="e#18374#18822#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/buckets.txt" />
-        <option value="$PROJECT_DIR$/server/credentials_.js" />
-        <option value="$PROJECT_DIR$/server/credentials.js" />
         <option value="$PROJECT_DIR$/server/flow-node.js" />
         <option value="$PROJECT_DIR$/server/fileupload.js" />
         <option value="$PROJECT_DIR$/www/submit-project.js" />
@@ -53,22 +88,24 @@
         <option value="$PROJECT_DIR$/www/explore.html" />
         <option value="$PROJECT_DIR$/www/style.css" />
         <option value="$PROJECT_DIR$/www/test.html" />
-        <option value="$PROJECT_DIR$/server/ejs.js" />
         <option value="$PROJECT_DIR$/views/view.ejs" />
         <option value="$PROJECT_DIR$/views/go.ejs" />
-        <option value="$PROJECT_DIR$/views/explore.ejs" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/server/lmv-results.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/www/setup.html" />
-        <option value="$PROJECT_DIR$/server/lmv-token.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
-        <option value="$PROJECT_DIR$/start.js" />
         <option value="$PROJECT_DIR$/server/file.js" />
         <option value="$PROJECT_DIR$/www/upload-flow.js" />
-        <option value="$PROJECT_DIR$/server/lmv.js" />
-        <option value="$PROJECT_DIR$/server/lmv-projects.js" />
+        <option value="$PROJECT_DIR$/start.js" />
+        <option value="$PROJECT_DIR$/server/credentials.js" />
+        <option value="$PROJECT_DIR$/server/credentials_.js" />
+        <option value="$PROJECT_DIR$/server/lmv-token.js" />
         <option value="$PROJECT_DIR$/www/projects.js" />
+        <option value="$PROJECT_DIR$/server/lmv-projects.js" />
+        <option value="$PROJECT_DIR$/server/lmv.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/server/ejs.js" />
+        <option value="$PROJECT_DIR$/views/explore.ejs" />
+        <option value="$PROJECT_DIR$/server/lmv-results.js" />
       </list>
     </option>
   </component>
@@ -76,10 +113,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="683" />
-    <option name="y" value="18" />
-    <option name="width" value="1729" />
-    <option name="height" value="1204" />
+    <option name="x" value="355" />
+    <option name="y" value="135" />
+    <option name="width" value="1787" />
+    <option name="height" value="1255" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -104,7 +141,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -119,7 +155,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemId" value="testd" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -129,7 +165,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemId" value="testd" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -143,7 +179,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="testd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="testd" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -153,15 +203,16 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="C:/Program Files/nodejs/node.exe" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_054f2e797ebafd44a30203088cd3d58663c627ef/bin/git.exe" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode" />
+    <property name="options.lastSelected" value="vcs.Git" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
@@ -260,7 +311,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="683" y="18" width="1729" height="1204" extended-state="0" />
+    <frame x="355" y="135" width="1787" height="1255" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -269,19 +320,19 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15158778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30475304" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15865663" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3552983" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32898417" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889416" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3081033" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19614148" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -323,10 +374,27 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="javascript">
+          <url>file://$PROJECT_DIR$/server/lmv.js</url>
+          <line>206</line>
+          <option name="timeStamp" value="553" />
+        </line-breakpoint>
+        <line-breakpoint type="javascript">
+          <url>file://$PROJECT_DIR$/server/lmv.js</url>
+          <line>198</line>
+          <option name="timeStamp" value="554" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/lmv.js</url>
+          <line>438</line>
+          <option name="timeStamp" value="631" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="512" />
+      <option name="time" value="637" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
@@ -337,40 +405,29 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/credentials_.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="225">
-          <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="24" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/lmv.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="6720">
           <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding>
-            <element signature="e#1531#1750#0" expanded="false" />
-            <element signature="e#1794#2086#0" expanded="false" />
-            <element signature="e#2132#2200#0" expanded="false" />
-            <element signature="e#2250#2320#0" expanded="false" />
             <element signature="n#!!block;n#Lmv#0" expanded="false" />
-            <element signature="e#2601#3580#0" expanded="false" />
-            <element signature="e#3621#3819#0" expanded="false" />
-            <element signature="e#3901#4496#0" expanded="false" />
-            <element signature="e#4570#5213#0" expanded="false" />
-            <element signature="e#5273#6299#0" expanded="false" />
-            <element signature="e#6400#7630#0" expanded="false" />
-            <element signature="e#7678#7939#0" expanded="false" />
-            <element signature="e#7993#8220#0" expanded="false" />
-            <element signature="e#8314#9875#0" expanded="false" />
-            <element signature="e#9962#10670#0" expanded="false" />
-            <element signature="e#11552#12170#0" expanded="false" />
-            <element signature="e#12258#12949#0" expanded="false" />
-            <element signature="e#13048#14116#0" expanded="false" />
-            <element signature="e#14205#14759#0" expanded="false" />
-            <element signature="e#14867#16244#0" expanded="false" />
-            <element signature="e#16327#17143#0" expanded="false" />
+            <element signature="e#1693#2420#0" expanded="false" />
+            <element signature="e#2461#2659#0" expanded="false" />
+            <element signature="e#2741#3336#0" expanded="false" />
+            <element signature="e#3410#4053#0" expanded="false" />
+            <element signature="e#4113#5139#0" expanded="false" />
+            <element signature="e#6886#7113#0" expanded="false" />
+            <element signature="e#7207#8740#0" expanded="false" />
+            <element signature="e#8827#9508#0" expanded="false" />
+            <element signature="e#9681#10275#0" expanded="false" />
+            <element signature="e#10363#10954#0" expanded="false" />
+            <element signature="e#11042#11712#0" expanded="false" />
+            <element signature="e#13698#15054#0" expanded="false" />
+            <element signature="e#15137#15926#0" expanded="false" />
+            <element signature="e#16032#16243#0" expanded="false" />
+            <element signature="e#16287#16579#0" expanded="false" />
+            <element signature="e#16625#16693#0" expanded="false" />
+            <element signature="e#16743#16813#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -564,20 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/ejs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/go.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4617284" vertical-offset="0" max-vertical-offset="810">
-          <caret line="22" column="98" selection-start-line="22" selection-start-column="98" selection-end-line="22" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2788">
@@ -592,64 +635,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1684" max-vertical-offset="4471">
-          <caret line="251" column="67" selection-start-line="251" selection-start-column="67" selection-end-line="251" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/view.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="850">
-          <caret line="22" column="45" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="816">
-          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/explore.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153" vertical-offset="255" max-vertical-offset="2533">
-          <caret line="40" column="45" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/credentials_.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="24" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-token.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7632312" vertical-offset="166" max-vertical-offset="884">
-          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/flow.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="638.65515" vertical-offset="25950" max-vertical-offset="26639">
           <caret line="437" column="16" selection-start-line="437" selection-start-column="7" selection-end-line="437" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -657,7 +646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5050798" vertical-offset="1233" max-vertical-offset="2924">
           <caret line="112" column="48" selection-start-line="112" selection-start-column="48" selection-end-line="112" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -665,13 +653,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="765">
           <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../workflow-node.js-server-view.and.data.api/server/credentials.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="1095">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/file.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25905293" vertical-offset="1" max-vertical-offset="1037">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
           <caret line="30" column="63" selection-start-line="30" selection-start-column="63" selection-end-line="30" selection-end-column="63" />
           <folding>
             <element signature="e#1142#1886#0" expanded="false" />
@@ -681,77 +675,172 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/flow-node.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.73537606" vertical-offset="1002" max-vertical-offset="3672">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1002" max-vertical-offset="3672">
           <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv.js">
+    <entry file="file://$PROJECT_DIR$/server/credentials_.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236575" vertical-offset="1097" max-vertical-offset="1938">
-          <caret line="393" column="0" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
-          <folding>
-            <element signature="e#1531#1750#0" expanded="false" />
-            <element signature="e#1794#2086#0" expanded="false" />
-            <element signature="e#2132#2200#0" expanded="false" />
-            <element signature="e#2250#2320#0" expanded="false" />
-            <element signature="n#!!block;n#Lmv#0" expanded="false" />
-            <element signature="e#2601#3580#0" expanded="false" />
-            <element signature="e#3621#3819#0" expanded="false" />
-            <element signature="e#3901#4496#0" expanded="false" />
-            <element signature="e#4570#5213#0" expanded="false" />
-            <element signature="e#5273#6299#0" expanded="false" />
-            <element signature="e#6400#7630#0" expanded="false" />
-            <element signature="e#7678#7939#0" expanded="false" />
-            <element signature="e#7993#8220#0" expanded="false" />
-            <element signature="e#8314#9875#0" expanded="false" />
-            <element signature="e#9962#10670#0" expanded="false" />
-            <element signature="e#11552#12170#0" expanded="false" />
-            <element signature="e#12258#12949#0" expanded="false" />
-            <element signature="e#13048#14116#0" expanded="false" />
-            <element signature="e#14205#14759#0" expanded="false" />
-            <element signature="e#14867#16244#0" expanded="false" />
-            <element signature="e#16327#17143#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
+          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/credentials.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="224" max-vertical-offset="714">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3248227" vertical-offset="128" max-vertical-offset="1037">
-          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.8878648" vertical-offset="0" max-vertical-offset="1037">
+          <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
           <folding>
             <element signature="n#!!block;n#filterBucket#0" expanded="false" />
             <element signature="e#1480#1811#0" expanded="false" />
-            <element signature="e#2758#3227#0" expanded="false" />
-            <element signature="e#3509#3955#0" expanded="false" />
-            <element signature="e#4046#4592#0" expanded="false" />
-            <element signature="e#4693#7570#0" expanded="false" />
+            <element signature="e#2763#3232#0" expanded="false" />
+            <element signature="e#3514#3960#0" expanded="false" />
+            <element signature="e#4051#4597#0" expanded="false" />
+            <element signature="e#4698#7609#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/index.html">
+    <entry file="file://$PROJECT_DIR$/server/lmv-token.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47254336" vertical-offset="1152" max-vertical-offset="1972">
-          <caret line="87" column="104" selection-start-line="87" selection-start-column="104" selection-end-line="87" selection-end-column="104" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#form#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#!!block;n#initializeApp#0" expanded="false" />
+            <element signature="e#2099#2760#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/view.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7601881" vertical-offset="212" max-vertical-offset="850">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/go.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5862069" vertical-offset="0" max-vertical-offset="638">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lmv.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2352" max-vertical-offset="3213">
+          <caret line="433" column="10" selection-start-line="433" selection-start-column="10" selection-end-line="433" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!block;n#Lmv#0" expanded="false" />
+            <element signature="e#1693#2420#0" expanded="false" />
+            <element signature="e#2461#2659#0" expanded="false" />
+            <element signature="e#2741#3336#0" expanded="false" />
+            <element signature="e#3410#4053#0" expanded="false" />
+            <element signature="e#4113#5139#0" expanded="false" />
+            <element signature="e#6886#7113#0" expanded="false" />
+            <element signature="e#7207#8740#0" expanded="false" />
+            <element signature="e#8827#9508#0" expanded="false" />
+            <element signature="e#9681#10275#0" expanded="false" />
+            <element signature="e#10363#10954#0" expanded="false" />
+            <element signature="e#11042#11712#0" expanded="false" />
+            <element signature="e#13698#15054#0" expanded="false" />
+            <element signature="e#15137#15926#0" expanded="false" />
+            <element signature="e#16032#16243#0" expanded="false" />
+            <element signature="e#16287#16579#0" expanded="false" />
+            <element signature="e#16625#16693#0" expanded="false" />
+            <element signature="e#16743#16813#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/extracted/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="696">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53283584" vertical-offset="0" max-vertical-offset="816">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0822695" vertical-offset="155" max-vertical-offset="1258">
-          <caret line="137" column="95" selection-start-line="137" selection-start-column="95" selection-end-line="137" selection-end-column="95" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="3247">
+          <caret line="71" column="8" selection-start-line="57" selection-start-column="4" selection-end-line="71" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/explore.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5083714" vertical-offset="550" max-vertical-offset="3536">
+          <caret line="52" column="88" selection-start-line="52" selection-start-column="88" selection-end-line="52" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/ejs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30307466" vertical-offset="14" max-vertical-offset="714">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48850575" vertical-offset="0" max-vertical-offset="696">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79701495" vertical-offset="945" max-vertical-offset="1972">
+          <caret line="87" column="104" selection-start-line="87" selection-start-column="104" selection-end-line="87" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.87994146" vertical-offset="3224" max-vertical-offset="4437">
+          <caret line="436" column="1" selection-start-line="436" selection-start-column="1" selection-end-line="436" selection-end-column="1" />
           <folding>
-            <element signature="e#1007#1803#0" expanded="false" />
-            <element signature="e#1874#2352#0" expanded="false" />
-            <element signature="e#2423#3628#0" expanded="false" />
-            <element signature="e#5245#5578#0" expanded="false" />
-            <element signature="e#5631#7268#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1470#2265#0" expanded="false" />
+            <element signature="n#!!block;n#filterProject#0" expanded="false" />
+            <element signature="e#2702#3375#0" expanded="false" />
+            <element signature="e#3487#3991#0" expanded="false" />
+            <element signature="e#4150#5344#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetItems#0" expanded="false" />
+            <element signature="n#!!block;n#DownloadAndSaveItemToDisk#0" expanded="false" />
+            <element signature="n#!!block;n#filterItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_PackPackItems#0" expanded="false" />
+            <element signature="n#!!block;n#loopObject#0" expanded="false" />
+            <element signature="n#!!block;n#loopManifest#0" expanded="false" />
+            <element signature="e#16787#17401#0" expanded="false" />
+            <element signature="e#17455#17697#0" expanded="false" />
+            <element signature="e#17733#18320#0" expanded="false" />
+            <element signature="e#18374#18822#0" expanded="false" />
           </folding>
         </state>
       </provider>
