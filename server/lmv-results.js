@@ -405,11 +405,13 @@ function wf1_ReadF2dItem (callback_map3, item, identifier, f2d) {
 function wf1_ReadManifest (callback_map4, item, identifier) {
 	console.log ('    #3c - Reading manifest.json.gz information') ;
 	fs.readFile ('data/' + item.name, function (err, content) {
-		var unzipContent =zlib.unzipSync (content).toString ('utf8') ;
-		var manifest =JSON.parse (unzipContent) ;
-		var uris =loopManifest (manifest, path.dirname (item.urn)) ;
+		//var unzipContent =zlib.unzipSync (content).toString ('utf8') ;
+		zlib.unzip (content, function (err, unzipContent) {
+			var manifest =JSON.parse (unzipContent) ;
+			var uris =loopManifest (manifest, path.dirname (item.urn)) ;
 
-		callback_map4 (null, uris) ;
+			callback_map4 (null, uris) ;
+		}) ;
 	}) ;
 }
 
