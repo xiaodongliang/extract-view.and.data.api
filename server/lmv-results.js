@@ -141,6 +141,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 					function (data, callback_wf1b) { wf1_GetItems (data, callback_wf1b, bucket, identifier) ; }, // From full details, get all individual elements to download
 					function (results, callbacks_wf1c) { wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) ; }, // .svf/.f2d/manifest additional references to download/create
 					function (uris, callback_wf1d) { wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) ; }, // Get additional items from the previous extraction step
+					function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; } // Generate helper html/bat
 				],
 				function (err, results) { wf1End_PackPackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
 			) ;
@@ -311,93 +312,40 @@ function filterItems (arr, criteria) {
 
 function wf1_ReadSvfItem (callback_map2, item, identifier, svf) {
 	console.log ('    #3a - Reading svf information') ;
-	async.parallel ([
-			function (callback_p2a) {
-				// Get manifest file
-				fs.readFile ('data/' + item.name, function (err, content) {
-					var ozip =new AdmZip (content) ;
-					var zipEntries =ozip.getEntries () ;
-					var uris =[] ;
-					zipEntries.forEach (function (zipEntry) {
-						if ( !zipEntry.isDirectory ) {
-							if ( zipEntry.entryName == 'manifest.json' ) {
-								var manifest =JSON.parse (zipEntry.getData ().toString ('utf8')) ;
-								uris =uris.concat (loopManifest (manifest, path.dirname (item.urn))) ;
-							}
-						}
-					}) ;
-					callback_p2a (null, uris) ;
-				}) ;
-			},
-			function (callback_p2b) {
-				// Generate the html for local view
-				var pathname =item.name ;
-				pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
-				var index =svf.indexOf (item) ;
-				var fullnameHtml =identifier + '/' + path.basename (item.name) + '-' + index + '.html' ;
-				fs.readFile ('views/view.ejs', 'utf-8', function (err, st) {
-					if ( err )
-						return ;
-					var obj ={ svf: pathname, 'urn': '' } ;
-					var data =ejs.render (st, obj) ;
-					fs.writeFile ('data/' + fullnameHtml, data, function (err) {}) ;
-				}) ;
-				var uris =[] ;
-				uris.push ({ name: fullnameHtml }) ;
+	var uris =[] ;
 
-				var pathname2 =path.basename (fullnameHtml) ;
-				var fullnameBat =identifier + '/' + pathname2 + '.bat' ;
-				fs.readFile ('views/go.ejs', 'utf-8', function (err, st) {
-					if ( err )
-						return ;
-					var obj ={ html: pathname2 } ;
-					var data =ejs.render (st, obj) ;
-					fs.writeFile ('data/' + fullnameBat, data, function (err) {}) ;
-				}) ;
-				uris.push ({ name: fullnameBat }) ;
+	// Generate the document reference for local view html
+	var pathname =item.name ;
+	pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
+	var name =path.basename (item.name) + '-' + svf.indexOf (item) ;
+	uris.push ({ 'path': pathname, 'name': name }) ;
 
-				callback_p2b (null, uris) ;
+	// Get manifest file
+	fs.readFile ('data/' + item.name, function (err, content) {
+		var ozip =new AdmZip (content) ;
+		var zipEntries =ozip.getEntries () ;
+		zipEntries.forEach (function (zipEntry) {
+			if ( !zipEntry.isDirectory ) {
+				if ( zipEntry.entryName == 'manifest.json' ) {
+					var manifest =JSON.parse (zipEntry.getData ().toString ('utf8')) ;
+					uris =uris.concat (loopManifest (manifest, path.dirname (item.urn))) ;
+				}
 			}
-		],
-		function (err, results) {
-			if ( err ) {
-				callback_map2 (err, null) ;
-				return ;
-			}
-			var out =[] ;
-			out =out.concat.apply (out, results) ;
-			callback_map2 (null, out) ;
-		}
-	) ;
+		}) ;
+
+		callback_map2 (null, uris) ;
+	}) ;
 }
 
 function wf1_ReadF2dItem (callback_map3, item, identifier, f2d) {
 	console.log ('    #3b - Reading f2d information') ;
 	var uris =[] ;
-	// Generate the html for local view
+
+	// Generate the document reference for local view html
 	var pathname =item.name ;
 	pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
-	var index =f2d.indexOf (item) ;
-	var fullnameHtml =identifier + '/' + path.basename (item.name) + '-' + index + '.html' ;
-	fs.readFile ('views/view.ejs', 'utf-8', function (err, st) {
-		if ( err )
-			return ;
-		var obj ={ svf: pathname, 'urn': '' } ;
-		var data =ejs.render (st, obj) ;
-		fs.writeFile ('data/' + fullnameHtml, data, function (err) {}) ;
-	}) ;
-	uris.push ({ name: fullnameHtml }) ;
-
-	var pathname2 =path.basename (fullnameHtml) ;
-	var fullnameBat =identifier + '/' + pathname2 + '.bat' ;
-	fs.readFile ('views/go.ejs', 'utf-8', function (err, st) {
-		if ( err )
-			return ;
-		var obj ={ html: pathname2 } ;
-		var data =ejs.render (st, obj) ;
-		fs.writeFile ('data/' + fullnameBat, data, function (err) {}) ;
-	}) ;
-	uris.push ({ name: fullnameBat }) ;
+	var name =path.basename (item.name) + '-' + f2d.indexOf (item) ;
+	uris.push ({ 'path': pathname, 'name': name }) ;
 
 	callback_map3 (null, uris) ;
 }
@@ -436,6 +384,33 @@ function wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) {
 			callback_wf1d (null, results) ;
 		}
 	) ;
+}
+
+// Generate helper html/bat
+function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
+	var doclist =refs.filter (function (obj) { return (obj.hasOwnProperty ('path')) ; }) ;
+	refs =refs.filter (function (obj) { return (!obj.hasOwnProperty ('path')) ; }) ;
+
+	fs.createReadStream ('views/go.ejs').pipe (fs.createWriteStream ('data/' + identifier + '/index.bat')) ;
+	refs.push ({ name: identifier + '/index.bat' }) ;
+	fs.readFile ('views/view.ejs', 'utf-8', function (err, st) {
+		if ( err ) {
+			callback_wf1e (err, refs) ;
+			return ;
+		}
+
+		var data =ejs.render (st, { docs: doclist }) ;
+		var fullnameHtml =identifier + '/index.html' ;
+		fs.writeFile ('data/' + fullnameHtml, data, function (err) {
+			if ( err ) {
+				callback_wf1e (err, refs) ;
+				return ;
+			}
+
+			refs.push ({ name: identifier + '/index.html' }) ;
+			callback_wf1e (null, refs) ;
+		}) ;
+	}) ;
 }
 
 // Create a ZIP file and return all elements

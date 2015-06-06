@@ -19,7 +19,7 @@ h5 { font-size: 12px; font-weight: bold; }
 p { margin: 10px 0; }
 
 body { text-align: center; margin: 40px; }
-#project { margin: 0 auto; width: 800px; text-align: left; }
+div#project { margin: 0 auto; width: 800px; text-align: left; }
 
 /* Uploader: Drag & Drop */
 .flow-error { display: none; font-size: 14px; font-style: italic; }

@@ -18,28 +18,42 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
 
     <script>
+        var docs =
+                <%- JSON.stringify(docs) %>
+        ;
+
         var oViewer =null ;
         $(document).ready (function () {
-            //var options ={ 'document': '<%= urn %>', 'env': 'AutodeskProduction' } ;
-            var options ={ 'svf': '<%= svf %>', env: '' } ;
+            //var options ={ 'document': '', 'env': 'AutodeskProduction' } ;
+            var options ={ 'docid': docs [0].path, env: '' } ;
+
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
             oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
             oViewer.initialize () ;
-            oViewer.load (options.svf) ;
+            oViewer.load (options.docid) ;
+
+            for ( var i =0 ; i < docs.length ; i++ ) {
+                var r =$('<div><button id="view_' + i + '">' + docs [i].name + '</button></div>') ;
+                $('#list').append (r) ;
+                $('#view_' + i).click (function (e) {
+                    e.stopPropagation () ;
+                    var i =parseInt (e.target.id.substring (5)) ;
+                    oViewer.load (docs [i].path) ;
+                }) ;
+            }
         }) ;
     </script>
 </head>
 
 <body>
-
     <div id="project">
-
         <hr>
         <h3>LMV Node.js Sample (local view)</h3>
-        <div id="viewer"></div>
+        <div>
+            <div id="viewer" class="left"></div>
+            <div id="list" class="right"></div>
+        </div>
         <br>
-
     </div>
-
 </body>
 </html>
