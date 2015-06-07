@@ -28,7 +28,7 @@ var lmv =require ('./lmv') ;
 
 var router =express.Router () ;
 
-router.get ('/:bucket.:identifier', function (req, res) {
+router.get ('/:bucket/:identifier', function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
 

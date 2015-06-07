@@ -143,7 +143,7 @@ router.get ('/results/:bucket/:identifier/project', function (req, res) {
 					function (uris, callback_wf1d) { wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) ; }, // Get additional items from the previous extraction step
 					function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; } // Generate helper html/bat
 				],
-				function (err, results) { wf1End_PackPackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
+				function (err, results) { wf1End_PackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
 			) ;
 		}) ;
 	} catch ( err ) {
@@ -170,11 +170,16 @@ function wf1_GetFullDetails (callback_wf1a, bucket, identifier, urn) {
 // From full details, get all individual elements to download
 function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	console.log ('#2a - Filtering objects') ;
-	var items =loopObject (data) ;
+	// Collect Urns to extract from the server
+	var items =loop4Urns (data) ;
 	items =items.filter (function (item) { return (item !== undefined) ; }) ;
 	items.shift () ;
 
-	// Get manifest & metadata files for f2d file
+	// Collect Views to create from the viewables
+	var views =loop4Views (data, data, identifier) ;
+	items =items.concat (views) ;
+
+	// Add manifest & metadata files for f2d file
 	console.log ('#2b - Adding manisfest & metadata files for any .f2d files') ;
 	for ( var i =0 ; i < items.length ; i++ ) {
 		if ( path.extname (items [i]) == '.f2d' ) {
@@ -186,6 +191,10 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	console.log ('#2c - Download each item asynchronously') ;
 	async.mapLimit (items, 10, // Let's have 10 workers only to limit lose of references (too many for the Autodesk server ;)
 		function (item, callback_map1) { // Each tasks execution
+			if ( typeof item != 'string' ) {
+				callback_map1 (null, item) ;
+				return ;
+			}
 			DownloadAndSaveItemToDisk (callback_map1, bucket, identifier, item) ;
 		},
 		function (err, results) { //- All tasks are done
@@ -197,6 +206,32 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 			callback_wf1b (null, results) ;
 		}
 	) ;
+}
+
+function loop4Urns (doc) {
+	var data =[] ;
+	if ( doc.urn !== undefined )
+		data.push (doc.urn) ;
+	if ( doc.children !== undefined ) {
+		for ( var i in doc.children )
+			data =data.concat (loop4Urns (doc.children [i])) ;
+	}
+	return (data) ;
+}
+
+function loop4Views (doc, parentNode, identifier) {
+	var data =[] ;
+	if (   doc.urn !== undefined
+		&& (path.extname (doc.urn) == '.svf' || path.extname (doc.urn) == '.f2d')
+	) {
+		var fullpath =doc.urn.substring (doc.urn.indexOf ('/output/') + 8) ;
+		data.push ({ 'path': fullpath, 'name': parentNode.name }) ;
+	}
+	if ( doc.children !== undefined ) {
+		for ( var i in doc.children )
+			data =data.concat (loop4Views (doc.children [i], doc, identifier)) ;
+	}
+	return (data) ;
 }
 
 function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
@@ -239,7 +274,7 @@ function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 
 // .svf/.f2d/manifest additional references to download/create
 function wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) {
-	console.log ('#3 - Reading svf/f2d information') ;
+	console.log ('#3 - Reading svf/f2d/manifest information') ;
 	// Collect the additional elements
 	async.parallel ([
 			function (callback_p1a) {
@@ -311,14 +346,13 @@ function filterItems (arr, criteria) {
 }
 
 function wf1_ReadSvfItem (callback_map2, item, identifier, svf) {
-	console.log ('    #3a - Reading svf information') ;
 	var uris =[] ;
 
 	// Generate the document reference for local view html
-	var pathname =item.name ;
-	pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
-	var name =path.basename (item.name) + '-' + svf.indexOf (item) ;
-	uris.push ({ 'path': pathname, 'name': name }) ;
+	//var pathname =item.name ;
+	//pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
+	//var name =path.basename (item.name) + '-' + svf.indexOf (item) ;
+	//uris.push ({ 'path': pathname, 'name': name }) ;
 
 	// Get manifest file
 	fs.readFile ('data/' + item.name, function (err, content) {
@@ -338,20 +372,18 @@ function wf1_ReadSvfItem (callback_map2, item, identifier, svf) {
 }
 
 function wf1_ReadF2dItem (callback_map3, item, identifier, f2d) {
-	console.log ('    #3b - Reading f2d information') ;
 	var uris =[] ;
 
 	// Generate the document reference for local view html
-	var pathname =item.name ;
-	pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
-	var name =path.basename (item.name) + '-' + f2d.indexOf (item) ;
-	uris.push ({ 'path': pathname, 'name': name }) ;
+	//var pathname =item.name ;
+	//pathname =pathname.substring (pathname.indexOf ('/') + 1) ;
+	//var name =path.basename (item.name) + '-' + f2d.indexOf (item) ;
+	//uris.push ({ 'path': pathname, 'name': name }) ;
 
 	callback_map3 (null, uris) ;
 }
 
 function wf1_ReadManifest (callback_map4, item, identifier) {
-	console.log ('    #3c - Reading manifest.json.gz information') ;
 	fs.readFile ('data/' + item.name, function (err, content) {
 		//var unzipContent =zlib.unzipSync (content).toString ('utf8') ;
 		zlib.unzip (content, function (err, unzipContent) {
@@ -361,6 +393,18 @@ function wf1_ReadManifest (callback_map4, item, identifier) {
 			callback_map4 (null, uris) ;
 		}) ;
 	}) ;
+}
+
+function loopManifest (doc, urnParent) {
+	var data =[] ;
+	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
+	//data.push (urnParent + '/' + doc.URI) ;
+		data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
+	if ( doc.assets !== undefined ) {
+		for ( var i in doc.assets )
+			data =data.concat (loopManifest (doc.assets [i], urnParent)) ;
+	}
+	return (data) ;
 }
 
 // Get additional items from the previous extraction step
@@ -414,7 +458,7 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 }
 
 // Create a ZIP file and return all elements
-function wf1End_PackPackItems (err, results, identifier) {
+function wf1End_PackItems (err, results, identifier) {
 	if ( err ) {
 		console.log ('Error in downloading fragments! ZIP not created.') ;
 		return ;
@@ -428,6 +472,7 @@ function wf1End_PackPackItems (err, results, identifier) {
 		}) ;
 		archive.on ('finish', function (err) {
 			rimraf ('data/' + identifier, function (err) {}) ; // Cleanup
+			console.log ('PackItems ended successfully.') ;
 		}) ;
 
 		//var output =fs.createWriteStream ('data/' + identifier + '/' + identifier + '.zip') ;
@@ -444,31 +489,8 @@ function wf1End_PackPackItems (err, results, identifier) {
 		}
 		archive.finalize () ;
 	} catch ( err ) {
-		console.log ('wf1End_PackPackItems exception') ;
+		console.log ('wf1End_PackItems exception') ;
 	}
-}
-
-function loopObject (doc) {
-	var data =[] ;
-	if ( doc.urn !== undefined )
-		data.push (doc.urn) ;
-	if ( doc.children !== undefined ) {
-		for ( var i in doc.children )
-			data =data.concat (loopObject (doc.children [i])) ;
-	}
-	return (data) ;
-}
-
-function loopManifest (doc, urnParent) {
-	var data =[] ;
-	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
-		//data.push (urnParent + '/' + doc.URI) ;
-		data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
-	if ( doc.assets !== undefined ) {
-		for ( var i in doc.assets )
-			data =data.concat (loopManifest (doc.assets [i], urnParent)) ;
-	}
-	return (data) ;
 }
 
 // Download a single file from its bucket/identifier/fragment pair

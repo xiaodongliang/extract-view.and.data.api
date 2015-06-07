@@ -132,7 +132,7 @@
             $.each (doc.children, function (key, value) {
                 var folder =(value.children !== undefined && value.children.length > 0) ;
                 var node ={ 'title': getName (value), 'key': value.guid, 'folder': folder, 'role': value.role } ; //'extraClasses': 'viewableIcon'
-                if ( value.role == '3d' || value.role == '2d' )
+                if ( (value.role == '3d' || value.role == '2d') && value.type == 'geometry' )
                     node.data ={ icon: '/img/view.png'/*, isLocked: true*/ } ;
                 if ( folder == true )
                     node.children =loopDoc (value) ;

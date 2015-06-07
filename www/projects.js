@@ -81,7 +81,7 @@ Project.createProjectVignette =function (bucket, identifier, data) {
 	var name =bucket + '.' + identifier ;
 	var progressui =(data.progress != 'complete' && data.progress != 'failed' ? '<progress class="project-progress-bar" value="' + parseInt (data.success) + '" max="100"></progress>' : '') ;
 	var imageui =(data.progress == 'complete' ? name : (data.progress == 'failed' ? 'failed' : 'processing')) ;
-	var url =(data.progress != 'failed' ? '/explore/' + name : '#') ;
+	var url =(data.progress != 'failed' ? '/explore/' + bucket + '/' + identifier : '#') ;
 	$('#project-results').append (
 		'<div class="view view-first flex-item" id="' + name + '">'
 		//+	'<a href="#' + name + '" />'
@@ -110,7 +110,7 @@ Project.projectProgress =function (bucket, root, nb) {
 		var name ='#' + bucket + '\\.' + root ;
 		if ( response.progress == 'complete' ) {
 			$(name + ' div p').text ('success (100%)') ;
-			$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + bucket + '.' + root) ;
+			$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + bucket + '/' + root) ;
 			$(name + ' progress').remove () ;
 
 			if ( response.hasThumbnail == 'true' ) {
