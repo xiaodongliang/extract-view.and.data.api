@@ -23,17 +23,8 @@ var request =require ('request') ;
 var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var async =require ('async') ;
+var moment =require ('moment') ;
 var lmv =require ('./lmv') ;
-
-function filterBucket (arr, criteria) {
-	var filtered =arr.filter (function (obj) {
-		return (new RegExp (criteria).test (obj)) ;
-	}) ;
-	var results =[] ;
-	for ( var index =0 ; index < filtered.length ; index++ )
-		results.push (new RegExp (criteria).exec (filtered [index]) [1]) ;
-	return (results) ;
-}
 
 var router =express.Router () ;
 router.use (bodyParser.json ()) ;
@@ -44,15 +35,53 @@ router.get ('/projects', function (req, res) {
 		fs.readdir ('data', function (err, files) {
 			if ( err )
 				throw err;
-			files =filterBucket (files, '(.*)\.bucket\.json') ;
-			// TODO: verify that the bucket is still valid before returning it
-			//res.send (JSON.stringify (files)) ;
-			res.json (files) ;
+			var files =filterBucket (files, '(.*)\.bucket\.json') ;
+			// Verify that the bucket is still valid before returning it
+			async.mapLimit (files, 10,
+				function (item, callback_map) { // Each tasks execution
+					fs.readFile ('data/' + item + '.bucket.json', function (err, content) {
+							if ( err )
+								return (callback_map (err, null)) ;
+							var js =JSON.parse (content) ;
+							var dt =moment (js.createDate), now =moment () ;
+							switch ( js.policyKey ) {
+								case 'transient': // 24h
+									dt.add (24, 'hours') ;
+									if ( dt <= now )
+										return (callback_map (null, null)) ;
+									break ;
+								case 'temporary': // 30 days
+									dt.add (30, 'days') ;
+									if ( dt <= now )
+										return (callback_map (null, null)) ;
+									break ;
+								default:
+									break ;
+							}
+							callback_map (null, item) ;
+						}
+					) ;
+				},
+				function (err, results) { //- All tasks are done
+					if ( err !== undefined && err !== null )
+						return (res.json ([])) ;
+					var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
+					res.json (filtered) ;
+				}
+			) ;
 		}) ;
 	} catch ( err ) {
 		res.status (404).send () ;
 	}
 }) ;
+
+function filterBucket (arr, criteria) {
+	var filtered =arr.filter (function (obj) { return (new RegExp (criteria).test (obj)) ; }) ;
+	var results =[] ;
+	for ( var index =0 ; index < filtered.length ; index++ )
+		results.push (new RegExp (criteria).exec (filtered [index]) [1]) ;
+	return (results) ;
+}
 
 // Get the progress on translating the bucket/identifier
 router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
@@ -106,9 +135,12 @@ router.get ('/projects/:bucket/:identifier', function (req, res) {
 	// GET /oss/{apiversion}/buckets/{bucketkey}/objects/{objectKey}/details
 	// would work as well, but since we saved it locally, use the local version
 	try {
-		var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.json') ;
-		res.setHeader ('Content-Type', 'application/json') ;
-		res.end (data) ;
+		fs.readFile ('data/' + bucket + '.' + identifier + '.json', function (err, data) {
+			if ( err )
+				throw err ;
+			res.setHeader ('Content-Type', 'application/json') ;
+			res.end (data) ;
+		}) ;
 	} catch ( err ) {
 		return (res.status (404).end ()) ;
 	}
@@ -120,9 +152,12 @@ router.get ('/projects/:identifier', function (req, res) {
 	// GET /oss/{api version}/buckets/{bucket key}/details
 	// would work as well, but since we saved it locally, use the local version
 	try {
-		var data =fs.readFileSync ('data/' + identifier + '.bucket.json') ;
-		res.setHeader ('Content-Type', 'application/json') ;
-		res.end (data) ;
+		fs.readFile ('data/' + identifier + '.bucket.json', function (err, data) {
+			if ( err )
+				throw err ;
+			res.setHeader ('Content-Type', 'application/json') ;
+			res.end (data) ;
+		}) ;
 	} catch ( err ) {
 		new lmv.Lmv (identifier).checkBucket ()
 			.on ('success', function (data) {

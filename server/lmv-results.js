@@ -31,6 +31,7 @@ var AdmZip =require ('adm-zip') ;
 var archiver =require ('archiver') ;
 var ejs =require ('ejs') ;
 var zlib =require ('zlib') ;
+var moment =require ('moment') ;
 //var nodemailer =require ('nodemailer') ;
 //var directTransport =require ('nodemailer-direct-transport') ;
 
@@ -43,28 +44,32 @@ router.get ('/results', function (req, res) {
 		fs.readdir ('data', function (err, files) {
 			if ( err )
 				throw err ;
-			var out =[] ;
 			files =filterProject (files, '(.*)\\.resultdb\\.json') ;
-			// TODO: verify that the bucket is still valid before returning it
-			for ( var i =0 ; i < files.length ; i++ ) {
-				try {
-					var data =fs.readFileSync ('data/' + files [i] + '.resultdb.json') ;
-					data =JSON.parse (data) ;
-					out.push ({
-						name: files [i],
-						urn: data.urn,
-						date: data.startedAt,
-						hasThumbnail: data.hasThumbnail,
-						status: data.status,
-						success: data.success,
-						progress: data.progress
+			async.mapLimit (files, 10,
+				function (file, callback_map) { // Each tasks execution
+					fs.readFile ('data/' + file + '.resultdb.json', function (err, data) {
+						if ( err )
+							return (callback_map (null, null)) ;
+						data =JSON.parse (data) ;
+						out ={
+							name: file,
+							urn: data.urn,
+							date: data.startedAt,
+							hasThumbnail: data.hasThumbnail,
+							status: data.status,
+							success: data.success,
+							progress: data.progress
+						} ;
+						callback_map (null, out)
 					}) ;
-				} catch ( err ) {
+				},
+				function (err, results) { //- All tasks are done
+					if ( err !== undefined && err !== null )
+						return (res.json ([])) ;
+					var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
+					res.json (filtered) ;
 				}
-			}
-			//res.send (JSON.stringify (files)) ;
-			//res.json (files) ;
-			res.json (out) ;
+			) ;
 		}) ;
 	} catch ( err ) {
 		res.status (404).send () ;
@@ -72,9 +77,7 @@ router.get ('/results', function (req, res) {
 }) ;
 
 function filterProject (arr, criteria) {
-	var filtered =arr.filter (function (obj) {
-		return (new RegExp (criteria).test (obj)) ;
-	}) ;
+	var filtered =arr.filter (function (obj) { return (new RegExp (criteria).test (obj)) ; }) ;
 	var results =[] ;
 	for ( var index =0 ; index < filtered.length ; index++ )
 		results.push (new RegExp (criteria).exec (filtered [index]) [1]) ;
@@ -339,9 +342,7 @@ function wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) {
 }
 
 function filterItems (arr, criteria) {
-	var filtered =arr.filter (function (obj) {
-		return (new RegExp (criteria).test (obj.name)) ;
-	}) ;
+	var filtered =arr.filter (function (obj) { return (new RegExp (criteria).test (obj.name)) ; }) ;
 	return (filtered) ;
 }
 
@@ -438,11 +439,8 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 	fs.createReadStream ('views/go.ejs').pipe (fs.createWriteStream ('data/' + identifier + '/index.bat')) ;
 	refs.push ({ name: identifier + '/index.bat' }) ;
 	fs.readFile ('views/view.ejs', 'utf-8', function (err, st) {
-		if ( err ) {
-			callback_wf1e (err, refs) ;
-			return ;
-		}
-
+		if ( err )
+			return (callback_wf1e (err, refs)) ;
 		var data =ejs.render (st, { docs: doclist }) ;
 		var fullnameHtml =identifier + '/index.html' ;
 		fs.writeFile ('data/' + fullnameHtml, data, function (err) {
@@ -499,35 +497,36 @@ router.get ('/results/file/:bucket/:identifier/:fragment', function (req, res) {
 	var identifier =req.params.identifier ;
 	var fragment =req.params.fragment ;
 
-	var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
-	data =JSON.parse (data) ;
-	var guid =data.urn ;
+	fs.readFile ('data/' + bucket + '.' + identifier + '.resultdb.json', function (err, data) {
+		if ( err )
+			return (res.status (404).end ()) ;
+		data =JSON.parse (data) ;
+		var guid =data.urn ;
 
-	var urn ='urn:adsk.viewing:fs.file:' + guid + '/output/' + fragment ;
-	new lmv.Lmv (bucket).downloadItem (urn)
-		.on ('success', function (data) {
-			res.setHeader ('Content-Type', 'application/octet-stream') ;
-			res.attachment (path.basename (fragment)) ;
-			res.end (data, 'binary') ;
-		})
-		.on ('fail', function (err) {
-			res.status (404).end () ;
-		})
-	;
+		var urn ='urn:adsk.viewing:fs.file:' + guid + '/output/' + fragment ;
+		new lmv.Lmv (bucket).downloadItem (urn)
+			.on ('success', function (data) {
+				res.setHeader ('Content-Type', 'application/octet-stream') ;
+				res.attachment (path.basename (fragment)) ;
+				res.end (data, 'binary') ;
+			})
+			.on ('fail', function (err) {
+				res.status (404).end () ;
+			})
+		;
+	}) ;
 }) ;
 
 router.get ('/results/test', function (req, res) {
 	fs.readFile ('views/view.ejs', 'utf-8', function (err, data) {
-		if ( !err ) {
-			var obj = {
-				urn: 'urn',
-				svf: 'test'
-			} ;
-			var st =ejs.render (data, obj) ;
-			res.end (st) ;
-		} else {
-			res.status (500). end () ;
-		}
+		if ( err )
+			return (res.status (500). end ()) ;
+		var obj = {
+			urn: 'urn',
+			svf: 'test'
+		} ;
+		var st =ejs.render (data, obj) ;
+		res.end (st) ;
 	}) ;
 }) ;
 

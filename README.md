@@ -71,6 +71,11 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
 
 The sample was created using Node.js and javascript.
 
+Live version at: http://extract.autodesk.io/
+
+Developer version live at: http://extract-dev.autodesk.io/
+
+
 ### Setup
 1. Download and install [Node.js](http://nodejs.org/) (that will install npm as well)
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
