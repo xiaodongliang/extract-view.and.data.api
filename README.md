@@ -1,7 +1,6 @@
 # workflow-node.js-server-view.and.data.api sample
 
-[![Build Status][travis-image]][travis-url]
-[![Dependency status][david-dm-image]][david-dm-url]
+[![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 
