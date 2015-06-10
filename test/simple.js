@@ -102,13 +102,14 @@ describe ('Starting Test server...', function () {
 
 		it('(post) ' + fileEP + ' - post a file to the app', function (done) {
 			this.timeout (5000) ;
+			var stats =fs.statSync (auObjFile) ;
 			request (app)
 				.post (fileEP)
 				.expect (200) //, done)
 				.field ('flowChunkNumber', '1')
 				.field ('flowChunkSize', '1048576')
-				.field ('flowCurrentChunkSize', '1866')
-				.field ('flowTotalSize', '1866')
+				.field ('flowCurrentChunkSize', stats ['size'])
+				.field ('flowTotalSize', stats ['size'])
 				.field ('flowIdentifier', auObjIdentifier)
 				.field ('flowFilename', path.basename (auObjFile))
 				.field ('flowRelativePath', path.basename (auObjFile))
