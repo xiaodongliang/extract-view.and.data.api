@@ -102,12 +102,11 @@ describe ('Starting Test server...', function () {
 
 		it('(post) ' + fileEP + ' - post a file to the app', function (done) {
 			this.timeout (5000) ;
-			var boundary =Math.random () ;
 			request (app)
 				.post (fileEP)
 				.expect (200) //, done)
 				.field ('flowChunkNumber', '1')
-				.field ('flowChunkSize' ,'1048576')
+				.field ('flowChunkSize', '1048576')
 				.field ('flowCurrentChunkSize', '1866')
 				.field ('flowTotalSize', '1866')
 				.field ('flowIdentifier', auObjIdentifier)
