@@ -39,7 +39,7 @@ router.get ('/projects', function (req, res) {
 			// Verify that the bucket is still valid before returning it
 			async.mapLimit (files, 10,
 				function (item, callback_map) { // Each tasks execution
-					fs.readFile ('data/' + item + '.bucket.json', function (err, content) {
+					fs.readFile ('data/' + item + '.bucket.json', 'utf-8', function (err, content) {
 							if ( err )
 								return (callback_map (err, null)) ;
 							var js =JSON.parse (content) ;
@@ -129,50 +129,65 @@ router.get ('/projects/:bucket/:identifier/get', function (req, res) {
 //	var identifier =req.url.split ('/') [3] ;
 
 // Get details on the bucket/identifier item
+// identifier can be the filename
 router.get ('/projects/:bucket/:identifier', function (req, res) {
 	var bucket =req.params.bucket ;
 	var identifier =req.params.identifier ;
+	var filename ;
+	try {
+		var idData =fs.readFileSync ('data/' + identifier + '.json') ;
+		idData =JSON.parse (idData) ;
+		filename =idData.name ;
+	} catch ( err ) {
+		filename =identifier ;
+		identifier =filename.replace (/[^0-9A-Za-z_-]/g, '') ;
+	}
+
 	// GET /oss/{apiversion}/buckets/{bucketkey}/objects/{objectKey}/details
 	// would work as well, but since we saved it locally, use the local version
-	try {
-		fs.readFile ('data/' + bucket + '.' + identifier + '.json', function (err, data) {
-			if ( err )
-				throw err ;
-			res.setHeader ('Content-Type', 'application/json') ;
-			res.end (data) ;
-		}) ;
-	} catch ( err ) {
-		return (res.status (404).end ()) ;
-	}
+	fs.readFile ('data/' + bucket + '.' + identifier + '.json', 'utf-8', function (err, data) {
+		if ( err ) {
+			new lmv.Lmv (bucket).checkObjectDetails (filename)
+				.on ('success', function (data) {
+					res.json (data) ;
+				})
+				.on ('fail', function (err) {
+					res.status (404).end () ;
+				})
+			;
+			return ;
+		}
+		res.json (JSON.parse (data)) ;
+	}) ;
 }) ;
 
 // Get details on the bucket
-router.get ('/projects/:identifier', function (req, res) {
-	var identifier =req.params.identifier ;
+router.get ('/projects/:bucket', function (req, res) {
+	var bucket =req.params.bucket ;
 	// GET /oss/{api version}/buckets/{bucket key}/details
 	// would work as well, but since we saved it locally, use the local version
-	try {
-		fs.readFile ('data/' + identifier + '.bucket.json', function (err, data) {
-			if ( err )
-				throw err ;
-			res.setHeader ('Content-Type', 'application/json') ;
-			res.end (data) ;
-		}) ;
-	} catch ( err ) {
-		new lmv.Lmv (identifier).checkBucket ()
-			.on ('success', function (data) {
-				res.json (data) ;
-			})
-			.on ('fail', function (err) {
-				res.status (404).end ('No such bucket') ;
-			})
-		;
-	}
+	fs.readFile ('data/' + bucket + '.bucket.json', 'utf-8', function (err, data) {
+		if ( err ) {
+			new lmv.Lmv (bucket).checkBucket ()
+				.on ('success', function (data) {
+					res.json (data) ;
+				})
+				.on ('fail', function (err) {
+					res.status (404).end ('No such bucket') ;
+				})
+			;
+			return ;
+		}
+		res.json (JSON.parse (data)) ;
+	}) ;
 }) ;
 
 // Submit a new bucket/identifier for translation
 router.post ('/projects', function (req, res) {
 	var bucket =req.body.bucket ;
+	var regex =new RegExp (/^[-_.a-z0-9]{3,128}$/) ;
+	if ( !regex.test (bucket) )
+		return (res.status (403).send ('Bucket name invalid!')) ;
 	var policy =req.body.policy ;
 	var connections =req.body.connections ;
 
@@ -180,10 +195,8 @@ router.post ('/projects', function (req, res) {
 	items =items.filter (function (item) { return (item != 'lmv-root') ; }) ;
 	items =items.concat.apply (items, Object.keys (connections).map (function (key) { return (connections [key]) ; })) ;
 	items =items.filter (function (value, index, self) { return (self.indexOf (value) === index) ; }) ;
-
 	async.series ([
 		function (callbacks1) {
-			console.log ('createBucketIfNotExist') ;
 			new lmv.Lmv (bucket).createBucketIfNotExist (policy)
 				.on ('success', function (data) {
 					console.log ('Bucket created (or did exist already)!') ;
@@ -191,7 +204,7 @@ router.post ('/projects', function (req, res) {
 				})
 				.on ('fail', function (err) {
 					console.log ('Failed to create bucket!') ;
-					callbacks1 (null, 2) ;
+					callbacks1 (null, 2) ; // no need to continue if the bucket was not created?
 				})
 			;
 		},
@@ -208,13 +221,16 @@ router.post ('/projects', function (req, res) {
 						})
 						.on ('fail', function (err) {
 							console.log ('Failed to upload ' + item) ;
-							callback () ;
+							callback (err) ;
 						})
 					;
 				},
 				function (err) { //- All tasks are done
-					if ( err !== undefined && err !== null )
-						return (console.log ('Something wrong happened during upload')) ;
+					if ( err !== undefined && err !== null ) {
+						console.log ('Something wrong happened during upload') ;
+						callbacks2 (err, 3) ;
+						return ;
+					}
 
 					console.log ('All files uploaded') ;
 					new lmv.Lmv (bucket).setDependencies (items.length == 1 ? null : connections)
@@ -249,14 +265,15 @@ router.post ('/projects', function (req, res) {
 							console.log (err) ;
 						})
 					;
+					callbacks2 (null, 4) ;
 				}
 			) ;
-			callbacks2 (null, 3) ;
 		}
 	], function (err, results) {
 		//- We are done!
 	}) ;
 
+	// We submitted, no clue if it was successful or if it will fail.
 	res
 		//.status (202) //- 202 Accepted
 		.json ({ 'status': 'submitted' }) ;

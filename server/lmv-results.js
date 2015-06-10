@@ -47,11 +47,11 @@ router.get ('/results', function (req, res) {
 			files =filterProject (files, '(.*)\\.resultdb\\.json') ;
 			async.mapLimit (files, 10,
 				function (file, callback_map) { // Each tasks execution
-					fs.readFile ('data/' + file + '.resultdb.json', function (err, data) {
+					fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
 						if ( err )
 							return (callback_map (null, null)) ;
 						data =JSON.parse (data) ;
-						out ={
+						var out ={
 							name: file,
 							urn: data.urn,
 							date: data.startedAt,
@@ -497,7 +497,7 @@ router.get ('/results/file/:bucket/:identifier/:fragment', function (req, res) {
 	var identifier =req.params.identifier ;
 	var fragment =req.params.fragment ;
 
-	fs.readFile ('data/' + bucket + '.' + identifier + '.resultdb.json', function (err, data) {
+	fs.readFile ('data/' + bucket + '.' + identifier + '.resultdb.json', 'utf-8', function (err, data) {
 		if ( err )
 			return (res.status (404).end ()) ;
 		data =JSON.parse (data) ;
@@ -515,66 +515,6 @@ router.get ('/results/file/:bucket/:identifier/:fragment', function (req, res) {
 			})
 		;
 	}) ;
-}) ;
-
-router.get ('/results/test', function (req, res) {
-	fs.readFile ('views/view.ejs', 'utf-8', function (err, data) {
-		if ( err )
-			return (res.status (500). end ()) ;
-		var obj = {
-			urn: 'urn',
-			svf: 'test'
-		} ;
-		var st =ejs.render (data, obj) ;
-		res.end (st) ;
-	}) ;
-}) ;
-
-var walk =function (dir, done) {
-	var results =[] ;
-	fs.readdir (dir, function (err, list) {
-		if ( err )
-			return (done (err)) ;
-		var pending =list.length ;
-		if ( !pending )
-			return (done (null, results)) ;
-		list.forEach (function (file) {
-			file =dir + '/' + file ;
-			fs.stat (file, function (err, stat) {
-				if ( stat && stat.isDirectory () ) {
-					walk (file, function (err, res) {
-						results =results.concat (res) ;
-						if ( !--pending )
-							done (null, results) ;
-					}) ;
-				} else {
-					results.push (file) ;
-					if ( !--pending )
-						done (null, results) ;
-				}
-			}) ;
-		}) ;
-	}) ;
-} ;
-
-router.get ('/results/test2', function (req, res) {
-	var archive =archiver ('zip') ;
-	var output =fs.createWriteStream ('data/example-output.zip') ;
-	archive.pipe (output) ;
-
-	walk ('data/773432-Stockbettdwg', function (err, results) {
-		if ( err )
-			throw err ;
-
-		for ( var i =0 ; i < results.length ; i++ ) {
-			var data =fs.createReadStream (results [i]) ;
-			archive.append (data, { name: results [i].substring (5) }) ;
-		}
-		archive.finalize (function (err) {}) ;
-	}) ;
-
-	res.end ('ok') ;
-
 }) ;
 
 module.exports =router ;

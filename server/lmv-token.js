@@ -24,32 +24,10 @@ var bodyParser =require ('body-parser') ;
 var fs =require ('fs') ;
 var lmv =require ('./lmv') ;
 
-var zlib =require ('zlib') ;
-
 function initializeApp () {
 	var seconds =1700 ; // Service returns 1799 seconds bearer token
 	setInterval (lmv.Lmv.refreshToken, seconds * 1000) ;
 	lmv.Lmv.refreshToken () ;
-
-	//var input = new Buffer('lorem ipsum dolor sit amet', 'utf8') ;
-	//zlib.deflate(input) ;
-	//zlib.deflate(input).toString('utf8') ;
-	//zlib.inflate(zlib.deflate(input)) ;
-	//zlib.inflate(zlib.deflate(input)).toString('utf8') ;
-
-	//var st =fs.readFileSync ('server/objects_attrs.json.gz', 'utf-8') ;
-
-	/*var st =fs.readFile ('data/objects_attrs.json.gz', function (err, data) {
-		var buffer = new Buffer ('eJzT0yMAAGTvBe8=', 'base64');
-		zlib.unzip (data, function (err, buffer) {
-			if ( !err ) {
-				console.log (buffer.toString ());
-			}
-		});
-	}) ;*/
-	//var st =fs.readFileSync ('data/objects_attrs.json.gz') ;
-	//var gg =zlib.unzip (st) ;
-
 }
 initializeApp () ;
 
@@ -62,7 +40,7 @@ router.get ('/token', function (req, res) {
 router.post ('/setup', bodyParser.urlencoded ({ extended: false }), function (req, res) {
 	var key =req.body.key.trim () ;
 	var  secret =req.body.secret.trim () ;
-	var data =fs.readFile ('server/credentials_.js', function (err, data) {
+	var data =fs.readFile ('server/credentials_.js', 'utf-8', function (err, data) {
 		if ( err ) {
 			res.status (500).end ('No file named server/credentials_.js!') ;
 			return ;

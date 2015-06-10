@@ -51,7 +51,8 @@ router.post ('/file', multipartMiddleware, function (req, res) {
 		}
 		//if ( ACCESS_CONTROLL_ALLOW_ORIGIN )
 		//	res.header ("Access-Control-Allow-Origin", "*") ;
-		res.status (status).send () ;
+		//res.status (status).send () ;
+		res.status (200).end () ;
 	}) ;
 }) ;
 

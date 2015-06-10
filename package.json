@@ -1,7 +1,44 @@
 {
 	"name": "AdnNodeJsServerSample",
 	"description": "A node.js server sample",
+	"homepage": "http://around-the-corner.typepad.com/",
 	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api/issues"
+	},
+	"author": "Cyrille Fauvel",
+	"contributors": [
+		"Cyrille Fauvel <cyrille@autodesk.com>"
+	],
+	"license": "MIT",
+	"engines": {
+		"node": "= 0.12.4",
+		"npm": ">= 2.10.1"
+	},
+	"scripts": {
+		"start": "node start.js",
+		"test": "node_modules/.bin/mocha --require test/support/env --reporter spec --bail --check-leaks test/",
+		"testdebug": "node_modules/.bin/mocha --debug --require test/support/env --reporter spec --bail --check-leaks test/"
+	},
+	"files": [
+		"LICENSE",
+		"README.md"
+	],
+	"keywords": [
+		"express",
+		"framework",
+		"lmv",
+		"web",
+		"rest",
+		"restful",
+		"router",
+		"app",
+		"api"
+	],
 	"dependencies": {
 		"express": ">= 4.11.1",
 		"request": ">= 2.51.0",
@@ -19,25 +56,18 @@
 		"ejs" : ">= 2.2.4",
 		"adm-zip": ">= 0.4.7",
 		"archiver": ">= 0.14.3",
-		"rimraf": " >= 2.2.8"
+		"rimraf": " >= 2.2.8",
+		"moment": ">= 2.10.3"
 	},
-	"files": [
-		"LICENSE",
-		"README.md"
-	],
-	"engines": {
-		"node": "= 0.12.4"
+	"devDependencies": {
+		"mocha": ">= 2.2.5",
+		"should": ">= 6.0.3",
+		"supertest": ">= 1.0.1",
+
+		"chai": "3.0.0",
+		"superagent": ">= 1.2.1",
+		"expect.js": ">= 0.3.1"
 	},
-	"contributors": [
-		"Cyrille Fauvel <cyrille@autodesk.com>"
-	],
-	"license": "MIT",
-	
-	"scripts": {
-		"start": "node start.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api.git"
+	"optionalDependencies": {
 	}
 }

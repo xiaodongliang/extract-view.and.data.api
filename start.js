@@ -23,29 +23,8 @@
 process.env.TMPDIR ='tmp' ;
 //process.env ['NODE_TLS_REJECT_UNAUTHORIZED'] ='0' ; // Ignore 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' authorization error
 
-var express =require ('express') ;
-var request =require ('request') ;
-var bodyParser =require ('body-parser') ;
-var fs =require ('fs') ;
-var lmvToken =require ('./server/lmv-token') ;
-var lmvProjects =require ('./server/lmv-projects') ;
-var lmvResults =require ('./server/lmv-results') ;
-var lmvFile =require ('./server/file') ;
-var ejs =require ('./server/ejs') ;
+var app =require ('./server/server') ;
 
-// http://garann.github.io/template-chooser/
-var app =express () ;
-//app.use (bodyParser.urlencoded ({ extended: false })) ;
-app.use (bodyParser.json ()) ;
-app.use (express.static (__dirname + '/www')) ;
-app.set ('view engine', 'ejs') ;
-app.use ('/explore', ejs) ;
-app.use ('/api', lmvToken) ;
-app.use ('/api', lmvProjects) ;
-app.use ('/api', lmvResults) ;
-app.use ('/api', lmvFile) ;
-
-app.set ('port', process.env.PORT || 80) ;
 var server =app.listen (app.get ('port'), function () {
     console.log ('Server listening on port ' + server.address ().port) ;
 }) ;

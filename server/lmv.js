@@ -57,7 +57,10 @@ util.inherits (Lmv, events.EventEmitter) ;
 						throw err ;
 				}) ;
 			} catch ( err ) {
-				fs.unlinkSync ('data/token.json') ;
+				fs.exists ('data/token.json', function (exists) {
+					if ( exists )
+						fs.unlink ('data/token.json', function (err) {}) ;
+				}) ;
 				console.log ('Token: ERROR! (' + response.statusCode + ')') ;
 			}
 		})
@@ -84,15 +87,38 @@ Lmv.prototype.checkBucket =function () {
 		null,
 		function (data) {
 			if ( data.hasOwnProperty ('key') ) {
-				try {
-					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
-						if ( err )
-							return (console.log ('ERROR: bucket data not saved :(')) ;
-						self.emit ('success', data) ;
-					}) ;
-				} catch ( err ) {
+				fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
+					if ( err )
+						console.log ('ERROR: bucket data not saved :(') ;
 					self.emit ('success', data) ;
-				}
+				}) ;
+			} else {
+				self.emit ('fail', data) ;
+			}
+		},
+		function (err) {
+			self.emit ('fail', err) ;
+		}
+	) ;
+	return (this) ;
+} ;
+
+// GET /oss/v1/buckets/:bucketkey/objects/:objectKey/details
+Lmv.prototype.checkObjectDetails =function (filename) {
+	var self =this ;
+	var endpoint ='/oss/v1/buckets/' + self.bucket + '/objects/' + filename.replace (/ /g, '+') + '/details' ;
+	this.performRequest (
+		'get',
+		endpoint,
+		null,
+		function (data) {
+			if ( data.hasOwnProperty ('bucket-key') ) {
+				var identifier =data.objects [0].size + '-' + filename.replace (/[^0-9A-Za-z_-]/g, '') ;
+				fs.writeFile ('data/' + data ['bucket-key'] + '.' + identifier + '.json', JSON.stringify (data), function (err) {
+					if ( err )
+						console.log ('ERROR: object data not saved :(') ;
+					self.emit ('success', data) ;
+				}) ;
 			} else {
 				self.emit ('fail', data) ;
 			}
