@@ -1,5 +1,11 @@
 # workflow-node.js-server-view.and.data.api sample
 
+[![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api.png)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
+[![Pod Platform](http://img.shields.io/cocoapods/p/RestKit.svg?style=flat)](http://cocoadocs.org/docsets/RestKit/)
+[![NPM Version][npm-image]][npm-url]
+[![License][license-image]][license-url]
+[![Pod License](http://img.shields.io/cocoapods/l/RestKit.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 <b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.
 Visit this [page](https://developer.autodesk.com) for instructions to get on-board.
 
