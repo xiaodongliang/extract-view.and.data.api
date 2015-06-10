@@ -53,6 +53,7 @@ module.exports = flow = function(temporaryFolder) {
             }
             if (numberOfChunks == 1 && fileSize != totalSize) {
                 // The file is only a single chunk, and the data size does not fit
+				console.log ('invalid_flow_request5' + fileSize + ' ' + totalSize) ;
                 return 'invalid_flow_request5' + fileSize + ' ' + totalSize;
             }
         }
