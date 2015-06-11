@@ -155,13 +155,13 @@ Viewing 'bubbles' offline using Node.js
    ```
    [sudo] http-server <myfolder>
    ```
-5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost:8080/](http://localhost:8080/)
+5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/)
    and select any of the html *.svf.* files.<br />
    (or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh')
 
 Viewing 'bubbles' offline using Python
 
-1. This step needs to be done only once per machine. Downlaod and install Python on your computer.
+1. This step needs to be done only once per machine. Download and install Python on your computer.
 2. Unzip the project result zip file into a folder.
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
 4. Start your local Python http server.<br />
