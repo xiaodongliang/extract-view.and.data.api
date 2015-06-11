@@ -3,10 +3,6 @@
 [![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api.png)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
-<br />
-[![Build Status][travis-image]][travis-url]
-[![License][npm-license]][license-url]
-
 
 <b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.
 Visit this [page](https://developer.autodesk.com) for instructions to get on-board.
@@ -72,7 +68,8 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
     "ejs" : ">= 2.2.4",
     "adm-zip": ">= 0.4.7",
     "archiver": ">= 0.14.3",
-    "rimraf": ">= 2.2.8"
+    "rimraf": " >= 2.2.8",
+    "moment": ">= 2.10.3"
 	```
 		
 2. flow.js - A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable
