@@ -15,6 +15,8 @@ Visit this [page](https://developer.autodesk.com) for instructions to get on-boa
 ## Live demo at
 http://extract.autodesk.io/
 
+[![](www/img/app.png)](http://extract.autodesk.io/)
+
 
 ## Motivation
 
