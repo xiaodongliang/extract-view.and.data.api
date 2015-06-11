@@ -3,9 +3,18 @@
 [![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
+<br />
+[![Build Status][travis-image]][travis-url]
+[![License][npm-license]][license-url]
+
 
 <b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.
 Visit this [page](https://developer.autodesk.com) for instructions to get on-board.
+
+
+## Live demo at
+http://extract.autodesk.io/
+
 
 ## Motivation
 

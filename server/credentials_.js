@@ -32,6 +32,20 @@ var config ={
 	Version: 'v1'
 } ;
 
-config.AuthenticateEndPoint =config.BaseEndPoint + '/authentication/' + config.Version + '/authenticate'
+config.AuthenticateEndPoint =config.BaseEndPoint + '/authentication/' + config.Version + '/authenticate' ;
+
+config.getBucketsDetailsEndPoint =config.BaseEndPoint + '/oss/' + config.Version + '/buckets/%s/details' ;
+config.postBucketsEndPoint =config.BaseEndPoint + '/oss/' + config.Version + '/buckets' ;
+config.getputFileUploadEndPoint =config.BaseEndPoint + '/oss/' + config.Version + '/buckets/%s/objects/%s' ;
+config.getFileDetailsEndPoint =config.BaseEndPoint + '/oss/' + config.Version + '/buckets/%s/objects/%s/details' ;
+
+config.postSetReferencesEndPoint =config.BaseEndPoint + '/references/' + config.Version + '/setreference' ;
+
+config.postRegisterEndPoint =config.BaseEndPoint + '/viewingservice/' + config.Version + '/register' ;
+config.getBubblesEndPoint =config.BaseEndPoint + '/viewingservice/' + config.Version + '/%s' ;
+config.getStatusEndPoint =config.getBubblesEndPoint + '/status' ;
+config.getAllEndPoint =config.getBubblesEndPoint + '/all' ;
+config.getItemsEndPoint =config.BaseEndPoint + '/viewingservice/' + config.Version + '/items/%s' ;
+config.getThumbnailsEndPoint =config.BaseEndPoint + '/viewingservice/' + config.Version + '/thumbnails/%s' ;
 
 module.exports =config ;

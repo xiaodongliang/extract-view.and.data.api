@@ -11,9 +11,9 @@ app.set ('port', 8000) ;
 describe ('Starting Test server...', function () {
 
 	var server ;
-	//var port =80 ;
+	//var port =app.get ('port') ;
 	//var url ='http://extract.autodesk.io' ;
-	var port =8000 ;
+	var port =app.get ('port') ;
 	var url ='http://localhost:' + port ;
 
 	var auObjFile ='samples/Au.obj' ;
@@ -26,6 +26,7 @@ describe ('Starting Test server...', function () {
 
 	// Start/End test server
 	before (function (done) {
+		console.log ('Starting server listening on port ' + app.get ('port')) ;
 		this.timeout (12000) ;
 		if ( fs.existsSync ('data/token.json') )
 			fs.unlinkSync ('data/token.json') ;

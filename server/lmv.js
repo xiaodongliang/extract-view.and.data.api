@@ -50,9 +50,9 @@ util.inherits (Lmv, events.EventEmitter) ;
 				if ( response.statusCode != 200 )
 					throw 'error' ;
 				var authResponse =response.body ;
-				console.log ('Token: ' + JSON.stringify (authResponse)) ;
+				console.log ('Token: ' + response.raw_body) ;
 				//authResponse.expires_at =Math.floor (Date.now () / 1000) + authResponse.expires_in ;
-				fs.writeFile ('data/token.json', JSON.stringify (authResponse), function (err) {
+				fs.writeFile ('data/token.json', response.raw_body, function (err) {
 					if ( err )
 						throw err ;
 				}) ;
@@ -81,52 +81,25 @@ util.inherits (Lmv, events.EventEmitter) ;
 // GET /oss/v1/buckets/:bucket/details
 Lmv.prototype.checkBucket =function () {
 	var self =this ;
-	this.performRequest (
-		'get',
-		'/oss/v1/buckets/' + this.bucket + '/details',
-		null,
-		function (data) {
-			if ( data.hasOwnProperty ('key') ) {
-				fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
+	unirest.get (util.format (config.getBucketsDetailsEndPoint, self.bucket))
+		.header ('Accept', 'application/json')
+		.header ('Content-Type', 'application/json')
+		.header ('Authorization', 'Bearer ' + Lmv.getToken ())
+		//.query (params)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 || !response.body.hasOwnProperty ('key') )
+					throw response ;
+				fs.writeFile ('data/' + response.body.key + '.bucket.json', JSON.stringify (response.body), function (err) {
 					if ( err )
 						console.log ('ERROR: bucket data not saved :(') ;
-					self.emit ('success', data) ;
 				}) ;
-			} else {
-				self.emit ('fail', data) ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
 			}
-		},
-		function (err) {
-			self.emit ('fail', err) ;
-		}
-	) ;
-	return (this) ;
-} ;
-
-// GET /oss/v1/buckets/:bucketkey/objects/:objectKey/details
-Lmv.prototype.checkObjectDetails =function (filename) {
-	var self =this ;
-	var endpoint ='/oss/v1/buckets/' + self.bucket + '/objects/' + filename.replace (/ /g, '+') + '/details' ;
-	this.performRequest (
-		'get',
-		endpoint,
-		null,
-		function (data) {
-			if ( data.hasOwnProperty ('bucket-key') ) {
-				var identifier =data.objects [0].size + '-' + filename.replace (/[^0-9A-Za-z_-]/g, '') ;
-				fs.writeFile ('data/' + data ['bucket-key'] + '.' + identifier + '.json', JSON.stringify (data), function (err) {
-					if ( err )
-						console.log ('ERROR: object data not saved :(') ;
-					self.emit ('success', data) ;
-				}) ;
-			} else {
-				self.emit ('fail', data) ;
-			}
-		},
-		function (err) {
-			self.emit ('fail', err) ;
-		}
-	) ;
+		})
+	;
 	return (this) ;
 } ;
 
@@ -134,71 +107,73 @@ Lmv.prototype.checkObjectDetails =function (filename) {
 Lmv.prototype.createBucket =function (policy) {
 	policy =policy || 'transient' ;
 	var self =this ;
-	this.performRequest (
-		'post',
-		'/oss/v1/buckets',
-		{ 'bucketKey': this.bucket, 'policy': policy },
-		function (data) {
-			if ( data.hasOwnProperty ('key') ) {
-				try {
-					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
-						if ( err )
-							return (console.log ('ERROR: bucket data not saved :(')) ;
-						self.emit ('success', data) ;
-					}) ;
-				} catch ( err ) {
-					self.emit ('success', data) ;
-				}
-			} else {
-				self.emit ('fail', data) ;
+	unirest.post (config.postBucketsEndPoint)
+		.header ('Accept', 'application/json')
+		.header ('Content-Type', 'application/json')
+		.header ('Authorization', 'Bearer ' + Lmv.getToken ())
+		.send ({ 'bucketKey': self.bucket, 'policy': policy })
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 || !response.body.hasOwnProperty ('key') )
+					throw response ;
+				fs.writeFile ('data/' + response.body.key + '.bucket.json', JSON.stringify (response.body), function (err) {
+					if ( err )
+						console.log ('ERROR: bucket data not saved :(') ;
+				}) ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
 			}
-		},
-		function (err) {
-			self.emit ('fail', err) ;
-		}
-	) ;
+		})
+	;
 	return (this) ;
 } ;
 
 Lmv.prototype.createBucketIfNotExist =function (policy) {
 	policy =policy || 'transient' ;
 	var self =this ;
-	this.performRequest (
-		'get',
-		'/oss/v1/buckets/' + this.bucket + '/details',
-		null,
-		function (data) {
-			if ( data.hasOwnProperty ('key') ) {
-				try {
-					fs.writeFile ('data/' + data.key + '.bucket.json', JSON.stringify (data), function (err) {
-						if ( err )
-							return (console.log ('ERROR: bucket data not saved :(')) ;
-						self.emit ('success', data) ;
-					}) ;
-				} catch ( err ) {
-					self.emit ('success', data) ;
+	unirest.get (util.format (config.getBucketsDetailsEndPoint, self.bucket))
+		.header ('Accept', 'application/json')
+		.header ('Content-Type', 'application/json')
+		.header ('Authorization', 'Bearer ' + Lmv.getToken ())
+		//.query (params)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 || !response.body.hasOwnProperty ('key') )
+					throw response ;
+				fs.writeFile ('data/' + response.body.key + '.bucket.json', JSON.stringify (response.body), function (err) {
+					if ( err )
+						console.log ('ERROR: bucket data not saved :(') ;
+				}) ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				// We need to create one if error == 404 (404 Not Found)
+				if ( Number.isInteger (err.statusCode) && err.statusCode == 404 ) {
+					unirest.post (config.postBucketsEndPoint)
+						.header ('Accept', 'application/json')
+						.header ('Content-Type', 'application/json')
+						.header ('Authorization', 'Bearer ' + Lmv.getToken ())
+						.send ({ 'bucketKey': self.bucket, 'policy': policy })
+						.end (function (response) {
+							try {
+								if ( response.statusCode != 200 || !response.body.hasOwnProperty ('key') )
+									throw response ;
+								fs.writeFile ('data/' + response.body.key + '.bucket.json', JSON.stringify (response.body), function (err) {
+									if ( err )
+										console.log ('ERROR: bucket data not saved :(') ;
+								}) ;
+								self.emit ('success', response.body) ;
+							} catch ( err ) {
+								self.emit ('fail', err) ;
+							}
+						})
+					;
+				} else {
+					self.emit ('fail', err) ;
 				}
-			} else {
-				self.emit ('fail', data) ;
 			}
-		},
-		function (err) {
-			//- We need to create one if error == 404 (404 Not Found)
-			if ( Number.isInteger (err) && err == 404 ) {
-				new Lmv (self.bucket).createBucket (policy)
-					.on ('success', function (data) {
-						console.log ('Bucket ' + JSON.stringify (data)) ;
-						self.emit ('success', data) ;
-					})
-					.on ('fail', function (err2) {
-						self.emit ('fail', err2) ;
-					}
-				) ;
-			} else {
-				self.emit ('fail', err);
-			}
-		}
-	) ;
+		})
+	;
 	return (this) ;
 } ;
 
@@ -214,8 +189,8 @@ Lmv.prototype.uploadFile =function (identifier) {
 			return ;
 		}
 
-		var endpoint ='/oss/v1/buckets/' + self.bucket + '/objects/' + idData.name.replace (/ /g, '+') ;
-		unirest.put (config.BaseEndPoint + endpoint)
+		var endpoint =util.format (config.getputFileUploadEndPoint, self.bucket, idData.name.replace (/ /g, '+'))
+		unirest.put (endpoint)
 			.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 			//.attach ('file', serverFile)
 			.send (data)
@@ -226,20 +201,20 @@ Lmv.prototype.uploadFile =function (identifier) {
 						throw response.statusCode ;
 					fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
 						if ( err )
-							throw err ;
-						self.emit ('success', response.body) ;
+							console.log ('ERROR: file upload data not saved :(') ;
 					}) ;
+					self.emit ('success', response.body) ;
 				} catch ( err ) {
-					console.log (__function + ' ' + __line) ;
-					if ( fs.existsSync ('data/' + self.bucket + '.' + identifier + '.json') )
-						fs.unlinkSync ('data/' + self.bucket + '.' + identifier + '.json') ;
+					//console.log (__function + ' ' + __line) ;
+					fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
+						if ( exists )
+							fs.unlink ('data/' + self.bucket + '.' + identifier + '.json', function (err) {}) ;
+					}) ;
 					self.emit ('fail', err) ;
 				}
 			})
 		;
-
 	}) ;
-
 	return (this) ;
 } ;
 
@@ -261,10 +236,37 @@ Lmv.prototype.getURN =function (identifier) {
 		data =JSON.parse (data) ;
 		return (data.name) ;
 	} catch ( err ) {
-		console.log (__function + ' ' + __line) ;
+		//console.log (__function + ' ' + __line) ;
 		console.log (err) ;
 	}
 	return ('') ;
+} ;
+
+// GET /oss/v1/buckets/:bucketkey/objects/:objectKey/details
+Lmv.prototype.checkObjectDetails =function (filename) {
+	var self =this ;
+	var endpoint =util.format (config.getFileDetailsEndPoint, self.bucket, filename.replace (/ /g, '+')) ;
+	unirest.get (endpoint)
+		.header ('Accept', 'application/json')
+		.header ('Content-Type', 'application/json')
+		.header ('Authorization', 'Bearer ' + Lmv.getToken ())
+		//.query (params)
+		.end (function (response) {
+			try {
+				if ( response.statusCode != 200 || !response.body.hasOwnProperty ('bucket-key') )
+					throw response ;
+				var identifier =response.body.objects [0].size + '-' + filename.replace (/[^0-9A-Za-z_-]/g, '') ;
+				fs.writeFile ('data/' + response.body ['bucket-key'] + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
+					if ( err )
+						console.log ('ERROR: object data not saved :(') ;
+				}) ;
+				self.emit ('success', response.body) ;
+			} catch ( err ) {
+				self.emit ('fail', err) ;
+			}
+		})
+	;
+	return (this) ;
 } ;
 
 // POST /references/v1/setreference
@@ -293,14 +295,13 @@ Lmv.prototype.setDependencies =function (connections) {
 			}
 		}
 	}
-	console.log (__function + ' ' + __line) ;
+	//console.log (__function + ' ' + __line) ;
 	fs.writeFile ('data/' + this.bucket + '.' + master + '.connections.json', JSON.stringify (desc), function (err) {
 		if ( err )
 			console.log ('ERROR: bucket project connections not saved :(') ;
 	}) ;
 
-	var endpoint ='/references/v1/setreference' ;
-	unirest.post (config.BaseEndPoint + endpoint)
+	unirest.post (config.postSetReferencesEndPoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.send (desc)
 		.end (function (response) {
@@ -322,8 +323,7 @@ Lmv.prototype.register =function (connections) {
 	var urn =this.getURN (connections ['lmv-root'] [0]) ;
 	var desc ={ 'urn': new Buffer (urn).toString ('base64') } ;
 
-	var endpoint ='/viewingservice/v1/register' ;
-	unirest.post (config.BaseEndPoint + endpoint)
+	unirest.post (config.postRegisterEndPoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.send (desc)
 		.end (function (response) {
@@ -346,8 +346,8 @@ Lmv.prototype.status =function (urn, params) {
 	var encodedURN =new Buffer (urn).toString ('base64') ;
 	params =params || {} ;
 
-	var endpoint ='/viewingservice/v1/' + encodedURN + '/status' ;
-	unirest.get (config.BaseEndPoint + endpoint)
+	var endpoint =util.format (config.getStatusEndPoint, encodedURN) ;
+	unirest.get (endpoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.query (params)
 		.end (function (response) {
@@ -369,8 +369,8 @@ Lmv.prototype.all =function (urn, params) {
 	var encodedURN =new Buffer (urn).toString ('base64') ;
 	params =params || {} ;
 
-	var endpoint ='/viewingservice/v1/' + encodedURN + '/all' ;
-	unirest.get (config.BaseEndPoint + endpoint)
+	var endpoint =util.format (config.getAllEndPoint, encodedURN) ;
+	unirest.get (endpoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.query (params)
 		.end (function (response) {
@@ -392,9 +392,8 @@ Lmv.prototype.bubbles =function (urn, params) {
 	var encodedURN =new Buffer (urn).toString ('base64') ;
 	params =params || {} ;
 
-	//unirest.get (config.BaseEndPoint + '/viewingservice/v1/' + encodeURIComponent (urn))
-	var endpoint ='/viewingservice/v1/' + encodedURN ;
-	unirest.get (config.BaseEndPoint + endpoint)
+	var endpoint =util.format (config.getBubblesEndPoint, encodedURN) ;
+	unirest.get (endpoint)
 		.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.query (params)
 		.end (function (response) {
@@ -430,7 +429,7 @@ Lmv.prototype.download =function (identifier) {
 			self.emit ('fail', err) ;
 			return (this) ;
 		}
-		endpoint =config.BaseEndPoint + '/oss/v1/buckets/' + this.bucket + '/objects/' + filename.replace (/ /g, '+') ;
+		endpoint =util.format (config.getputFileUploadEndPoint, self.bucket, filename.replace (/ /g, '+')) ;
 	}
 
 	unirest.get (endpoint)
@@ -454,7 +453,8 @@ Lmv.prototype.downloadItem =function (urn) { // TODO: range header?
 	var encodedURN =encodeURIComponent (urn) ;
 	//console.log ('Downloading: ' + urn) ;
 
-	unirest.get (config.BaseEndPoint + '/viewingservice/v1/items/' + encodedURN)
+	var endpoint =util.format (config.getItemsEndPoint, encodedURN) ;
+	unirest.get (endpoint)
 		.headers ({ 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.encoding (null)
 		//.timeout (2 * 60 * 1000) // 2 min
@@ -480,7 +480,7 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 	var self =this ;
 	var encodedURN =new Buffer (urn).toString ('base64') ;
 
-	var endpoint ='/viewingservice/v1/thumbnails/' + encodedURN ;
+	var endpoint =util.format (config.getThumbnailsEndPoint, encodedURN) ;
 	var query ={} ;
 	if ( width !== undefined )
 		query.width =width ;
@@ -488,7 +488,7 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 		query.height =height ;
 	//endpoint =urlmod.format ({ 'query': query, pathname: endpoint }) ;
 
-	unirest.get (config.BaseEndPoint + endpoint)
+	unirest.get (endpoint)
 		.headers ({ 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 		.query (query)
 		.encoding (null)
@@ -527,39 +527,6 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 	}*/
 
 	return (this) ;
-} ;
-
-Lmv.prototype.performRequest =function (method, endpoint, data, success, fail) {
-	method =method.toLowerCase () ;
-	var req =unirest (method, config.BaseEndPoint + endpoint)
-		.header ('Accept', 'application/json')
-		.header ('Content-Type', 'application/json')
-		//.header ('Content-Length', 0)
-		//.header ('Accept', 'application/json')
-		.header ('Authorization', 'Bearer ' + Lmv.getToken ())
-		//.header ('Connection', 'keep-alive')
-		//.options ({ 'strictSSL': false })
-		//.strictSSL (false)
-		//.proxy ('127.0.0.1:8888')
-		//.query (data)
-	;
-
-	if ( data != null && method == 'get' )
-		req.query (data) ;
-	if ( data != null && method == 'post' )
-		req.send (data) ;
-
-	req.end (function (response) {
-			try {
-				if ( response.statusCode != 200 )
-					throw response.statusCode ;
-				success (response.body) ;
-			} catch ( err ) {
-				fail (err) ;
-			}
-		}
-	) ;
-
 } ;
 
 var router =express.Router () ;
