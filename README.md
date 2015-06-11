@@ -1,6 +1,6 @@
 # workflow-node.js-server-view.and.data.api sample
 
-[![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
+[![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api.png)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 <br />
