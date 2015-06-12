@@ -6,7 +6,7 @@ var should =require ('should') ;
 var app =require ('../server/server') ;
 var fs =require ('fs') ;
 var path =require ('path') ;
-app.set ('port', 8000) ;
+app.set ('port', process.env.PORT || 8000) ;
 
 describe ('Starting Test server...', function () {
 
@@ -14,15 +14,29 @@ describe ('Starting Test server...', function () {
 	//var port =app.get ('port') ;
 	//var url ='http://extract.autodesk.io' ;
 	var port =app.get ('port') ;
-	var url ='http://localhost:' + port ;
+	//var url ='http://localhost:' + port ;
 
 	var auObjFile ='samples/Au.obj' ;
 	var auObjIdentifier ='1866-Auobj' ;
-	var auObjBucket ='autotest2015xx' ;
+	var auObjBucket =process.env.transientBucket || 'autotesttransient' ;
+	if ( process.env.CONSUMERKEY ) {
+		auObjBucket +=process.env.CONSUMERKEY.toLowerCase () ;
+	} else {
+		var config =require ('../server/credentials.js') ;
+		auObjBucket +=config.credentials.client_id.toLowerCase () ;
+	}
+	//var transientAuObjUrn ='urn:adsk.objects:os.object:' + auObjBucket + '/' + path.basename (auObjFile) ;
 
 	var testFile ='Au.obj' ;
 	var testIdentifier ='1866-Auobj' ;
-	var testBucket ='cyrille-test-2015' ;
+	var testBucket =process.env.permanentBucket || 'autotestpermament' ;
+	if ( process.env.CONSUMERKEY ) {
+		testBucket +=process.env.CONSUMERKEY.toLowerCase () ;
+	} else {
+		var config =require ('../server/credentials.js') ;
+		testBucket +=config.credentials.client_id.toLowerCase () ;
+	}
+	var permanentAuObjUrn ='urn:adsk.objects:os.object:' + testBucket + '/' + testFile ;
 
 	// Start/End test server
 	before (function (done) {
@@ -180,7 +194,8 @@ describe ('Starting Test server...', function () {
 				.end (function (err, res) {
 					if ( err )
 						throw err ;
-					res.body.should.have.property ('guid').and.be.equal ('dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y3lyaWxsZS10ZXN0LTIwMTUvQXUub2Jq') ;
+					var encodedURN =new Buffer (permanentAuObjUrn).toString ('base64') ;
+					res.body.should.have.property ('guid').and.be.equal (encodedURN) ;
 					done () ;
 				}) ;
 		}) ;

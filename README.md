@@ -1,7 +1,10 @@
 # workflow-node.js-server-view.and.data.api sample
 
 [![build status](https://api.travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api.png)](https://travis-ci.org/cyrillef/workflow-node.js-server-view.and.data.api)
-[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Node.js](https://img.shields.io/badge/Node.js-0.12.4-blue.svg)](https://nodejs.org/)
+[![npm](https://img.shields.io/badge/npm-2.10.1-blue.svg)](https://www.npmjs.com/)
+[![LMV](https://img.shields.io/badge/View%20%26%20Data%20API-v1.2.15-green.svg)](http://developer-autodesk.github.io/)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
 
 
 <b>Note:</b> For using this sample, you need a valid oAuth credential for the translation / extraction portion.
@@ -89,27 +92,63 @@ Developer version live at: http://extract-dev.autodesk.io/
 
 
 ### Setup
+There is 3 ways to configure the sample with your application keys, please choose one of the option at step 4. Developers,
+make sure to read [the developer notes](tests/readme.md) before anything.<br />
+
 1. Download and install [Node.js](http://nodejs.org/) (that will install npm as well)
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
-   a location where you have write permission, at least the 'tmp' and 'data' folders)
-3. From the sample root folder, rename or copy the ./server/credentials_.js file into ./server/credentials.js<br />
-   * Windows<br />
-     ```
-     copy server/credentials_.js server/credentials.js
-     ```
-   * OSX/Linux<br />
-     ```
-     cp server/credentials_.js server/credentials.js
-     ```
-   <br />
-   <b>Note</b>, you can ignore step 3 and step 4, if you wish to configure the server from the browser on first usage.
-4. Edit credentials.js and replace keys placeholder (ClientId and ClientSecret) with your keys
-5. Execute 'npm install', this command will download and install the required node modules automatically for you.
+   a location where you have write permission, at least the 'tmp', 'data' and '/www/extracted' folders)
+3. Execute 'npm install', this command will download and install the required node modules automatically for you.
    These modules are only required for the translation/extraction processes.<br />
    ```
    npm install
    ```
-6. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
+4. Enter your credential keys to run the sample: <br />
+   a. Option 1: enter your keys in a permanent file which will never be saved in your GitHub repo. This is
+      because you do not want to expose your keys to anyone, and this is the reason why this file is never
+      saved in the repo. You can decide to save this file in a private GitHub repo by editing the .gitignore file.
+
+      * From the sample root folder, rename or copy the ./server/credentials_.js file into ./server/credentials.js<br />
+         * Windows<br />
+           ```
+            copy server/credentials_.js server/credentials.js
+            ```
+         * OSX/Linux<br />
+            ```
+            cp server/credentials_.js server/credentials.js
+            ```
+
+      * Edit credentials.js and replace keys placeholder (client_id and client_secret) with your keys. I.e.:<br />
+      &lt;replace with your consumer key&gt; <br />
+      &lt;replace with your consumer secret&gt; <br />
+
+   b. Option 2: configure the server from the browser on first usage. For this:
+      * Start the Node.js server (like at step 5)
+      * After step 5, open your favorite browser and go to [http://localhost/setup.html](http://localhost/setup.html)
+      This page will create the credentials.js file for you (like in Option 1).
+
+   c. Option 3: use system environment variables. This is actually the option you need to use for the tests suite
+      which runs on Travis-CI.
+      * Define a CONSUMERKEY and CONSUMERSECRET system variables from the console or script which will launch the
+         server.<br />
+          * Windows<br />
+            ```
+            set CONSUMERKEY=xxx
+            set CONSUMERSECRET=xxx
+            ```
+          * OSX/Linux<br />
+            ```
+            export CONSUMERKEY xxx
+            export CONSUMERSECRET xxx
+            ```
+            or <br />
+            ```
+            sudo [PORT=<port>] CONSUMERKEY=xxx CONSUMERSECRET=xxx node start.js
+            ```
+            <br />
+            Replace keys placeholder xxx with your own keys.
+
+5. You are done for the setup, launch the node server using the command '[sudo] node start.js'.
    sudo is required only on OSX and Linux.<br />
    * Windows<br />
    ```
@@ -122,7 +161,7 @@ Developer version live at: http://extract-dev.autodesk.io/
    ```
    <br />
    <b>Note:</b> the port argument can be omitted and default to port 80. If port 80 is already in use by another
-   application (like Skype, or IIS, or Apacahe, ...), you can use any other free port such as 8000, 3000, etc... 
+   application (like Skype, or IIS, or Apache, ...), you can use any other free port such as 8000, 3000, etc...
    But in the next section you would need to specify the port to use, i.e. http://localhost[:port]/
 
 ### Use of the sample
@@ -137,10 +176,14 @@ Translating files / Extracting 'bubbles'
 3. If a connection is not correct, delete the connection by click on the connection line, and build a new connection
    starting from the parent 'yellow' square to the child dependency.
 4. Once all files are uploaded on your local server and connections/dependencies are correct, give a bucket name,
-   and submit the project to the Autodesk server for translating your file to a lightweight WEBGL format.
+   and submit the project to the Autodesk server for translating your file to a lightweight WEBGL format, and wait
+   for the translation to complete.
 5. After the translation completed successfully, move your mouse over the project thumbnail at the bottom of the page
-   and press the 'Explore' button,
-6. On the new page, press the 'Download' button to download your 'bubbles' files.
+   and press the 'Explore' button.
+6. On the new page, you may see either a download button or an extraction button:
+   * press the ![Download](www/img/extract.png) button to start the extraction process. When completed the button will
+     change to a ![Download](www/img/download.png) button.
+   * press the ![Download](www/img/download.png) button to download your 'bubbles' files.
 7. You are done with translation and extraction.
 
 Viewing 'bubbles' offline using Node.js
@@ -155,7 +198,7 @@ Viewing 'bubbles' offline using Node.js
    ```
    [sudo] http-server <myfolder>
    ```
-5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost/](http://localhost/)
+5. Start your favorite browser supporting HTML5 and WEBGL and browse to [http://localhost:8080/](http://localhost:8080/)
    and select any of the html *.svf.* files.<br />
    (or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh')
 

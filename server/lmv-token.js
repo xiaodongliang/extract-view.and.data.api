@@ -55,6 +55,7 @@ router.post ('/setup', bodyParser.urlencoded ({ extended: false }), function (re
 				res.status (500).end ('Cannot save server/credentials.js file!') ;
 				return ;
 			}
+			lmv.Lmv.refreshToken () ; // Get a token now
 			res.writeHead (301, { Location: '/' }) ;
 			res.end () ;
 		}) ;
