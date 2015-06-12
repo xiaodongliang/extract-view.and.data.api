@@ -18,9 +18,10 @@ These modules are only required for the tests to run on your local machine.<br /
 npm install --dev
 ```
 
-### Create a test data set with a permanent bucket
-In order to test some of the API in the sample, we need some data to be pre-created on your account. You can either create
-the data set using this sample before running the tests, or use any of the other examples posted on our
+### Create a test data set
+In order to test some of the API in the sample, we need some data to be pre-created on your account. Since the data set will
+be created in a perment bucket, you need to do that step only once. You can either create the data set using this sample before
+running the tests, or use any of the other examples posted on our
 [GitHub repo](https://github.com/Developer-Autodesk?utf8=%E2%9C%93&query=workflow).
 
 Post the samples/Au.obj file in a permanent bucket named 'autotestpermament' + your consumer key in lowercase.
