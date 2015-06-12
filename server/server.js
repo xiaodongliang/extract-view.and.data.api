@@ -21,7 +21,6 @@
 var express =require ('express') ;
 var request =require ('request') ;
 var bodyParser =require ('body-parser') ;
-var fs =require ('fs') ;
 var lmvToken =require ('./lmv-token') ;
 var lmvProjects =require ('./lmv-projects') ;
 var lmvResults =require ('./lmv-results') ;

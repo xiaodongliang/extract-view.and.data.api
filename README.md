@@ -31,7 +31,7 @@ This sample will go through all the required steps.
 
 ## Description
 
-The workflow-node.js-server-view.and.data.api sample exercises demonstrates the Autodesk View and Data API authorization,
+The workflow-node.js-server-view.and.data.api sample exercises and demonstrates the Autodesk View and Data API authorization,
 translation, viewing processes mentioned in the Quick Start guide. It also demonstrates how to extract the 'bubbles' files
 from the Autodesk server for storing and viewing them locally.
 
@@ -43,7 +43,7 @@ In order to make use of this sample, you need to register your consumer key:
 
 * https://developer.autodesk.com > My Apps
 
-This provides the credentials to supply to the http request on the Autodesk server.
+This provides the credentials to supply to the http requests on the Autodesk server.
 
 
 ## Dependencies

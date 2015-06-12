@@ -30,7 +30,7 @@ For example, if my consumer key is 'pc3fr7BzWdaCkAzr3G6RGFgfNwpOyA65', the bucke
 autotestpermamentpc3fr7bzwdackazr3g6rgfgfnwpoya65
 ```
 
-You can also change the prefix bucket name by editing the support/en.js.
+You can also change the prefix bucket name by editing the support/env.js.
 
 ### Run the test
 On [Travis CI](https://travis-ci.org/), it is launched automatically.

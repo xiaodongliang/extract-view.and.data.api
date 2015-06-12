@@ -94,7 +94,7 @@ Lmv.prototype.checkBucket =function () {
 					if ( err )
 						console.log ('ERROR: bucket data not saved :(') ;
 				}) ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -120,7 +120,7 @@ Lmv.prototype.createBucket =function (policy) {
 					if ( err )
 						console.log ('ERROR: bucket data not saved :(') ;
 				}) ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -145,7 +145,7 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 					if ( err )
 						console.log ('ERROR: bucket data not saved :(') ;
 				}) ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				// We need to create one if error == 404 (404 Not Found)
 				if ( Number.isInteger (err.statusCode) && err.statusCode == 404 ) {
@@ -162,7 +162,7 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 									if ( err )
 										console.log ('ERROR: bucket data not saved :(') ;
 								}) ;
-								self.emit ('success', response.body) ;
+								try { self.emit ('success', response.body) ; } catch ( err ) {}
 							} catch ( err ) {
 								self.emit ('fail', err) ;
 							}
@@ -189,7 +189,7 @@ Lmv.prototype.uploadFile =function (identifier) {
 			return ;
 		}
 
-		var endpoint =util.format (config.getputFileUploadEndPoint, self.bucket, idData.name.replace (/ /g, '+'))
+		var endpoint =util.format (config.getputFileUploadEndPoint, self.bucket, idData.name.replace (/ /g, '+')) ;
 		unirest.put (endpoint)
 			.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
 			//.attach ('file', serverFile)
@@ -203,7 +203,7 @@ Lmv.prototype.uploadFile =function (identifier) {
 						if ( err )
 							console.log ('ERROR: file upload data not saved :(') ;
 					}) ;
-					self.emit ('success', response.body) ;
+					try { self.emit ('success', response.body) ; } catch ( err ) {}
 				} catch ( err ) {
 					//console.log (__function + ' ' + __line) ;
 					fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
@@ -260,7 +260,7 @@ Lmv.prototype.checkObjectDetails =function (filename) {
 					if ( err )
 						console.log ('ERROR: object data not saved :(') ;
 				}) ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -273,7 +273,7 @@ Lmv.prototype.checkObjectDetails =function (filename) {
 Lmv.prototype.setDependencies =function (connections) {
 	var self =this ;
 	if ( connections == null ) {
-		setTimeout (function () { self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ; }, 100) ;
+		setTimeout (function () { try { self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ; } catch ( err ) {} }, 100) ;
 		return (this) ;
 	}
 	var desc ={ 'dependencies': [] } ;
@@ -308,7 +308,7 @@ Lmv.prototype.setDependencies =function (connections) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ;
+				try { self.emit ('success', { 'status': 'ok', 'statusCode': 200 }) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -330,7 +330,7 @@ Lmv.prototype.register =function (connections) {
 			try {
 				if ( response.statusCode != 200 && response.statusCode != 201 )
 					throw response.statusCode ;
-				self.emit ('success', { 'status': 'ok', 'statusCode': response.statusCode }) ;
+				try { self.emit ('success', { 'status': 'ok', 'statusCode': response.statusCode }) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -354,7 +354,7 @@ Lmv.prototype.status =function (urn, params) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -377,7 +377,7 @@ Lmv.prototype.all =function (urn, params) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -400,7 +400,7 @@ Lmv.prototype.bubbles =function (urn, params) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', response.body) ;
+				try { self.emit ('success', response.body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -438,7 +438,7 @@ Lmv.prototype.download =function (identifier) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', { body: response.body, 'content-type': accept, 'filename': filename }) ;
+				try { self.emit ('success', { body: response.body, 'content-type': accept, 'filename': filename }) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -466,7 +466,7 @@ Lmv.prototype.downloadItem =function (urn) { // TODO: range header?
 					else
 						throw response.statusCode ;
 				}
-				self.emit ('success', response.raw_body) ;
+				try { self.emit ('success', response.raw_body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -496,7 +496,7 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 			try {
 				if ( response.statusCode != 200 )
 					throw response.statusCode ;
-				self.emit ('success', response.raw_body) ;
+				try { self.emit ('success', response.raw_body) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
@@ -514,7 +514,7 @@ Lmv.prototype.thumbnail =function (urn, width, height) {
 				var buffer =new Buffer (byteArray.length) ;
 				for ( var i =0 ; i < byteArray.length ; i++)
 					buffer.writeUInt8 (byteArray [i], i) ;
-				self.emit ('success', buffer) ;
+				try { self.emit ('success', buffer) ; } catch ( err ) {}
 			} catch ( err ) {
 				self.emit ('fail', err) ;
 			}
