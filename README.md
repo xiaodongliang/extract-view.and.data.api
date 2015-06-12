@@ -93,7 +93,7 @@ Developer version live at: http://extract-dev.autodesk.io/
 
 ### Setup
 There is 3 ways to configure the sample with your application keys, please choose one of the option at step 4. Developers,
-make sure to read [the developer notes](tests/readme.md) before anything.<br />
+make sure to read [the developer notes](test/readme.md) before anything.<br />
 
 1. Download and install [Node.js](http://nodejs.org/) (that will install npm as well)
 2. Download this repo anywhere you want (the server will need to write files, so make sure you install in
