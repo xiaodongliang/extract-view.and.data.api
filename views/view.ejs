@@ -17,7 +17,7 @@
 
     <!-- Autodesk View & Data API -->
     <link type="text/css" rel="stylesheet" href="./viewer3DStyle.css">
-	<!-- script src="./three.min.js"></script -->
+	<script src="./three.min.js"></script>
     <script src="./viewer3D.min.js"></script>
 
     <!-- Our scripts -->
@@ -35,18 +35,20 @@
 
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
             oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
-            oViewer.initialize () ;
-            oViewer.load (options.docid) ;
+            Autodesk.Viewing.Initializer (options, function () {
+				oViewer.initialize () ;
+				oViewer.load (options.docid) ;
 
-            for ( var i =0 ; i < docs.length ; i++ ) {
-                var r =$('<div><button id="view_' + i + '">' + docs [i].name + '</button></div>') ;
-                $('#list').append (r) ;
-                $('#view_' + i).click (function (e) {
-                    e.stopPropagation () ;
-                    var i =parseInt (e.target.id.substring (5)) ;
-                    oViewer.load (docs [i].path) ;
-                }) ;
-            }
+				for ( var i =0 ; i < docs.length ; i++ ) {
+					var r =$('<div><button id="view_' + i + '">' + docs [i].name + '</button></div>') ;
+					$('#list').append (r) ;
+					$('#view_' + i).click (function (e) {
+						e.stopPropagation () ;
+						var i =parseInt (e.target.id.substring (5)) ;
+						oViewer.load (docs [i].path) ;
+					}) ;
+				}
+			}) ;
         }) ;
     </script>
 </head>
