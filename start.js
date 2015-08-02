@@ -28,3 +28,10 @@ var app =require ('./server/server') ;
 var server =app.listen (app.get ('port'), function () {
     console.log ('Server listening on port ' + server.address ().port) ;
 }) ;
+
+server.on ('error', function (err) {
+	if ( err.errno == 'EACCES' ) {
+		console.log ('Port already in use.\nExiting...') ;
+		process.exit (1) ;
+	}
+}) ;

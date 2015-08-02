@@ -202,8 +202,8 @@ Lmv.prototype.uploadFile =function (identifier) {
 					fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
 						if ( err )
 							console.log ('ERROR: file upload data not saved :(') ;
+                        try { self.emit ('success', response.body) ; } catch ( err ) {}
 					}) ;
-					try { self.emit ('success', response.body) ; } catch ( err ) {}
 				} catch ( err ) {
 					//console.log (__function + ' ' + __line) ;
 					fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
@@ -278,10 +278,13 @@ Lmv.prototype.setDependencies =function (connections) {
 	}
 	var desc ={ 'dependencies': [] } ;
 	var master ='' ;
-    for ( var key =0 ; key < connections.length ; key++ ) {
+    var keys =Object.keys (connections) ;
+    for ( var ikey =0 ; ikey < keys.length ; ikey++ ) {
+        var key =keys [ikey] ;
 		if ( key == 'lmv-root' ) {
 			master =connections [key] [0] ;
 			desc.master =this.getURN (master) ;
+  //console.log ('master ' + master + ' -> ' + desc.master) ;
 		} else { //if ( !data [key].hasOwnProperty (children) )
             for ( var subkey =0 ; subkey < connections [key].length ; subkey++ ) {
 				var obj = {
@@ -292,7 +295,10 @@ Lmv.prototype.setDependencies =function (connections) {
 					}
 				} ;
 				desc.dependencies.push (obj) ;
-			}
+  //console.log ('file ' + key + '/' + subkey + ' -> ' + obj.file) ;
+  //console.log ('   childpath -> ' + obj.metadata.childPath) ;
+  //console.log ('   parentPath -> ' + obj.metadata.parentPath) ;
+            }
 		}
 	}
 	//console.log (__function + ' ' + __line) ;
