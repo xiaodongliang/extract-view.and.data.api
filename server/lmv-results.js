@@ -127,6 +127,26 @@ router.get ('/results/:bucket/:identifier', function (req, res) {
 	;
 }) ;
 
+// Delete the project from the website
+router.delete ('/results/:bucket/:identifier', function (req, res) {
+    var bucket =req.params.bucket ;
+    var identifier =req.params.identifier ;
+    var urn =new lmv.Lmv (bucket).getURN (identifier) ;
+    if ( urn == '' )
+        return (res.status (404).end ()) ;
+    fs.exists ('data/' + bucket + '.' + identifier + '.resultdb.json', function (exist) {
+        if ( !exist )
+            return (res.status (404).end ()) ;
+        fs.rename (
+            'data/' + bucket + '.' + identifier + '.resultdb.json',
+            'data/' + bucket + '.' + identifier + '.resultdb.json.deleted',
+            function (err, exist) {
+                res.end () ;
+            }
+        )
+    }) ;
+}) ;
+
 // Get the bucket/identifier viewable data as a zip file containing all resources
 router.get ('/results/:bucket/:identifier/project', function (req, res) {
 	var bucket =req.params.bucket ;

@@ -66,6 +66,7 @@
             var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
             oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
+            oViewer.addEventListener (Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onViewerToolbarCreated) ;
             Autodesk.Viewing.Initializer (options, function () {
                 oViewer.initialize () ;
                 loadDocument (oViewer, options) ;
@@ -160,6 +161,50 @@
                 return ;
             var path =oDocument.getViewablePath (viewObj [0]) ;
             oViewer.load (path, oDocument.getPropertyDbPath ()) ;
+        }
+
+        function onViewerToolbarCreated () {
+            createButtonInNewControlGroup (
+                    'extractIO.DangerZone', 'extractIO.Delete',
+                    'url(/img/delete.24x24.png)', 'DANGER ZONE - Delete this project',
+                    function (evt) {
+                        evt.stopPropagation () ;
+                        if ( confirm ('Are you sure you want to delete that project?') ) {
+                            $.ajax ({
+                                url: 'http://' + window.location.host + '/api/results/<%= bucket %>/<%= root %>',
+                                type: 'delete',
+                                complete: null
+                            }).done (function (results) {
+                                window.close () ;
+                            }) ;
+                        }
+                    }
+            ) ;
+        }
+
+        function createButton (id, imgUrl, tooltip, handler) {
+            var button =new Autodesk.Viewing.UI.Button (id) ;
+            button.icon.style.backgroundImage =imgUrl ;
+            button.setToolTip (tooltip) ;
+            button.onClick =handler ;
+            return (button) ;
+        }
+
+        function createButtonInNewControlGroup (groupName, id, img, tooltip, handler) {
+            var viewerToolbar =oViewer.getToolbar (true) ;
+            var ctrlGroup =new Autodesk.Viewing.UI.ControlGroup (groupName) ;
+            var button =createButton (id, img, tooltip, handler) ;
+            ctrlGroup.addControl (button) ;
+            viewerToolbar.addControl (ctrlGroup) ;
+            return ({ 'group': ctrlGroup, 'button': button }) ;
+        }
+
+        function createButtonInExistingControlGroup (ctrlGroup, id, img, tooltip, handler, index) {
+            var viewerToolbar =oViewer.getToolbar (true) ;
+            var modelTools =viewerToolbar.getControl (ctrlGroup) ;
+            var button =createButton (id, img, tooltip, handler) ;
+            modelTools.addControl (button, { 'index': (index || 1) }) ;
+            return (button) ;
         }
     </script>
 </head>

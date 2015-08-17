@@ -21,6 +21,7 @@
 var express =require ('express') ;
 var request =require ('request') ;
 var bodyParser =require ('body-parser') ;
+var favicon =require ('serve-favicon') ;
 var lmvToken =require ('./lmv-token') ;
 var lmvProjects =require ('./lmv-projects') ;
 var lmvResults =require ('./lmv-results') ;
@@ -32,6 +33,7 @@ var app =express () ;
 //app.use (bodyParser.urlencoded ({ extended: false })) ;
 app.use (bodyParser.json ()) ;
 app.use (express.static (__dirname + '/../www')) ;
+app.use (favicon (__dirname + '/../www/img/favicon.ico')) ;
 app.set ('view engine', 'ejs') ;
 app.use ('/explore', ejs) ;
 app.use ('/api', lmvToken) ;
