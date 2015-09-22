@@ -203,6 +203,19 @@ Viewing 'bubbles' offline using Node.js
    and select any of the html *.svf.* files.<br />
    (or execute any .bat file located in your folder - usually '0.svf.html.bat' or shell script if you are on OSX or Linux - usually '0.svf.html.sh')
 
+Viewing 'bubbles' offline using PHP 5.4.x+
+
+1. This step needs to be done only once per machine. Download and install PHP 5.4+ on your computer.
+2. Unzip the project result zip file into a folder.
+3. Download and unzip the 'Autodesk viewer engine' in the same folder.
+4. Start your local PHP http server.<br />
+   ```
+   cd <myfolder>
+   php -S localhost:8000
+   ```
+5. Start your favorite browser supporting HTML5 and WEBGL and browse to
+   [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
+
 Viewing 'bubbles' offline using Python
 
 1. This step needs to be done only once per machine. Download and install Python on your computer.
@@ -211,11 +224,26 @@ Viewing 'bubbles' offline using Python
 4. Start your local Python http server.<br />
    ```
    cd <myfolder>
+   # with Python 2.x
    python -m SimpleHTTPServer
+   # with Python 3.x+
+   python -m http-server
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
    [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
 
+Viewing 'bubbles' offline using Ruby
+
+1. This step needs to be done only once per machine. Download and install Ruby on your computer.
+2. Unzip the project result zip file into a folder.
+3. Download and unzip the 'Autodesk viewer engine' in the same folder.
+4. Start your local Ruby http server.<br />
+   ```
+   cd <myfolder> <br />
+   ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd); trap('INT') { s.shutdown }; s.start"
+   ```
+5. Start your favorite browser supporting HTML5 and WEBGL and browse to
+   [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
 
 ## Package an offline viewing solutions
 
