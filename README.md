@@ -211,6 +211,7 @@ Viewing 'bubbles' offline using PHP 5.4.x+
 4. Start your local PHP http server.<br />
    ```
    cd <myfolder>
+   
    php -S localhost:8000
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
@@ -224,9 +225,13 @@ Viewing 'bubbles' offline using Python
 4. Start your local Python http server.<br />
    ```
    cd <myfolder>
+   
    # with Python 2.x
+   
    python -m SimpleHTTPServer
+   
    # with Python 3.x+
+   
    python -m http-server
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
@@ -239,7 +244,8 @@ Viewing 'bubbles' offline using Ruby
 3. Download and unzip the 'Autodesk viewer engine' in the same folder.
 4. Start your local Ruby http server.<br />
    ```
-   cd <myfolder> <br />
+   cd <myfolder>
+   
    ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd); trap('INT') { s.shutdown }; s.start"
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
