@@ -28,9 +28,12 @@ var request =require ('request') ;
 var https =require ('https') ;
 // unirest (http://unirest.io/) or SuperAgent (http://visionmedia.github.io/superagent/)
 var unirest =require('unirest') ;
+var async =require ('async') ;
 var events =require('events') ;
 var util =require ('util') ;
 var fs =require ('fs') ;
+var path =require ('path') ;
+var uid =require ('gen-uid') ;
 
 function Lmv (bucketName) {
 	events.EventEmitter.call (this) ;
@@ -69,7 +72,7 @@ util.inherits (Lmv, events.EventEmitter) ;
 
 /*static*/ Lmv.getToken =function () {
 	try {
-		var data =fs.readFileSync ('data/token.json') ;
+		var data =fs.readFileSync ('data/token.json') ; // keep Sync version here
 		var authResponse =JSON.parse (data) ;
 		return (authResponse.access_token) ;
 	} catch ( err ) {
@@ -180,47 +183,223 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 // PUT /oss/v1/buckets/:bucket/objects/:filename
 Lmv.prototype.uploadFile =function (identifier) {
 	var self =this ;
-	var idData =fs.readFileSync ('data/' + identifier + '.json') ;
-	idData =JSON.parse (idData) ;
-	var serverFile =__dirname + '/../tmp/' + idData.name ;
-	var file =fs.readFile (serverFile, function (err, data) {
-		if ( err ) {
-			self.emit ('fail', err) ;
-			return ;
-		}
+	fs.readFile ('data/' + identifier + '.json', function (err, idData) {
+		if ( err )
+			return (self.emit ('fail', err)) ;
+		idData =JSON.parse (idData) ;
+		var serverFile =path.normalize (__dirname + '/../tmp/' + idData.name) ;
 
-		var endpoint =util.format (config.getputFileUploadEndPoint, self.bucket, idData.name.replace (/ /g, '+')) ;
-		unirest.put (endpoint)
-			.headers ({ 'Accept': 'application/json', 'Content-Type': 'application/octet-stream', 'Authorization': ('Bearer ' + Lmv.getToken ()) })
-			//.attach ('file', serverFile)
-			.send (data)
-			.end (function (response) {
-				//console.log (response.body) ;
-				try {
-					if ( response.statusCode != 200 )
-						throw response.statusCode ;
-					fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
-						if ( err )
-							console.log ('ERROR: file upload data not saved :(') ;
-                        try { self.emit ('success', response.body) ; } catch ( err ) {}
-					}) ;
-				} catch ( err ) {
-					//console.log (__function + ' ' + __line) ;
-					fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
-						if ( exists )
-							fs.unlink ('data/' + self.bucket + '.' + identifier + '.json', function (err) {}) ;
-					}) ;
-					self.emit ('fail', err) ;
+		fs.stat (serverFile, function (err, stats) {
+			if ( err )
+				return (self.emit ('fail', err)) ;
+			var total =stats.size ;
+			var chunkSize =config.fileResumableChunk * 1024 * 1024 ;
+			if ( total <= chunkSize )
+				self.singleUpload (identifier) ;
+			else
+				self.resumableUpload (identifier) ;
+		}) ;
+	}) ;
+	return (this) ;
+} ;
+
+// PUT /oss/v1/buckets/:bucket/objects/:filename
+Lmv.prototype.singleUpload =function (identifier) {
+	var self =this ;
+	fs.readFile ('data/' + identifier + '.json', function (err, idData) {
+		if ( err )
+			return (self.emit ('fail', err)) ;
+		idData =JSON.parse (idData) ;
+		var serverFile =path.normalize (__dirname + '/../tmp/' + idData.name) ;
+		var localFile =path.basename (serverFile) ;
+
+		var readStream =fs.createReadStream (serverFile) ;
+		var endpoint =util.format (config.putFileUploadEndPoint, self.bucket, localFile.replace (/ /g, '+')) ;
+		var total =fs.statSync (serverFile).size ;
+
+		readStream.pipe ( // pipe is better since it avoids loading all in memory
+			unirest.put (endpoint)
+				.headers ({
+					'Accept': 'application/json',
+					'Content-Type': 'application/octet-stream',
+					'Authorization': ('Bearer ' + Lmv.getToken ()),
+					'Content-Length': total // required from stream
+				})
+				.end (function (response) {
+					try {
+						if ( response.statusCode != 200 )
+							throw response.statusCode ;
+						fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (response.body), function (err) {
+							if ( err )
+								console.log ('ERROR: file upload data not saved :(') ;
+							try { self.emit ('success', response.body) ; } catch ( err ) {}
+						}) ;
+					} catch ( err ) {
+						fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
+							if ( exists )
+								fs.unlink ('data/' + self.bucket + '.' + identifier + '.json', function (err) {}) ;
+						}) ;
+						self.emit ('fail', err) ;
+					}
 				}
-			})
-		;
+			)
+		) ;
+
+		// The read file version
+
+		//var file =fs.readFile (serverFile, function (err, data) {
+		//	if ( err )
+		//		return (self.emit ('fail', err)) ;
+		//
+		//	var endpoint =util.format (config.putFileUploadEndPoint, self.bucket, localFile.replace (/ /g, '+')) ;
+		//	unirest.put (endpoint)
+		//		.headers ({
+		//			'Accept': 'application/json',
+		//			'Content-Type': 'application/octet-stream',
+		//			'Authorization': ('Bearer ' + Lmv.getToken ())
+		//			// 'Content-Length' // not required here
+		//		})
+		//		.send (data)
+		//		.end (function (response) {
+		//			try {
+		//				if ( response.statusCode != 200 )
+		//					throw response ;
+		//				try { self.emit ('success', response.body) ; } catch ( err ) {}
+		//			} catch ( err ) {
+		//				self.emit ('fail', err) ;
+		//			}
+		//		})
+		//	;
+		//}) ;
+	}) ;
+	return (this) ;
+} ;
+
+// PUT /oss/v1/buckets/:bucket/objects/:filename/resumable
+Lmv.prototype.resumableUpload =function (identifier) {
+	var self =this ;
+	fs.readFile ('data/' + identifier + '.json', function (err, idData) {
+		if ( err )
+			return (self.emit ('fail', err)) ;
+		idData =JSON.parse (idData) ;
+		var serverFile =path.normalize (__dirname + '/../tmp/' + idData.name) ;
+		var localFile =path.basename (serverFile) ;
+
+		fs.stat (serverFile, function (err, stats) {
+			if ( err )
+				return (self.emit ('fail', err)) ;
+			var total =stats.size ;
+			var chunkSize =config.fileResumableChunk * 1024 * 1024 ;
+			var nbChunks =Math.round (0.5 + total / chunkSize) ;
+			var endpoint =util.format (config.putFileUploadResumableEndPoint, self.bucket, localFile.replace (/ /g, '+')) ;
+			var sessionId ='extract-autodesk-io-' + uid.token () ;
+
+			// pipe is better since it avoids loading all in memory
+			var fctChunks =function (n, chunkSize) {
+				return (function (callback) {
+					var start =n * chunkSize ;
+					var end =Math.min (total, (n + 1) * chunkSize) - 1 ;
+					var contentRange ='bytes '
+						+ start + '-'
+						+ end + '/'
+						+ total ;
+					var readStream =fs.createReadStream (serverFile, { 'start': start, 'end': end }) ;
+					readStream.pipe (
+						unirest.put (endpoint)
+							.headers ({
+								'Accept': 'application/json',
+								'Content-Type': 'application/octet-stream',
+								'Authorization': ('Bearer ' + Lmv.getToken ()),
+								'Content-Range': contentRange,
+								'Session-Id': sessionId
+							})
+							.end (function (response) {
+								try {
+									if ( response.statusCode != 200 && response.statusCode != 202 )
+										throw response ;
+									callback (null, response.body) ;
+								} catch ( err ) {
+									callback (err, null) ;
+								}
+							}
+						)
+					)
+				}) ;
+			} ;
+
+			// The read buffer option
+			//var fctChunks =function (n, chunkSize) {
+			//	return (function (callback) {
+			//		fs.open (serverFile, 'r', function (err, fd) {
+			//			if ( err )
+			//				return (callback (err, null)) ;
+			//			var buffer =new Buffer (chunkSize) ;
+			//			fs.read (fd, buffer, 0, chunkSize, n * chunkSize, function (err, bytesRead, buff) {
+			//				var contentRange ='bytes '
+			//					+ (n * chunkSize) + '-'
+			//					+ (n * chunkSize + bytesRead - 1) + '/'
+			//					+ total ;
+			//				unirest.put (endpoint)
+			//					.headers ({
+			//						'Accept': 'application/json',
+			//						'Content-Type': 'application/octet-stream',
+			//						'Authorization': ('Bearer ' + Lmv.getToken ()),
+			//						'Content-Range': contentRange,
+			//						'Session-Id': sessionId
+			//					})
+			//					.send (buff.slice (0, bytesRead))
+			//					.end (function (response) {
+			//						try {
+			//							if ( response.statusCode != 200 && response.statusCode != 202 )
+			//								throw response ;
+			//							callback (null, response.body) ;
+			//						} catch ( err ) {
+			//							callback (err, null) ;
+			//						}
+			//					})
+			//				;
+			//			}) ;
+			//		}) ;
+			//	}) ;
+			//} ;
+
+			var fctChunksArray =Array.apply (null, { length: nbChunks }).map (Number.call, Number) ;
+			for ( var i =0 ; i < fctChunksArray.length ; i++ )
+				fctChunksArray [i] =fctChunks (i, chunkSize) ;
+			async.parallelLimit (
+				fctChunksArray,
+				10,
+				function (err, results) {
+					if ( err ) {
+						fs.exists ('data/' + self.bucket + '.' + identifier + '.json', function (exists) {
+							if ( exists )
+								fs.unlink ('data/' + self.bucket + '.' + identifier + '.json', function (err) {}) ;
+						}) ;
+						return (self.emit ('fail', err)) ;
+					}
+					try {
+						for ( var i =0 ; i < results.length ; i++ ) {
+							if ( results [i] ) {
+								fs.writeFile ('data/' + self.bucket + '.' + identifier + '.json', JSON.stringify (results [i]), function (err) {
+									if ( err )
+										console.log ('ERROR: file upload data not saved :(') ;
+									try { self.emit ('success', results [i]) ; } catch ( err ) {}
+								}) ;
+								break ;
+							}
+						}
+					} catch ( err ) {
+					}
+				}
+			) ;
+		}) ;
 	}) ;
 	return (this) ;
 } ;
 
 Lmv.prototype.getURN =function (identifier) {
 	try {
-		var data =fs.readFileSync ('data/' + this.bucket + '.' + identifier + '.json') ;
+		var data =fs.readFileSync ('data/' + this.bucket + '.' + identifier + '.json') ; // keep Sync version here
 		data =JSON.parse (data) ;
 		return (data.objects [0].id) ;
 	} catch ( err ) {
@@ -232,7 +411,7 @@ Lmv.prototype.getURN =function (identifier) {
 
 /*static*/ Lmv.getFilename =function (identifier) {
 	try {
-		var data =fs.readFileSync ('data/' + identifier + '.json') ;
+		var data =fs.readFileSync ('data/' + identifier + '.json') ; // keep Sync version here
 		data =JSON.parse (data) ;
 		return (data.name) ;
 	} catch ( err ) {
