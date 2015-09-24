@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-results.js" afterPath="$PROJECT_DIR$/server/lmv-results.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,12 +76,12 @@
       <file leaf-file-name="lmv-results.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49853802" vertical-offset="560" max-vertical-offset="9044">
-              <caret line="53" column="44" selection-start-line="53" selection-start-column="44" selection-end-line="53" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.4239766" vertical-offset="560" max-vertical-offset="9044">
+              <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#filterProject#0" expanded="false" />
-                <element signature="e#3020#3693#0" expanded="false" />
+                <element signature="e#3024#3697#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -506,12 +505,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49853802" vertical-offset="560" max-vertical-offset="9044">
-          <caret line="53" column="44" selection-start-line="53" selection-start-column="44" selection-end-line="53" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.4239766" vertical-offset="560" max-vertical-offset="9044">
+          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#filterProject#0" expanded="false" />
-            <element signature="e#3020#3693#0" expanded="false" />
+            <element signature="e#3024#3697#0" expanded="false" />
           </folding>
         </state>
       </provider>

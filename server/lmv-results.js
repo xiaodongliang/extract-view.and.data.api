@@ -48,10 +48,10 @@ router.get ('/results', function (req, res) {
 			async.mapLimit (files, 10,
 				function (file, callback_map) { // Each tasks execution
 					fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
-						console.log ('data/' + file + '.resultdb.json') ;
+						//console.log ('data/' + file + '.resultdb.json') ;
 						if ( err )
 							return (callback_map (null, null)) ;
-						console.log (data) ;
+						//console.log (data) ;
 						data =JSON.parse (data) ;
 						var out ={
 							name: file,
