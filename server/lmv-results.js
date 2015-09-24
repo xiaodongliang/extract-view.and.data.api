@@ -49,7 +49,7 @@ router.get ('/results', function (req, res) {
 				function (file, callback_map) { // Each tasks execution
 					fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
 						//console.log ('data/' + file + '.resultdb.json') ;
-						if ( err )
+						if ( err || data == '' )
 							return (callback_map (null, null)) ;
 						//console.log (data) ;
 						data =JSON.parse (data) ;
