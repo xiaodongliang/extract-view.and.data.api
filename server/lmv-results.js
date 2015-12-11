@@ -197,8 +197,7 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	console.log ('#2a - Filtering objects') ;
 	// Collect Urns to extract from the server
 	var items =loop4Urns (data) ;
-	items =items.filter (function (item) { return (item !== undefined) ; }) ;
-	items.shift () ;
+	items =items.filter (function (item) { return (item !== undefined && item.indexOf ('urn:adsk.viewing:fs.file:') != -1) ; }) ;
 
 	// Collect Views to create from the viewables
 	var views =loop4Views (data, data, identifier) ;
@@ -261,6 +260,7 @@ function loop4Views (doc, parentNode, identifier) {
 
 function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 	try {
+		//console.log ('  DownloadAndSaveItemToDisk: ' + item) ;
 		new lmv.Lmv (bucket).downloadItem (item)
 			.on ('success', function (data) {
 				//var filename =item.split ('/').pop () ;
@@ -288,6 +288,7 @@ function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 					callback_mapx (null, { urn: item, name: fullpath.substring (5), error: 404 }) ;
 					return ;
 				}
+				//console.log ('Download failed for ' + item + ' (' + new Buffer (item, 'base64') + ')') ;
 				console.log ('Download failed for ' + item) ;
 				callback_mapx (err, null) ;
 			})
