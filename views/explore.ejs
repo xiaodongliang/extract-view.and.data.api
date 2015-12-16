@@ -90,41 +90,6 @@
                 $('#usage-control').text ('Show this content') ;
             }
 
-            /*if ( oExtracted ) {
-                $('#bubblesImg').attr ('src', '/img/download.png') ;
-                $('#bubblesImg').attr ('title', 'Download Viewables') ;
-                $('#bubblesA').attr ('href', '/extracted/<%= root %>.zip') ;
-            } else {
-                $('#bubblesA').click (function (e) {
-                    $('#bubblesImg').attr ('src', '/img/extracting.gif') ;
-                    $('#bubblesImg').attr ('title', 'Extracting Viewables') ;
-
-                    $.ajax ({
-                        url: '/api/results/<%= root %>/project',
-                        type: 'get',
-                        complete: null
-                    }).done (function (results) {
-                        var intervalRef =setInterval (function () {
-                            $.ajax ({
-                                url: '/extracted/<%= root %>.zip',
-                                type: 'HEAD',
-                                error: function () {
-                                    // not yet there
-                                },
-                                success: function () {
-                                    clearInterval (intervalRef) ;
-                                    $('#bubblesImg').attr ('src', '/img/download.png') ;
-                                    $('#bubblesImg').attr ('title', 'Download Viewables') ;
-                                    $('#bubblesA').attr ('href', '/extracted/<%= root %>.zip') ;
-                                    oExtracted =true ;
-                                }
-                            }) ;
-                        }, 5000) ;
-                    }) ;
-                    $('#bubblesA').prop ('onclick', null).off ('click') ;
-                }) ;
-            }*/
-
             var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
             //oViewer =new Autodesk.Viewing.Viewer3D ($("#viewer") [0], {}) ; // No toolbar
             oViewer =new Autodesk.Viewing.Private.GuiViewer3D ($("#viewer") [0], {}) ; // With toolbar
@@ -430,7 +395,7 @@
                     <div class="navbar navbar-default app-navbar">
                         <div class="container app-container">
                             <div class="navbar-header">
-                                <a class="navbar-brand" href="https://developer.autodesk.com/"><img width="160px;" src="/img/Autodesk_logo.png" style="padding: 20px;"></a>
+                                <a class="navbar-brand" href="https://developer.autodesk.com/"><img width="160px;" src="/images/Autodesk_logo.png" style="padding: 20px;"></a>
                             </div>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="https://github.com/cyrillef/workflow-node.js-server-view.and.data.api">View on GitHub <i class="fa fa-github-alt fa-fw"></i></a></li>
