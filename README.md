@@ -15,7 +15,7 @@ Visit this [page](https://developer.autodesk.com) for instructions to get on-boa
 ## Live demo at
 http://extract.autodesk.io/
 
-[![](www/img/app.png)](http://extract.autodesk.io/)
+[![](www/images/app.png)](http://extract.autodesk.io/)
 
 
 ## Motivation
@@ -75,14 +75,14 @@ This sample is dependent of Node.js and few Node.js extensions which would updat
     "rimraf": " >= 2.2.8",
     "moment": ">= 2.10.3"
 	```
-		
+
 2. flow.js - A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable
    file uploads via the HTML5 File API, available [here](https://github.com/flowjs/flow.js).
 
 3. fancytree.js - Tree plugin for jQuery with support for persistence, keyboard, checkboxes, tables (grid), drag'n'drop,
    and lazy loading, available [here](https://github.com/mar10/fancytree).
 
-	 
+
 ## Setup/Usage Instructions
 
 The sample was created using Node.js and javascript.
@@ -182,9 +182,9 @@ Translating files / Extracting 'bubbles'
 5. After the translation completed successfully, move your mouse over the project thumbnail at the bottom of the page
    and press the 'Explore' button.
 6. On the new page, you may see either a download button or an extraction button:
-   * press the ![Download](www/img/extract.png) button to start the extraction process. When completed the button will
-     change to a ![Download](www/img/download.png) button.
-   * press the ![Download](www/img/download.png) button to download your 'bubbles' files.
+   * press the ![Download](www/images/extract.png) button to start the extraction process. When completed the button will
+     change to a ![Download](www/images/download.png) button.
+   * press the ![Download](www/images/download.png) button to download your 'bubbles' files.
 7. You are done with translation and extraction.
 
 Viewing 'bubbles' offline using Node.js
@@ -211,7 +211,7 @@ Viewing 'bubbles' offline using PHP 5.4.x+
 4. Start your local PHP http server.<br />
    ```
    cd <myfolder>
-   
+
    php -S localhost:8000
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
@@ -225,13 +225,13 @@ Viewing 'bubbles' offline using Python
 4. Start your local Python http server.<br />
    ```
    cd <myfolder>
-   
+
    # with Python 2.x
-   
+
    python -m SimpleHTTPServer
-   
+
    # with Python 3.x+
-   
+
    python -m http-server
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to
@@ -245,7 +245,7 @@ Viewing 'bubbles' offline using Ruby
 4. Start your local Ruby http server.<br />
    ```
    cd <myfolder>
-   
+
    ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd); trap('INT') { s.shutdown }; s.start"
    ```
 5. Start your favorite browser supporting HTML5 and WEBGL and browse to

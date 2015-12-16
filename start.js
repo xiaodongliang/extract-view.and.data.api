@@ -1,7 +1,7 @@
 //
 // Copyright (c) Autodesk, Inc. All rights reserved 
 //
-// Node.js server workflow 
+// Large Model Viewer Extractor
 // by Cyrille Fauvel - Autodesk Developer Network (ADN)
 // January 2015
 //

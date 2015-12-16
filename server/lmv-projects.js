@@ -1,20 +1,20 @@
 //
-// Copyright (c) Autodesk, Inc. All rights reserved 
+// Copyright (c) Autodesk, Inc. All rights reserved
 //
-// Node.js server workflow 
+// Large Model Viewer Extractor
 // by Cyrille Fauvel - Autodesk Developer Network (ADN)
 // January 2015
 //
 // Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted, 
-// provided that the above copyright notice appears in all copies and 
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting 
+// restricted rights notice below appear in all supporting
 // documentation.
 //
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS. 
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
 // AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC. 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //
@@ -84,17 +84,76 @@ function filterBucket (arr, criteria) {
 }
 
 // Get the progress on translating the bucket/identifier
-router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/projects/:identifier/progress', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
-	if ( urn == '' )
-		return (res.json ({ 'guid': '', 'progress': 'uploading to oss', 'startedAt': new Date ().toUTCString (), 'status': 'requested', 'success': '0%', 'urn': '' })) ;
+	if ( urn == '' ) {
+		// Ok, we might be uploading to oss - we will try to return a file upload progress
+		fs.readFile ('data/' + identifier + '.json', function (err, data) {
+			try {
+				if ( err ) // No luck, let's return a default answer
+					throw 'err' ;
+				data =JSON.parse (data) ;
+				var connections =null ;
+				try {
+					connections =fs.readFileSync ('data/' + identifier + '.dependencies.json') ;
+					connections =JSON.parse (connections) ;
+					var size =0, uploaded =0 ;
+					async.each (connections,
+						function (item, callback) { // Each tasks execution
+							fs.readFile ('data/' + item + '.json', function (err, data2) {
+								if ( err )
+									return (callback (err)) ;
+								data2 =JSON.parse (data2) ;
+								size +=(data2.hasOwnProperty ('size') ? parseInt (data2.size) : data2.objects [0].size) ;
+								uploaded +=(data2.hasOwnProperty ('bytesPosted') ? parseInt (data2.bytesPosted) : data2.objects [0].size) ;
+								callback (null) ;
+							}) ;
+						},
+						function (err) { //- All tasks are done
+							if ( err !== undefined && err !== null ) {
+								console.log ('Something wrong happened during upload') ;
+							}
+							res.json ({
+								'guid': '',
+								'progress': 'uploading to oss',
+								'startedAt': new Date ().toUTCString (),
+								'status': 'requested',
+								'success': (Math.floor (100 * uploaded / size) + '%'),
+								'urn': ''
+							}) ;
+						}
+					) ;
+				} catch ( e ) {
+					connections =null ;
+					res.json ({
+						'guid': '',
+						'progress': 'uploading to oss',
+						'startedAt': new Date ().toUTCString (),
+						'status': 'requested',
+						'success': (Math.floor (100 * data.bytesPosted / data.size) + '%'),
+						'urn': ''
+					}) ;
+				}
+			} catch ( e ) { // No luck, let's return a default answer
+				return (res.json ({
+					'guid': '',
+					'progress': 'uploading to oss',
+					'startedAt': new Date ().toUTCString (),
+					'status': 'requested',
+					'success': '0%',
+					'urn': ''
+				})) ;
+			}
+		}) ;
+		return ;
+	}
 	new lmv.Lmv (bucket).status (urn)
 		.on ('success', function (data) {
 			//console.log (data) ;
 			if ( data.progress == 'complete' )
-				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
+				fs.writeFile ('data/' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 			res.json (data) ;
 		})
 		.on ('fail', function (err) {
@@ -105,8 +164,8 @@ router.get ('/projects/:bucket/:identifier/progress', function (req, res) {
 }) ;
 
 // Download a single file from its bucket/identifier pair
-router.get ('/projects/:bucket/:identifier/get', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/projects/:identifier/get', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	new lmv.Lmv (bucket).download (identifier)
 		.on ('success', function (data) {
@@ -130,8 +189,8 @@ router.get ('/projects/:bucket/:identifier/get', function (req, res) {
 
 // Get details on the bucket/identifier item
 // identifier can be the filename
-router.get ('/projects/:bucket/:identifier', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/projects/:identifier', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var filename ;
 	try {
@@ -145,7 +204,7 @@ router.get ('/projects/:bucket/:identifier', function (req, res) {
 
 	// GET /oss/{apiversion}/buckets/{bucketkey}/objects/{objectKey}/details
 	// would work as well, but since we saved it locally, use the local version
-	fs.readFile ('data/' + bucket + '.' + identifier + '.json', 'utf-8', function (err, data) {
+	fs.readFile ('data/' + identifier + '.json', 'utf-8', function (err, data) {
 		if ( err ) {
 			new lmv.Lmv (bucket).checkObjectDetails (filename)
 				.on ('success', function (data) {
@@ -162,8 +221,8 @@ router.get ('/projects/:bucket/:identifier', function (req, res) {
 }) ;
 
 // Get details on the bucket
-router.get ('/projects/:bucket', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/projects', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	// GET /oss/{api version}/buckets/{bucket key}/details
 	// would work as well, but since we saved it locally, use the local version
 	fs.readFile ('data/' + bucket + '.bucket.json', 'utf-8', function (err, data) {
@@ -184,17 +243,30 @@ router.get ('/projects/:bucket', function (req, res) {
 
 // Submit a new bucket/identifier for translation
 router.post ('/projects', function (req, res) {
-	var bucket =req.body.bucket ;
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var regex =new RegExp (/^[-_.a-z0-9]{3,128}$/) ;
 	if ( !regex.test (bucket) )
 		return (res.status (403).send ('Bucket name invalid!')) ;
-	var policy =req.body.policy ;
-	var connections =req.body.connections ;
+	var policy ='transient' ;
+	var connections =req.body ;
 
-	var items =Object.keys (connections) ;
-	items =items.filter (function (item) { return (item != 'lmv-root') ; }) ;
-	items =items.concat.apply (items, Object.keys (connections).map (function (key) { return (connections [key]) ; })) ;
-	items =items.filter (function (value, index, self) { return (self.indexOf (value) === index) ; }) ;
+	function traverseConnections (conn) {
+		var items =[] ;
+		for ( var i =0 ; i < conn.length ; i++ ) {
+			items.push (conn [i].uniqueIdentifier) ;
+			items =items.concat (traverseConnections (conn [i].children)) ;
+		}
+		return (items) ;
+	}
+	console.log ('master: ' + connections.uniqueIdentifier) ;
+	var items =[ connections.uniqueIdentifier ] ;
+	items =items.concat (traverseConnections (connections.children)) ;
+	// This is to help the upload progress bar to be more precise
+	fs.writeFile ('data/' + connections.uniqueIdentifier + '.dependencies.json', JSON.stringify (items), function (err) {
+		if ( err )
+			console.log ('ERROR: project dependencies not saved :(') ;
+	}) ;
+
 	async.series ([
 		function (callbacks1) {
 			new lmv.Lmv (bucket).createBucketIfNotExist (policy)
@@ -242,7 +314,7 @@ router.post ('/projects', function (req, res) {
 									// We are done for now!
 
 									// Just remember locally we did submit the project for translation
-									var identifier =connections ['lmv-root'] [0] ;
+									var identifier =connections.uniqueIdentifier ;
 									var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 									urn =new Buffer (urn).toString ('base64') ;
 
@@ -254,7 +326,7 @@ router.post ('/projects', function (req, res) {
 										'success': '0%',
 										'urn': urn
 									} ;
-									fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
+									fs.writeFile ('data/' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 								})
 								.on ('fail', function (err) {
 									console.log ('URN registration for translation failed: ' + err) ;

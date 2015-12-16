@@ -1,7 +1,7 @@
 //
 // Copyright (c) Autodesk, Inc. All rights reserved
 //
-// Node.js server workflow
+// Large Model Viewer Extractor
 // by Cyrille Fauvel - Autodesk Developer Network (ADN)
 // January 2015
 //
@@ -28,8 +28,8 @@ var lmv =require ('./lmv') ;
 
 var router =express.Router () ;
 
-router.get ('/:bucket/:identifier', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/:identifier', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 
 	var zipExist =false ;
@@ -40,7 +40,7 @@ router.get ('/:bucket/:identifier', function (req, res) {
 	}
 
 	try {
-		var data =fs.readFileSync ('data/' + bucket + '.' + identifier + '.resultdb.json') ;
+		var data =fs.readFileSync ('data/' + identifier + '.resultdb.json') ;
 		data =JSON.parse (data) ;
 		var obj ={
 			urn: data.urn,

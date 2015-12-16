@@ -20,27 +20,20 @@
 //
 var express =require ('express') ;
 var request =require ('request') ;
-var bodyParser =require ('body-parser') ;
-var favicon =require ('serve-favicon') ;
-var lmvToken =require ('./lmv-token') ;
-var lmvProjects =require ('./lmv-projects') ;
-var lmvResults =require ('./lmv-results') ;
-var lmvFile =require ('./file') ;
-var ejs =require ('./ejs') ;
+var Mailjet =require ('mailjet-sendemail') ;
+var config =(require ('fs').existsSync ('server/credentials.js') ?
+	require ('./credentials')
+	: (console.log ('No credentials.js file present, assuming using CONSUMERKEY & CONSUMERSECRET system variables.'), require ('./credentials_'))) ;
 
-// http://garann.github.io/template-chooser/
-var app =express () ;
-//app.use (bodyParser.urlencoded ({ extended: true })) ; // Support encoded bodies
-app.use (bodyParser.json ()) ;
-app.use (express.static (__dirname + '/../www')) ;
-app.use (favicon (__dirname + '/../www/favicon.ico')) ;
-app.set ('view engine', 'ejs') ;
-app.use ('/explore', ejs) ;
-app.use ('/api', lmvToken) ;
-app.use ('/api', lmvProjects) ;
-app.use ('/api', lmvResults) ;
-app.use ('/api', lmvFile) ;
+function sendMail1 (mail) {
+	var mjet =new Mailjet (config.MAILJET1, config.MAILJET2) ;
+	mjet.sendContent (
+		mail.from,
+		mail.to,
+		mail.subject,
+		'html',
+		mail.html
+	) ;
+}
 
-app.set ('port', process.env.PORT || 80) ;
-
-module.exports =app ;
+module.exports =sendMail1 ;

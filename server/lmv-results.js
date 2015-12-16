@@ -1,20 +1,20 @@
 //
-// Copyright (c) Autodesk, Inc. All rights reserved 
+// Copyright (c) Autodesk, Inc. All rights reserved
 //
-// Node.js server workflow 
+// Large Model Viewer Extractor
 // by Cyrille Fauvel - Autodesk Developer Network (ADN)
 // January 2015
 //
 // Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted, 
-// provided that the above copyright notice appears in all copies and 
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting 
+// restricted rights notice below appear in all supporting
 // documentation.
 //
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS. 
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
 // AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC. 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //
@@ -34,9 +34,12 @@ var zlib =require ('zlib') ;
 var moment =require ('moment') ;
 //var nodemailer =require ('nodemailer') ;
 //var directTransport =require ('nodemailer-direct-transport') ;
+var sendMail =require ('./sendMail') ;
 
 var router =express.Router () ;
 router.use (bodyParser.json ()) ;
+
+/*const*/ var _default_size_ =400000 ;
 
 // List translated projects
 router.get ('/results', function (req, res) {
@@ -46,31 +49,29 @@ router.get ('/results', function (req, res) {
 				throw err ;
 			files =filterProject (files, '(.*)\\.resultdb\\.json') ;
 			async.mapLimit (files, 10,
-				function (file, callback_map) { // Each tasks execution
-					fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
-						//console.log ('data/' + file + '.resultdb.json') ;
-						if ( err || data == '' )
-							return (callback_map (null, null)) ;
-						//console.log (data) ;
-						data =JSON.parse (data) ;
-						var out ={
-							name: file,
-							urn: data.urn,
-							date: data.startedAt,
-							hasThumbnail: data.hasThumbnail,
-							status: data.status,
-							success: data.success,
-							progress: data.progress
-						} ;
-						callback_map (null, out)
-					}) ;
-				},
-				function (err, results) { //- All tasks are done
-					if ( err !== undefined && err !== null )
-						return (res.json ([])) ;
-					var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
-					res.json (filtered) ;
-				}
+					function (file, callback_map) { // Each tasks execution
+						fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
+							if ( err || data == '' || data.progress == 'failed' )
+								return (callback_map (null, null)) ;
+							data =JSON.parse (data) ;
+							var out ={
+								name: file,
+								urn: data.urn,
+								date: data.startedAt,
+								hasThumbnail: data.hasThumbnail,
+								status: data.status,
+								success: data.success,
+								progress: data.progress
+							} ;
+							callback_map (null, out)
+						}) ;
+					},
+					function (err, results) { //- All tasks are done
+						if ( err !== undefined && err !== null )
+							return (res.json ([])) ;
+						var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
+						res.json (filtered) ;
+					}
 			) ;
 		}) ;
 	} catch ( err ) {
@@ -87,8 +88,8 @@ function filterProject (arr, criteria) {
 }
 
 // Download thumbnail from a bucket/identifier pair
-router.get ('/results/:bucket/:identifier/thumbnail', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/results/:identifier/thumbnail', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
@@ -96,8 +97,7 @@ router.get ('/results/:bucket/:identifier/thumbnail', function (req, res) {
 	new lmv.Lmv (bucket).thumbnail (urn, 215, 146)
 		.on ('success', function (data) {
 			try {
-				fs.writeFile ('data/' + bucket + '.' + identifier + '.png', data, function (err) {}) ;
-				fs.writeFile ('www/images/' + bucket + '.' + identifier + '.png', data, function (err) {}) ;
+				fs.writeFile ('www/extracted/' + identifier + '.png', data, function (err) {}) ;
 			} catch ( err ) {
 			}
 			res.setHeader ('Content-Type', 'image/png') ;
@@ -111,8 +111,8 @@ router.get ('/results/:bucket/:identifier/thumbnail', function (req, res) {
 }) ;
 
 // Get the bucket/identifier viewable data
-router.get ('/results/:bucket/:identifier', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/results/:identifier', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
@@ -120,7 +120,7 @@ router.get ('/results/:bucket/:identifier', function (req, res) {
 	new lmv.Lmv (bucket).all (urn)
 		.on ('success', function (data) {
 			if ( data.progress == 'complete' )
-				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
+				fs.writeFile ('data/' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 			res.json (data) ;
 		})
 		.on ('fail', function (err) {
@@ -130,51 +130,145 @@ router.get ('/results/:bucket/:identifier', function (req, res) {
 }) ;
 
 // Delete the project from the website
-router.delete ('/results/:bucket/:identifier', function (req, res) {
-    var bucket =req.params.bucket ;
-    var identifier =req.params.identifier ;
-    var urn =new lmv.Lmv (bucket).getURN (identifier) ;
-    if ( urn == '' )
-        return (res.status (404).end ()) ;
-    fs.exists ('data/' + bucket + '.' + identifier + '.resultdb.json', function (exist) {
-        if ( !exist )
-            return (res.status (404).end ()) ;
-        fs.rename (
-            'data/' + bucket + '.' + identifier + '.resultdb.json',
-            'data/' + bucket + '.' + identifier + '.resultdb.json.deleted',
-            function (err, exist) {
-                res.end () ;
-            }
-        )
-    }) ;
+router.delete ('/results/:identifier', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
+	var identifier =req.params.identifier ;
+	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
+	if ( urn == '' )
+		return (res.status (404).end ()) ;
+	fs.exists ('data/' + identifier + '.resultdb.json', function (exist) {
+		if ( !exist )
+			return (res.status (404).end ()) ;
+		fs.unlink ('data/' + identifier + '.resultdb.json', function (err) { res.end () ; }) ;
+	}) ;
+	fs.exists ('www/extracted/' + identifier + '.png', function (exist) {
+		if ( !exist )
+			return ;
+		fs.unlink ('www/extracted/' + identifier + '.png', function (err) {}) ;
+	}) ;
+	fs.exists ('www/extracted/' + identifier + '.zip', function (exist) {
+		if ( !exist )
+			return ;
+		fs.unlink ('www/extracted/' + identifier + '.zip', function (err) {}) ;
+	}) ;
 }) ;
 
 // Get the bucket/identifier viewable data as a zip file containing all resources
-router.get ('/results/:bucket/:identifier/project', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/results/:identifier/project', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var urn =new lmv.Lmv (bucket).getURN (identifier) ;
 	if ( urn == '' )
 		return (res.status (404).end ()) ;
 
-	try {
-		rimraf ('data/' + identifier, function (err) {
-			if ( err )
-				throw err ;
-			async.waterfall ([
-					function (callback_wf1a) { wf1_GetFullDetails (callback_wf1a, bucket, identifier, urn) ; }, // Get latest full details
-					function (data, callback_wf1b) { wf1_GetItems (data, callback_wf1b, bucket, identifier) ; }, // From full details, get all individual elements to download
-					function (results, callbacks_wf1c) { wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) ; }, // .svf/.f2d/manifest additional references to download/create
-					function (uris, callback_wf1d) { wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) ; }, // Get additional items from the previous extraction step
-					function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; } // Generate helper html/bat
-				],
-				function (err, results) { wf1End_PackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
-			) ;
+	fs.exists ('www/extracted/' + identifier + '.zip', function (exist) {
+		if ( exist )
+			return ; // Do not proceed again
+		fs.exists ('data/' + identifier + '.lock', function (exists) {
+			var list =[] ;
+			if ( exists )
+				list =JSON.parse (fs.readFileSync ('data/' + identifier + '.lock')) ;
+			if ( req.query.email && req.query.email !== '' )
+				list.push (req.query.email) ;
+			fs.writeFile ('data/' + identifier + '.lock', JSON.stringify (list), function (err) {}) ;
+			if ( exists )
+				return ; // Do not proceed again
+			extractorProgressMgr.release (identifier) ;
+
+			try {
+				rimraf ('data/' + identifier, function (err) {
+					if ( err )
+						throw err ;
+					async.waterfall ([
+								function (callback_wf1a) { wf1_GetFullDetails (callback_wf1a, bucket, identifier, urn) ; }, // Get latest full details
+								function (data, callback_wf1b) { wf1_GetItems (data, callback_wf1b, bucket, identifier) ; }, // From full details, get all individual elements to download
+								function (results, callbacks_wf1c) { wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) ; }, // .svf/.f2d/manifest additional references to download/create
+								function (uris, callback_wf1d) { wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) ; }, // Get additional items from the previous extraction step
+								function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; } // Generate helper html/bat
+							],
+							function (err, results) { wf1End_PackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
+					) ;
+				}) ;
+			} catch ( err ) {
+				fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
+				console.log ('router.get (/results/:identifier/project) exception ' + err) ;
+			}
 		}) ;
-	} catch ( err ) {
-		console.log ('router.get (/results/:bucket/:identifier/project) exception ' + err) ;
-	}
+	}) ;
 	res.end () ;
+}) ;
+
+// Progress helper
+var ExtractorProgressMgr =function () {
+	this.projects ={} ;
+
+	this.progress =function (identifier) {
+		if ( this.projects.hasOwnProperty (identifier) && typeof this.projects [identifier] === 'string' )
+			return (this.projects [identifier]) ;
+		if ( fs.existsSync ('www/extracted/' + identifier + '.zip') )
+			return (100) ;
+		if ( !this.projects.hasOwnProperty (identifier) )
+			return (0) ;
+		this._dlProgress (identifier) ;
+		return (this.projects [identifier].pct) ;
+	} ;
+
+	this.dlProgressIntermediate =function (identifier, item) {
+		if ( !this.projects.hasOwnProperty (identifier) )
+			this.projects [identifier] ={ pct: 0, children: [], factor: 0.5 } ;
+		this.projects [identifier].children =this.projects [identifier].children.filter (function (elt/*, index*/) { return (elt.urn != item.urn) ; }) ;
+		this.projects [identifier].children.push (item) ;
+		//this._dlProgress (identifier) ;
+	} ;
+
+	this.dlProgressFull =function (identifier, items) {
+		if ( !this.projects.hasOwnProperty (identifier) )
+			this.projects [identifier] ={ pct: 0, children: [], factor: 0.5 } ;
+		this.projects [identifier].children =items ;
+		//this._dlProgress (identifier) ;
+	} ;
+
+	this.setFactor =function (factor) {
+		factor =factor || 1.0 ;
+		this.factor =factor ;
+	} ;
+
+	this.setError =function (err) {
+		this.projects [identifier] =err ;
+	} ;
+
+	this._dlProgress =function (identifier) {
+		if ( !this.projects.hasOwnProperty (identifier) )
+			return (0) ;
+		var items =this.projects [identifier].children ;
+		var ret =items.reduce (
+			function (previousValue, currentValue/*, currentIndex, array*/) {
+				if ( currentValue.dl !== undefined && currentValue.size === _default_size_ )
+					currentValue.size =currentValue.dl ;
+				previousValue.size +=(currentValue.size !== undefined ? currentValue.size : 0) ;
+				previousValue.dl +=(currentValue.dl !== undefined ? currentValue.dl : 0) ;
+				return (previousValue) ;
+			},
+			{ size: 0, dl: 0 }
+		) ;
+		var pct =Math.floor (this.projects [identifier].factor * 100 * ret.dl / ret.size) ;
+		//console.log ('progress(' + identifier + '): ' + ret.dl + ' / ' + ret.size + ' = ' + pct + '%') ;
+		this.projects [identifier].pct =pct ;
+		return (pct) ;
+	} ;
+
+	this.release =function (identifier) {
+		if ( this.projects.hasOwnProperty (identifier) )
+			delete this.projects [identifier] ;
+	} ;
+
+} ;
+var extractorProgressMgr =new ExtractorProgressMgr () ;
+
+router.get ('/results/:identifier/project/progress', function (req, res) {
+	//var bucket =lmv.Lmv.getDefaultBucket () ;
+	var identifier =req.params.identifier ;
+	res.json ({ progress: extractorProgressMgr.progress (identifier) }) ;
 }) ;
 
 // Get latest full details
@@ -183,7 +277,7 @@ function wf1_GetFullDetails (callback_wf1a, bucket, identifier, urn) {
 	new lmv.Lmv (bucket).all (urn)
 		.on ('success', function (data) {
 			if ( data.progress == 'complete' )
-				fs.writeFile ('data/' + bucket + '.' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
+				fs.writeFile ('data/' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
 			callback_wf1a (null, data) ;
 		})
 		.on ('fail', function (err) {
@@ -197,8 +291,7 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	console.log ('#2a - Filtering objects') ;
 	// Collect Urns to extract from the server
 	var items =loop4Urns (data) ;
-	items =items.filter (function (item) { return (item !== undefined) ; }) ;
-	items.shift () ;
+	items =items.filter (function (item) { return (item.urn !== undefined && item.urn.indexOf ('urn:adsk.viewing:fs.file:') != -1) ; }) ;
 
 	// Collect Views to create from the viewables
 	var views =loop4Views (data, data, identifier) ;
@@ -207,16 +300,17 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	// Add manifest & metadata files for f2d file
 	console.log ('#2b - Adding manisfest & metadata files for any .f2d files') ;
 	for ( var i =0 ; i < items.length ; i++ ) {
-		if ( path.extname (items [i]) == '.f2d' ) {
-			items.push (path.dirname (items [i]) + '/manifest.json.gz') ;
-			items.push (path.dirname (items [i]) + '/metadata.json.gz') ;
+		if ( items [i].urn !== undefined && path.extname (items [i].urn) == '.f2d' ) {
+			items.push ({ urn: path.dirname (items [i].urn) + '/manifest.json.gz', size: 5000 }) ;
+			items.push ({ urn: path.dirname (items [i].urn) + '/metadata.json.gz', size: 5000 }) ;
 		}
 	}
+	extractorProgressMgr.dlProgressFull (identifier, items) ;
 
-	console.log ('#2c - Download each item asynchronously') ;
+	console.log ('#2c - Downloading each item') ;
 	async.mapLimit (items, 10, // Let's have 10 workers only to limit lose of references (too many for the Autodesk server ;)
 		function (item, callback_map1) { // Each tasks execution
-			if ( typeof item != 'string' ) {
+			if ( item.urn === undefined ) {
 				callback_map1 (null, item) ;
 				return ;
 			}
@@ -228,6 +322,7 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 				callback_wf1b (err, null) ;
 				return ;
 			}
+			extractorProgressMgr.dlProgressFull (identifier, results) ;
 			callback_wf1b (null, results) ;
 		}
 	) ;
@@ -236,7 +331,10 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 function loop4Urns (doc) {
 	var data =[] ;
 	if ( doc.urn !== undefined )
-		data.push (doc.urn) ;
+		data.push ({
+			'urn': doc.urn,
+			'size': (doc.size !== undefined ? parseInt (doc.size) : _default_size_)
+		}) ;
 	if ( doc.children !== undefined ) {
 		for ( var i in doc.children )
 			data =data.concat (loop4Urns (doc.children [i])) ;
@@ -247,10 +345,14 @@ function loop4Urns (doc) {
 function loop4Views (doc, parentNode, identifier) {
 	var data =[] ;
 	if (   doc.urn !== undefined
-		&& (path.extname (doc.urn) == '.svf' || path.extname (doc.urn) == '.f2d')
+			&& (path.extname (doc.urn) === '.svf' || path.extname (doc.urn) === '.f2d')
 	) {
 		var fullpath =doc.urn.substring (doc.urn.indexOf ('/output/') + 8) ;
-		data.push ({ 'path': fullpath, 'name': parentNode.name }) ;
+		data.push ({
+			'path': fullpath,
+			'name': parentNode.name,
+			'size': (doc.size !== undefined ? parseInt (doc.size) : _default_size_)
+		}) ;
 	}
 	if ( doc.children !== undefined ) {
 		for ( var i in doc.children )
@@ -261,34 +363,39 @@ function loop4Views (doc, parentNode, identifier) {
 
 function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 	try {
-		new lmv.Lmv (bucket).downloadItem (item)
+		var urn =item.urn ;
+		new lmv.Lmv (bucket).downloadItem (urn)
 			.on ('success', function (data) {
 				//var filename =item.split ('/').pop () ;
-				var filename =path.basename (item) ;
-				var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/output/') + 8) ;
+				var filename =path.basename (urn) ;
+				var fullpath ='data/' + identifier + '/' + urn.substring (urn.indexOf ('/output/') + 8) ;
 				var filepath =path.dirname (fullpath) ;
 				try {
 					mkdirp (filepath, function (err) {
 						if ( err )
 							throw err ;
+						extractorProgressMgr.dlProgressIntermediate (
+							identifier,
+							{ urn: urn, name: fullpath.substring (5), size: data.length, dl: data.length }
+						) ;
 						fs.writeFile (fullpath, data, function (err) {
-							callback_mapx (null, { urn: item, name: fullpath.substring (5) }) ;
+							callback_mapx (null, { urn: urn, name: fullpath.substring (5), size: data.length, dl: data.length }) ;
 						}) ;
 					}) ;
 				} catch ( err ) {
 					console.log ('DownloadAndSaveItemToDisk exception ' + err) ;
-					console.log ('Save to disk failed for ' + item) ;
+					console.log ('Save to disk failed for ' + urn) ;
 					callback_mapx (err, null) ;
 				}
 			})
 			.on ('fail', function (err) {
 				if ( err == 404 ) {
-					console.log ('Error 404 - ' + item + ' <ignoring>') ;
-					var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/output/') + 8) ;
-					callback_mapx (null, { urn: item, name: fullpath.substring (5), error: 404 }) ;
+					console.log ('Error 404 - ' + urn + ' <ignoring>') ;
+					var fullpath ='data/' + identifier + '/' + urn.substring (urn.indexOf ('/output/') + 8) ;
+					callback_mapx (null, { urn: urn, name: fullpath.substring (5), size: item.size, error: 404 }) ;
 					return ;
 				}
-				console.log ('Download failed for ' + item) ;
+				console.log ('Download failed for ' + urn) ;
 				callback_mapx (err, null) ;
 			})
 		;
@@ -305,49 +412,49 @@ function wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) {
 			function (callback_p1a) {
 				var svf =filterItems (results, '.*\\.svf$') ;
 				async.map (
-					svf,
-					function (item, callback_map2) { wf1_ReadSvfItem (callback_map2, item, identifier, svf) ; },
-					function (err, uris1) {
-						if ( err ) {
-							callback_p1a (err, null) ;
-							return ;
+						svf,
+						function (item, callback_map2) { wf1_ReadSvfItem (callback_map2, item, identifier, svf) ; },
+						function (err, uris1) {
+							if ( err ) {
+								callback_p1a (err, null) ;
+								return ;
+							}
+							var out =[] ;
+							out =out.concat.apply (out, uris1) ;
+							callback_p1a (null, out) ;
 						}
-						var out =[] ;
-						out =out.concat.apply (out, uris1) ;
-						callback_p1a (null, out) ;
-					}
 				) ;
 			},
 			function (callback_p1b) {
 				var f2d =filterItems (results, '.*\\.f2d$') ;
 				async.map (
-					f2d,
-					function (item, callback_map3) { wf1_ReadF2dItem (callback_map3, item, identifier, f2d) ; },
-					function (err, uris2) {
-						if ( err ) {
-							callback_p1b (err, null) ;
-							return ;
+						f2d,
+						function (item, callback_map3) { wf1_ReadF2dItem (callback_map3, item, identifier, f2d) ; },
+						function (err, uris2) {
+							if ( err ) {
+								callback_p1b (err, null) ;
+								return ;
+							}
+							var out =[] ;
+							out =out.concat.apply (out, uris2) ;
+							callback_p1b (null, out) ;
 						}
-						var out =[] ;
-						out =out.concat.apply (out, uris2) ;
-						callback_p1b (null, out) ;
-					}
 				) ;
 			},
 			function (callback_p1c) {
 				var manifest =filterItems (results, '.*manifest\\.json\\.gz$') ;
 				async.map (
-					manifest,
-					function (item, callback_map4) { wf1_ReadManifest (callback_map4, item, identifier) ; },
-					function (err, uris3) {
-						if ( err ) {
-							callback_p1c (err, null) ;
-							return ;
+						manifest,
+						function (item, callback_map4) { wf1_ReadManifest (callback_map4, item, identifier) ; },
+						function (err, uris3) {
+							if ( err ) {
+								callback_p1c (err, null) ;
+								return ;
+							}
+							var out =[] ;
+							out =out.concat.apply (out, uris3) ;
+							callback_p1c (null, out) ;
 						}
-						var out =[] ;
-						out =out.concat.apply (out, uris3) ;
-						callback_p1c (null, out) ;
-					}
 				) ;
 			}
 		],
@@ -421,8 +528,12 @@ function wf1_ReadManifest (callback_map4, item, identifier) {
 function loopManifest (doc, urnParent) {
 	var data =[] ;
 	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
-	//data.push (urnParent + '/' + doc.URI) ;
-		data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
+		//data.push (urnParent + '/' + doc.URI) ;
+		//data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
+		data.push ({
+			'urn': path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/'),
+			'size': (doc.size !== undefined ? parseInt (doc.size) : _default_size_)
+		}) ;
 	if ( doc.assets !== undefined ) {
 		for ( var i in doc.assets )
 			data =data.concat (loopManifest (doc.assets [i], urnParent)) ;
@@ -433,10 +544,12 @@ function loopManifest (doc, urnParent) {
 // Get additional items from the previous extraction step
 function wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) {
 	// Download the additional elements
-	console.log ('#4 - Download additional items asynchronously') ;
+	console.log ('#4 - Downloading additional items') ;
+	extractorProgressMgr.dlProgressFull (identifier, uris) ;
+	extractorProgressMgr.setFactor (1.0) ;
 	async.mapLimit (uris, 10, // Let's have 10 workers only to limit lose of references (too many for the Autodesk server ;)
 		function (item, callback_map5) { // Each tasks execution
-			if ( typeof item != 'string' )
+			if ( item.urn === undefined || item.dl !== undefined )
 				return (callback_map5 (null, item)) ;
 			//if ( item.indexOf ('thermal_moisture.roofing_siding panels.wood.horizontal.beige.png') != -1 )
 			//	return (callback_map5 (null, item)) ;
@@ -448,6 +561,7 @@ function wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) {
 				callback_wf1d (err, null) ;
 				return ;
 			}
+			extractorProgressMgr.dlProgressFull (identifier, results) ;
 			callback_wf1d (null, results) ;
 		}
 	) ;
@@ -471,7 +585,7 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 				return ;
 			}
 
-			refs.push ({ name: identifier + '/index.html' }) ;
+			refs.push ({ name: identifier + '/index.html', size: data.length, dl: data.length }) ;
 			callback_wf1e (null, refs) ;
 		}) ;
 	}) ;
@@ -480,7 +594,8 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 // Create a ZIP file and return all elements
 function wf1End_PackItems (err, results, identifier) {
 	if ( err ) {
-		console.log ('Error in downloading fragments! ZIP not created.') ;
+		console.log ('Error while downloading fragments! ZIP not created.') ;
+		wf1End_Cleanup (identifier, false) ;
 		return ;
 	}
 	// We got all d/l
@@ -488,10 +603,11 @@ function wf1End_PackItems (err, results, identifier) {
 		// We are done! Create a ZIP file
 		var archive =archiver ('zip') ;
 		archive.on ('error', function (err) {
+			wf1End_Cleanup (identifier, false) ;
 			console.log ('Error: ZIP creation failed - ' + err)
 		}) ;
 		archive.on ('finish', function (err) {
-			rimraf ('data/' + identifier, function (err) {}) ; // Cleanup
+			wf1End_Cleanup (identifier, true) ;
 			console.log ('PackItems ended successfully.') ;
 		}) ;
 
@@ -503,23 +619,59 @@ function wf1End_PackItems (err, results, identifier) {
 		merged =merged.concat.apply (merged, results) ;
 		for ( var i =0 ; i < merged.length ; i++ ) {
 			if ( !merged [i].hasOwnProperty ('error') )
-				//archive.append (merged [i].content, { name: merged [i].name }) ;
-				//archive.append (fs.createReadStream ('data/' + merged [i].name), { name: merged [i].name }) ;
+			//archive.append (merged [i].content, { name: merged [i].name }) ;
+			//archive.append (fs.createReadStream ('data/' + merged [i].name), { name: merged [i].name }) ;
 				archive.file ('data/' + merged [i].name, { name: merged [i].name }) ;
 		}
 		archive.finalize () ;
 	} catch ( err ) {
 		console.log ('wf1End_PackItems exception') ;
+		wf1End_Cleanup (identifier, false) ;
 	}
 }
 
+function wf1End_Cleanup (identifier, bSuccess) {
+	bSuccess =bSuccess || false ;
+	if ( bSuccess ) {
+		fs.readFile ('data/' + identifier + '.lock', 'utf-8', function (err, data) {
+			if ( err )
+				return ;
+			data =JSON.parse (data) ;
+			if ( data.length )
+				wf1End_Notify (identifier, data)
+			fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
+		}) ;
+	}
+	extractorProgressMgr.release (identifier) ;
+	rimraf ('data/' + identifier, function (err) {}) ; // Cleanup
+}
+
+function wf1End_Notify (identifier, tos) {
+	fs.readFile ('views/email.ejs', 'utf-8', function (err, st) {
+		if ( err )
+			return ;
+		var obj ={ ID: identifier } ;
+		var data =ejs.render (st, obj) ;
+		for ( var i =0 ; i < tos.length ; i++ ) {
+			sendMail ({
+				'from': 'ADN Sparks <adn.sparks@autodesk.com>',
+				'replyTo': 'adn.sparks@autodesk.com',
+				'to': tos [i],
+				'subject': 'Autodesk View & Data API Extractor notification',
+				'html': data,
+				'forceEmbeddedImages': true
+			}) ;
+		}
+	}) ;
+}
+
 // Download a single file from its bucket/identifier/fragment pair
-router.get ('/results/file/:bucket/:identifier/:fragment', function (req, res) {
-	var bucket =req.params.bucket ;
+router.get ('/results/file/:identifier/:fragment', function (req, res) {
+	var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
 	var fragment =req.params.fragment ;
 
-	fs.readFile ('data/' + bucket + '.' + identifier + '.resultdb.json', 'utf-8', function (err, data) {
+	fs.readFile ('data/' + identifier + '.resultdb.json', 'utf-8', function (err, data) {
 		if ( err )
 			return (res.status (404).end ()) ;
 		data =JSON.parse (data) ;
