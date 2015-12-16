@@ -5,300 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/sendMail.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/email.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/custom.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/css/vignettes.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/js/app.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/js/dependency-editor.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/js/dependency-editor.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/jquery-2.1.2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/jquery-ui.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/lmvworker.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/CoolLight_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/CoolLight_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/DarkSky_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/DarkSky_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/GreyRoom_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/GreyRoom_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/GridLight_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/GridLight_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/IDViz_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/IDViz_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/InfinityPool_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/InfinityPool_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/PhotoBooth_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/PhotoBooth_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/Plaza_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/Plaza_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/Reflection_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/Reflection_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/RimHighlights_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/RimHighlights_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SharpHighlights_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SharpHighlights_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SnowField_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SnowField_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SoftLight_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/SoftLight_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/TranquilityBlue_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/TranquilityBlue_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/WarmLight_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/WarmLight_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/boardwalk_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/boardwalk_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/crossroads_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/crossroads_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/field_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/field_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/glacier_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/glacier_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/riverbank_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/riverbank_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/seaport_irr.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/environments/seaport_mipdrop.logluv.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/cs/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/de/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/VCcross.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/VCcross.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/VCcrossRGBA8small.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/en/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ja/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ko/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/localeTranslation.job" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/ru/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hans/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/allstrings.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-ATF.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-Assimp.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-AutoCAD.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-DWF2d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-DWF3d.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-Navisworks.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/extractor-Revit.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/translationworker.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-animation.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-environments.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-errorMsg.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-measure.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-renderOptions.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-settings.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-toolbar.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer-viewCube.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/locales/zh-Hant/viewer.loc.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCarrows.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCarrowsS0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCarrowsS1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcontext.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcontextS.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcross.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcross.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcrossRGBA8.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcrossRGBA8small.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCcrossSmall.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCedge1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface1s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface2s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface3s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface4s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface5s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VCface6s.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VChome.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/VChomeS.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/cardinalPoint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/centerMarker_X.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/res/textures/radial-fade-grid.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/style.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/three.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/viewer3D.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/adsk/viewer3DStyle.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/adsk-viewer.zip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/auto-arrange.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/dependency-editor.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/jquery.fancytree-all.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/jquery.fancytree-all.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/skin-win8/icons.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/skin-win8/loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/skin-win8/ui.fancytree.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/skin-win8/ui.fancytree.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/fancytree/skin-win8/ui.fancytree.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/images/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/adsk.24x24.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/app.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/blacktocat.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/delete.24x24.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/download.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/extract.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/extracting.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/info.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/pause.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/resume.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/submit.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/img/view.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/backbone.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/dagre.core.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/dagre.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/dom.jsPlumb-1.7.2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/flow.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/geometry.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/joint.clean.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/joint.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/joint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/joint.layout.DirectedGraph.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/joint.shapes.fsa.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/lodash.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/raphael-min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/vectorizer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/projects.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/style.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/upload-flow.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/credentials_.js" afterPath="$PROJECT_DIR$/server/credentials_.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/ejs.js" afterPath="$PROJECT_DIR$/server/ejs.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/file.js" afterPath="$PROJECT_DIR$/server/file.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/flow-node.js" afterPath="$PROJECT_DIR$/server/flow-node.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-projects.js" afterPath="$PROJECT_DIR$/server/lmv-projects.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-results.js" afterPath="$PROJECT_DIR$/server/lmv-results.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-token.js" afterPath="$PROJECT_DIR$/server/lmv-token.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv.js" afterPath="$PROJECT_DIR$/server/lmv.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start.js" afterPath="$PROJECT_DIR$/start.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/.gitignore" afterPath="$PROJECT_DIR$/tmp/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/explore.ejs" afterPath="$PROJECT_DIR$/views/explore.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -318,7 +26,51 @@
     <favorites_list name="workflow-node.js-server-view.and.data.api" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="lmv-results.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.35755813">
+              <caret line="398" column="0" selection-start-line="398" selection-start-column="0" selection-end-line="398" selection-end-column="0" />
+              <folding>
+                <element signature="e#1584#2646#0" expanded="false" />
+                <element signature="n#!!block;n#filterProject#0" expanded="false" />
+                <element signature="e#3072#3652#0" expanded="false" />
+                <element signature="e#3756#4255#0" expanded="false" />
+                <element signature="e#4358#5132#0" expanded="false" />
+                <element signature="e#5283#7308#0" expanded="false" />
+                <element signature="e#7370#9660#0" expanded="false" />
+                <element signature="e#9793#9953#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
+                <element signature="n#!!block;n#loop4Urns#0" expanded="false" />
+                <element signature="n#!!block;n#loop4Views#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_ReadSvfF2dManifest#0" expanded="false" />
+                <element signature="n#!!block;n#filterItems#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_ReadSvfItem#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_ReadF2dItem#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
+                <element signature="n#!!block;n#loopManifest#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
+                <element signature="n#!!block;n#wf1_GenerateLocalHtml#0" expanded="false" />
+                <element signature="n#!!block;n#wf1End_PackItems#0" expanded="false" />
+                <element signature="e#23384#24079#0" expanded="false" />
+                <element signature="e#24146#24332#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.6296296">
+              <caret line="185" column="23" selection-start-line="185" selection-start-column="23" selection-end-line="185" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -381,11 +133,11 @@
         <option value="$PROJECT_DIR$/views/explore.ejs" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/views/email.ejs" />
-        <option value="$PROJECT_DIR$/server/lmv-results.js" />
         <option value="$PROJECT_DIR$/server/credentials_.js" />
         <option value="$PROJECT_DIR$/server/credentials.js" />
         <option value="$PROJECT_DIR$/server/sendMail.js" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/server/lmv-results.js" />
       </list>
     </option>
   </component>
@@ -456,7 +208,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -615,10 +367,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="744" y="76" width="1435" height="1235" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945454" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21672727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21672727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39889416" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -950,39 +702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6540698">
-          <caret line="655" column="4" selection-start-line="655" selection-start-column="4" selection-end-line="655" selection-end-column="4" />
-          <folding>
-            <element signature="e#1584#2646#0" expanded="false" />
-            <element signature="n#!!block;n#filterProject#0" expanded="false" />
-            <element signature="e#3072#3652#0" expanded="false" />
-            <element signature="e#3756#4255#0" expanded="false" />
-            <element signature="e#4358#5132#0" expanded="false" />
-            <element signature="e#5283#7308#0" expanded="false" />
-            <element signature="e#7370#9660#0" expanded="false" />
-            <element signature="e#9793#9953#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetItems#0" expanded="false" />
-            <element signature="n#!!block;n#loop4Urns#0" expanded="false" />
-            <element signature="n#!!block;n#loop4Views#0" expanded="false" />
-            <element signature="n#!!block;n#DownloadAndSaveItemToDisk#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadSvfF2dManifest#0" expanded="false" />
-            <element signature="n#!!block;n#filterItems#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadSvfItem#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadF2dItem#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
-            <element signature="n#!!block;n#loopManifest#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GenerateLocalHtml#0" expanded="false" />
-            <element signature="n#!!block;n#wf1End_PackItems#0" expanded="false" />
-            <element signature="e#23384#24079#0" expanded="false" />
-            <element signature="e#24146#24332#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6686047">
@@ -1089,14 +808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30463576">
-          <caret line="185" column="23" selection-start-line="185" selection-start-column="23" selection-end-line="185" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/simple.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.4840117">
@@ -1112,6 +823,45 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6296296">
+          <caret line="185" column="23" selection-start-line="185" selection-start-column="23" selection-end-line="185" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35755813">
+          <caret line="398" column="0" selection-start-line="398" selection-start-column="0" selection-end-line="398" selection-end-column="0" />
+          <folding>
+            <element signature="e#1584#2646#0" expanded="false" />
+            <element signature="n#!!block;n#filterProject#0" expanded="false" />
+            <element signature="e#3072#3652#0" expanded="false" />
+            <element signature="e#3756#4255#0" expanded="false" />
+            <element signature="e#4358#5132#0" expanded="false" />
+            <element signature="e#5283#7308#0" expanded="false" />
+            <element signature="e#7370#9660#0" expanded="false" />
+            <element signature="e#9793#9953#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
+            <element signature="n#!!block;n#loop4Urns#0" expanded="false" />
+            <element signature="n#!!block;n#loop4Views#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadSvfF2dManifest#0" expanded="false" />
+            <element signature="n#!!block;n#filterItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadSvfItem#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadF2dItem#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
+            <element signature="n#!!block;n#loopManifest#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GenerateLocalHtml#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_PackItems#0" expanded="false" />
+            <element signature="e#23384#24079#0" expanded="false" />
+            <element signature="e#24146#24332#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
