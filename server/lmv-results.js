@@ -166,13 +166,14 @@ router.get ('/results/:identifier/project', function (req, res) {
 			return ; // Do not proceed again
 		fs.exists ('data/' + identifier + '.lock', function (exists) {
 			var list =[] ;
-			if ( exists )
-				list =JSON.parse (fs.readFileSync ('data/' + identifier + '.lock')) ;
-			if ( req.query.email && req.query.email !== '' )
-				list.push (req.query.email) ;
-			fs.writeFile ('data/' + identifier + '.lock', JSON.stringify (list), function (err) {}) ;
-			if ( exists )
+			if ( exists ) {
+				if ( req.query.email && req.query.email !== '' ) {
+					list =JSON.parse (fs.readFileSync ('data/' + identifier + '.lock')) ;
+					list.push (req.query.email) ;
+					fs.writeFile ('data/' + identifier + '.lock', JSON.stringify (list), function (err) {}) ;
+				}
 				return ; // Do not proceed again
+			}
 			extractorProgressMgr.release (identifier) ;
 
 			try {
@@ -642,7 +643,7 @@ function wf1End_Cleanup (identifier, bSuccess) {
 			fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
 		}) ;
 	} else {
-		wf1End_NotifyError (identifier, data)
+		wf1End_NotifyError (identifier) ;
 		fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
 	}
 	extractorProgressMgr.release (identifier) ;

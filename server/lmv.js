@@ -368,6 +368,12 @@ Lmv.prototype.getURN =function (identifier) {
 	} catch ( err ) {
 		//console.log (__function + ' ' + __line) ;
 		//console.log (err) ;
+		try {
+			var data =fs.readFileSync ('data/' + identifier + '.resultdb.json') ;
+			data =JSON.parse (data) ;
+			return (new Buffer (data.urn, 'base64').toString (/*'ansi'*/)) ;
+		} catch ( exp ) {
+		}
 	}
 	return ('') ;
 } ;

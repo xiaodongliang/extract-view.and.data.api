@@ -376,6 +376,7 @@ router.post ('/projects', function (req, res) {
 				for ( var i =0 ; i < data.length ; i++ )
 					fs.unlink ('data/' + data [i] + '.json', function (err) {}) ;
 				fs.unlink ('data/' + connections.uniqueIdentifier + '.dependencies.json', function (err) {}) ;
+				fs.unlink ('data/' + connections.uniqueIdentifier + '.connections.json', function (err) {}) ;
 			}) ;
 		}
 	}) ;
