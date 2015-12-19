@@ -25,6 +25,8 @@ var fs =require ('fs') ;
 var async =require ('async') ;
 var moment =require ('moment') ;
 var lmv =require ('./lmv') ;
+var ejs =require ('ejs') ;
+var sendMail =require ('./sendMail') ;
 
 var router =express.Router () ;
 router.use (bodyParser.json ()) ;
@@ -330,11 +332,15 @@ router.post ('/projects', function (req, res) {
 								})
 								.on ('fail', function (err) {
 									console.log ('URN registration for translation failed: ' + err) ;
+									callbacks2 (err, 5) ;
+									return ;
 								})
 							;
 						})
 						.on ('fail', function (err) {
 							console.log (err) ;
+							callbacks2 (err, 6) ;
+							return ;
 						})
 					;
 					callbacks2 (null, 4) ;
@@ -342,7 +348,38 @@ router.post ('/projects', function (req, res) {
 			) ;
 		}
 	], function (err, results) {
-		//- We are done!
+		//- We are done! email me if any error
+		if ( err ) {
+			fs.readFile ('views/email-xlt-failed.ejs', 'utf-8', function (err, st) {
+				if ( err )
+					return ;
+				var obj ={ ID: connections.uniqueIdentifier } ;
+				var data =ejs.render (st, obj) ;
+				sendMail ({
+					'from': 'ADN Sparks <adn.sparks@autodesk.com>',
+					'replyTo': 'adn.sparks@autodesk.com',
+					'to': 'adn.sparks@autodesk.com',
+					'subject': 'Autodesk View & Data API Extractor app failed to translate a project',
+					'html': data,
+					'forceEmbeddedImages': true
+				}) ;
+			}) ;
+			fs.rename (
+				'data/' + identifier + '.resultdb.json',
+				'data/' + identifier + '.resultdb.failed',
+				function (err) {}
+			) ;
+			return ;
+		} else {
+			fs.readFile ('data/' + connections.uniqueIdentifier + '.dependencies.json', 'utf-8', function (err, data) {
+				if ( err )
+					return ;
+				data =JSON.parse (data) ;
+				for ( var i =0 ; i < data.length ; i++ )
+					fs.unlink ('data/' + data [i] + '.json', function (err) {}) ;
+				fs.unlink ('data/' + connections.uniqueIdentifier + '.dependencies.json', function (err) {}) ;
+			}) ;
+		}
 	}) ;
 
 	// We submitted, no clue if it was successful or if it will fail.

@@ -641,6 +641,9 @@ function wf1End_Cleanup (identifier, bSuccess) {
 				wf1End_Notify (identifier, data)
 			fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
 		}) ;
+	} else {
+		wf1End_NotifyError (identifier, data)
+		fs.unlink ('data/' + identifier + '.lock', function (err) {}) ;
 	}
 	extractorProgressMgr.release (identifier) ;
 	rimraf ('data/' + identifier, function (err) {}) ; // Cleanup
@@ -662,6 +665,23 @@ function wf1End_Notify (identifier, tos) {
 				'forceEmbeddedImages': true
 			}) ;
 		}
+	}) ;
+}
+
+function wf1End_NotifyError (identifier) {
+	fs.readFile ('views/email-extract-failed.ejs', 'utf-8', function (err, st) {
+		if ( err )
+			return ;
+		var obj ={ ID: identifier } ;
+		var data =ejs.render (st, obj) ;
+		sendMail ({
+			'from': 'ADN Sparks <adn.sparks@autodesk.com>',
+			'replyTo': 'adn.sparks@autodesk.com',
+			'to': 'adn.sparks@autodesk.com',
+			'subject': 'Autodesk View & Data API Extraction failed',
+			'html': data,
+			'forceEmbeddedImages': true
+		}) ;
 	}) ;
 }
 

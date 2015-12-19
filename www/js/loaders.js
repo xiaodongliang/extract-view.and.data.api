@@ -108,13 +108,14 @@ function uploadFileProgress (uniqueIdentifier) {
 }
 
 var keys = {
-    dropboxApiKey: "z6n42hqk7j6teb2",
-    boxApiKey: "rtrdly7yhy1jn5ogcx7zlb8ek83nom2s",
-    //gapiClientId: "481463395991-i8beh0c0g3ei8bbptmos1b129s4h3fas.apps.googleusercontent.com",
-    //gapiKey: "AIzaSyAPaP6WXSx_pjT-sQF3HyNcNZiPZAxumWs",
-    gapiClientId: "861963580135-s5bhrka091n1un4letqfrafg3abn41t1.apps.googleusercontent.com",
-    gapiKey: "AIzaSyAsdhYT8LmF3YMkd7v76oiauI4fHH0d5bc",
-    oneDriveApiKey: "000000004017206D"
+    //dropboxApiKey: "z6n42hqk7j6teb2",
+    dropboxApiKey: 'pdnli15y8271xkf',
+    boxApiKey: '"rtrdly7yhy1jn5ogcx7zlb8ek83nom2s',
+    //gapiClientId: '481463395991-i8beh0c0g3ei8bbptmos1b129s4h3fas.apps.googleusercontent.com',
+    //gapiKey: 'AIzaSyAPaP6WXSx_pjT-sQF3HyNcNZiPZAxumWs',
+    gapiClientId: '861963580135-s5bhrka091n1un4letqfrafg3abn41t1.apps.googleusercontent.com',
+    gapiKey: 'AIzaSyAsdhYT8LmF3YMkd7v76oiauI4fHH0d5bc',
+    oneDriveApiKey: '000000004017206D'
 } ;
 
 // DropBox
