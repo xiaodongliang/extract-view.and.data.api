@@ -329,21 +329,19 @@ router.post ('/projects', function (req, res) {
 										'urn': urn
 									} ;
 									fs.writeFile ('data/' + identifier + '.resultdb.json', JSON.stringify (data), function (err) {}) ;
+									callbacks2 (null, 4) ;
 								})
 								.on ('fail', function (err) {
 									console.log ('URN registration for translation failed: ' + err) ;
 									callbacks2 (err, 5) ;
-									return ;
 								})
 							;
 						})
 						.on ('fail', function (err) {
 							console.log (err) ;
 							callbacks2 (err, 6) ;
-							return ;
 						})
 					;
-					callbacks2 (null, 4) ;
 				}
 			) ;
 		}

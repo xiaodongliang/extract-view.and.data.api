@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-projects.js" afterPath="$PROJECT_DIR$/server/lmv-projects.js" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lmv-projects.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="lmv-projects.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="225" column="10" selection-start-line="225" selection-start-column="10" selection-end-line="225" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.9104478">
+              <caret line="342" column="0" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
               <folding>
                 <element signature="e#1272#2568#0" expanded="false" />
                 <element signature="n#!!block;n#filterBucket#0" expanded="false" />
@@ -80,10 +80,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loaders.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="loaders.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/loaders.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23066486">
+            <state vertical-scroll-proportion="0.0">
               <caret line="111" column="35" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="35" />
               <folding />
             </state>
@@ -166,8 +166,8 @@
         <option value="$PROJECT_DIR$/views/email-xlt-failed.ejs" />
         <option value="$PROJECT_DIR$/views/email-extract-failed.ejs" />
         <option value="$PROJECT_DIR$/server/lmv-results.js" />
-        <option value="$PROJECT_DIR$/server/lmv-projects.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
+        <option value="$PROJECT_DIR$/server/lmv-projects.js" />
       </list>
     </option>
   </component>
@@ -907,22 +907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="225" column="10" selection-start-line="225" selection-start-column="10" selection-end-line="225" selection-end-column="10" />
-          <folding>
-            <element signature="e#1272#2568#0" expanded="false" />
-            <element signature="n#!!block;n#filterBucket#0" expanded="false" />
-            <element signature="e#5641#6120#0" expanded="false" />
-            <element signature="e#6428#7264#0" expanded="false" />
-            <element signature="e#7343#7873#0" expanded="false" />
-            <element signature="e#8933#9305#0" expanded="false" />
-            <element signature="e#9426#9795#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3445851">
@@ -938,9 +922,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/loaders.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23066486">
+        <state vertical-scroll-proportion="0.0">
           <caret line="111" column="35" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="35" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lmv-projects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9104478">
+          <caret line="342" column="0" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
+          <folding>
+            <element signature="e#1272#2568#0" expanded="false" />
+            <element signature="n#!!block;n#filterBucket#0" expanded="false" />
+            <element signature="e#5641#6120#0" expanded="false" />
+            <element signature="e#6428#7264#0" expanded="false" />
+            <element signature="e#7343#7873#0" expanded="false" />
+            <element signature="e#8933#9305#0" expanded="false" />
+            <element signature="e#9426#9795#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
