@@ -363,8 +363,8 @@ router.post ('/projects', function (req, res) {
 				}) ;
 			}) ;
 			fs.rename (
-				'data/' + identifier + '.resultdb.json',
-				'data/' + identifier + '.resultdb.failed',
+				'data/' + connections.uniqueIdentifier + '.resultdb.json',
+				'data/' + connections.uniqueIdentifier + '.resultdb.failed',
 				function (err) {}
 			) ;
 			return ;
