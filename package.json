@@ -2,13 +2,13 @@
 	"name": "adn-nodejs-extract-sample",
 	"description": "A Node.js server sample to extract Autodesk View and Data API bubbles",
 	"homepage": "http://around-the-corner.typepad.com/",
-	"version": "1.0.0",
+	"version": "3.0.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api.git"
+		"url": "https://github.com/cyrillef/extract-view.and.data.api.git"
 	},
 	"bugs": {
-		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api/issues"
+		"url": "https://github.com/cyrillef/extract-view.and.data.api/issues"
 	},
 	"author": "Cyrille Fauvel",
 	"contributors": [

@@ -93,6 +93,14 @@ util.inherits (Lmv, events.EventEmitter) ;
 	return (name) ;
 } ;
 
+/*static*/ Lmv.baseEndPoint =function () {
+	return (config.BaseEndPoint) ;
+} ;
+
+/*static*/ Lmv.version =function () {
+	return (config.Version) ;
+} ;
+
 // GET /oss/v1/buckets/:bucket/details
 Lmv.prototype.checkBucket =function () {
 	var self =this ;

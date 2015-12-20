@@ -26,6 +26,7 @@ var path =require ('path') ;
 var mkdirp =require ('mkdirp') ;
 var rimraf =require ('rimraf') ;
 var async =require ('async') ;
+var unirest =require('unirest') ;
 var lmv =require ('./lmv') ;
 var AdmZip =require ('adm-zip') ;
 var archiver =require ('archiver') ;
@@ -35,6 +36,7 @@ var moment =require ('moment') ;
 //var nodemailer =require ('nodemailer') ;
 //var directTransport =require ('nodemailer-direct-transport') ;
 var sendMail =require ('./sendMail') ;
+var viewerFileList =require ('./viewer') ;
 
 var router =express.Router () ;
 router.use (bodyParser.json ()) ;
@@ -173,6 +175,8 @@ router.get ('/results/:identifier/project', function (req, res) {
 					fs.writeFile ('data/' + identifier + '.lock', JSON.stringify (list), function (err) {}) ;
 				}
 				return ; // Do not proceed again
+			} else {
+				fs.writeFile ('data/' + identifier + '.lock', JSON.stringify (list), function (err) {}) ;
 			}
 			extractorProgressMgr.release (identifier) ;
 
@@ -185,7 +189,8 @@ router.get ('/results/:identifier/project', function (req, res) {
 								function (data, callback_wf1b) { wf1_GetItems (data, callback_wf1b, bucket, identifier) ; }, // From full details, get all individual elements to download
 								function (results, callbacks_wf1c) { wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) ; }, // .svf/.f2d/manifest additional references to download/create
 								function (uris, callback_wf1d) { wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) ; }, // Get additional items from the previous extraction step
-								function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; } // Generate helper html/bat
+								function (refs, callback_wf1e) { wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) ; }, // Generate helper html/bat
+								function (refs, callback_wf1f) { wf1_AddViewerFiles (refs, callback_wf1f, bucket, identifier) ; } // Add the View & Data viewer files
 							],
 							function (err, results) { wf1End_PackItems (err, results, identifier) ; } // Create a ZIP file and return all elements
 					) ;
@@ -315,7 +320,7 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 				callback_map1 (null, item) ;
 				return ;
 			}
-			DownloadAndSaveItemToDisk (callback_map1, bucket, identifier, item) ;
+			DownloadUrnAndSaveItemToDisk (callback_map1, bucket, identifier, item) ;
 		},
 		function (err, results) { //- All tasks are done
 			if ( err !== undefined && err !== null ) {
@@ -362,7 +367,7 @@ function loop4Views (doc, parentNode, identifier) {
 	return (data) ;
 }
 
-function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
+function DownloadUrnAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 	try {
 		var urn =item.urn ;
 		new lmv.Lmv (bucket).downloadItem (urn)
@@ -384,7 +389,7 @@ function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 						}) ;
 					}) ;
 				} catch ( err ) {
-					console.log ('DownloadAndSaveItemToDisk exception ' + err) ;
+					console.log ('DownloadUrnAndSaveItemToDisk exception ' + err) ;
 					console.log ('Save to disk failed for ' + urn) ;
 					callback_mapx (err, null) ;
 				}
@@ -401,9 +406,46 @@ function DownloadAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
 			})
 		;
 	} catch ( err ) {
-		console.log ('DownloadAndSaveItemToDisk exception - ' + err) ;
+		console.log ('DownloadUrnAndSaveItemToDisk exception - ' + err) ;
 	}
 }
+
+function DownloadFileAndSaveItemToDisk (callback_mapx, bucket, identifier, item) {
+	unirest.get (item)
+		.headers ({ 'Authorization': ('Bearer ' + lmv.Lmv.getToken ()) })
+		.encoding (null)
+		//.timeout (2 * 60 * 1000) // 2 min
+		.end (function (response) {
+			try {
+				var filename =path.basename (item) ;
+				var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/viewers/') + 9) ;
+				var filepath =path.dirname (fullpath) ;
+
+				if ( response.statusCode != 200 ) {
+					console.log ('Download failed for ' + fullpath) ;
+					callback_mapx (null, { urn: item, name: fullpath.substring (5), size: 0, dl: 0 }) ;
+					return ;
+				}
+
+				mkdirp (filepath, function (err) {
+					if ( err )
+						throw err ;
+					extractorProgressMgr.dlProgressIntermediate (
+							identifier,
+							{ urn: item, name: fullpath.substring (5), size: response.raw_body.length, dl: response.raw_body.length }
+					) ;
+					fs.writeFile (fullpath, response.raw_body, function (err) {
+						callback_mapx (null, { urn: item, name: fullpath.substring (5), size: response.raw_body.length, dl: response.raw_body.length }) ;
+					}) ;
+				}) ;
+			} catch ( err ) {
+				console.log ('DownloadFileAndSaveItemToDisk exception ' + err) ;
+				console.log ('Save to disk failed for ' + item) ;
+				callback_mapx (err, null) ;
+			}
+		})
+	;
+} ;
 
 // .svf/.f2d/manifest additional references to download/create
 function wf1_ReadSvfF2dManifest (results, callbacks_wf1c, bucket, identifier) {
@@ -552,13 +594,11 @@ function wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) {
 		function (item, callback_map5) { // Each tasks execution
 			if ( item.urn === undefined || item.dl !== undefined )
 				return (callback_map5 (null, item)) ;
-			//if ( item.indexOf ('thermal_moisture.roofing_siding panels.wood.horizontal.beige.png') != -1 )
-			//	return (callback_map5 (null, item)) ;
-			DownloadAndSaveItemToDisk (callback_map5, bucket, identifier, item) ;
+			DownloadUrnAndSaveItemToDisk (callback_map5, bucket, identifier, item) ;
 		},
 		function (err, results) { // All tasks are done
 			if ( err !== undefined && err !== null ) {
-				console.log ('Something wrong happened during download') ;
+				console.log ('Something wrong happened during additional items download') ;
 				callback_wf1d (err, null) ;
 				return ;
 			}
@@ -571,6 +611,7 @@ function wf1_GetAdditionalItems (uris, callback_wf1d, bucket, identifier) {
 // Generate helper html/bat
 function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 	var doclist =refs.filter (function (obj) { return (obj.hasOwnProperty ('path')) ; }) ;
+	doclist =doclist.map (function (obj) { if ( obj.hasOwnProperty ('size') ) delete obj.size ; return (obj) ; }) ;
 	refs =refs.filter (function (obj) { return (!obj.hasOwnProperty ('path')) ; }) ;
 
 	fs.createReadStream ('views/go.ejs').pipe (fs.createWriteStream ('data/' + identifier + '/index.bat')) ;
@@ -592,6 +633,40 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 	}) ;
 }
 
+// Add the View & Data viewer files
+function wf1_AddViewerFiles (refs, callback_wf1f, bucket, identifier) {
+	console.log ('#5 - Downloading the viewer files') ;
+	var urns =viewerFileList.map (function (item) {
+		var urn =lmv.Lmv.baseEndPoint () + '/viewingservice/' + lmv.Lmv.version () + '/viewers/' + item ;
+		extractorProgressMgr.dlProgressIntermediate (
+				identifier,
+				{ urn: urn, name: item, size: 20000, dl: 0 }
+		) ;
+		return (urn) ;
+	}) ;
+	async.mapLimit (urns, 10, // Let's have 10 workers only to limit lose of references (too many for the Autodesk server ;)
+		function (item, callback_map6) { // Each tasks execution
+			DownloadFileAndSaveItemToDisk (callback_map6, bucket, identifier, item) ;
+		},
+		function (err, results) { // All tasks are done
+			if ( err !== undefined && err !== null ) {
+				console.log ('Something wrong happened during viewer files download') ;
+				callback_wf1f (err, null) ;
+				return ;
+			}
+			results =results.concat (refs) ;
+			extractorProgressMgr.dlProgressFull (identifier, results) ;
+			fs.createReadStream ('www/bower_components/jquery/dist/jquery.min.js')
+				.pipe (fs.createWriteStream ('data/' + identifier + '/jquery.min.js')) ;
+			results.push ({ urn: 'www/bower_components/jquery/dist/jquery.min.js', name: (identifier + '/jquery.min.js'), size: 84380, dl: 84380 }) ;
+			fs.createReadStream ('www/bower_components/jquery-ui/jquery-ui.min.js')
+					.pipe (fs.createWriteStream ('data/' + identifier + '/jquery-ui.min.js')) ;
+			results.push ({ urn: 'www/bower_components/jquery-ui/jquery-ui.min.js', name: (identifier + '/jquery-ui.min.js'), size: 240427, dl: 240427 }) ;
+			callback_wf1f (null, results) ;
+		}
+	) ;
+}
+
 // Create a ZIP file and return all elements
 function wf1End_PackItems (err, results, identifier) {
 	if ( err ) {
@@ -604,11 +679,10 @@ function wf1End_PackItems (err, results, identifier) {
 		// We are done! Create a ZIP file
 		var archive =archiver ('zip') ;
 		archive.on ('error', function (err) {
-			wf1End_Cleanup (identifier, false) ;
-			console.log ('Error: ZIP creation failed - ' + err)
+			console.log ('PackItems: ' + err)
 		}) ;
 		archive.on ('finish', function (err) {
-			wf1End_Cleanup (identifier, true) ;
+			wf1End_Cleanup (identifier, err === undefined) ;
 			console.log ('PackItems ended successfully.') ;
 		}) ;
 
@@ -678,7 +752,7 @@ function wf1End_NotifyError (identifier) {
 		sendMail ({
 			'from': 'ADN Sparks <adn.sparks@autodesk.com>',
 			'replyTo': 'adn.sparks@autodesk.com',
-			'to': 'adn.sparks@autodesk.com',
+			//'to': 'adn.sparks@autodesk.com',
 			'subject': 'Autodesk View & Data API Extraction failed',
 			'html': data,
 			'forceEmbeddedImages': true

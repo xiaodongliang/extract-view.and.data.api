@@ -356,7 +356,7 @@ router.post ('/projects', function (req, res) {
 				sendMail ({
 					'from': 'ADN Sparks <adn.sparks@autodesk.com>',
 					'replyTo': 'adn.sparks@autodesk.com',
-					'to': 'adn.sparks@autodesk.com',
+					//'to': 'adn.sparks@autodesk.com',
 					'subject': 'Autodesk View & Data API Extractor app failed to translate a project',
 					'html': data,
 					'forceEmbeddedImages': true

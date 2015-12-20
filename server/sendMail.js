@@ -26,6 +26,9 @@ var config =(require ('fs').existsSync ('server/credentials.js') ?
 	: (console.log ('No credentials.js file present, assuming using CONSUMERKEY & CONSUMERSECRET system variables.'), require ('./credentials_'))) ;
 
 function sendMail1 (mail) {
+	mail.to =mail.to || config.mailTo ;
+	if ( config.MAILJET1 === '<replace with your mailjet consumer key>' || mail.to === '' )
+		return ;
 	var mjet =new Mailjet (config.MAILJET1, config.MAILJET2) ;
 	mjet.sendContent (
 		mail.from,

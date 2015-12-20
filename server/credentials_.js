@@ -31,10 +31,14 @@ var config ={
 	BaseEndPoint: 'https://developer.api.autodesk.com',
 	Version: 'v1',
 	bucket: 'extract-autodesk-io',
+	mailTo: '',
 
-	MAILJET1: process.env.MAILJET1 || '<replace with your consumer key>',
-	MAILJET2: process.env.MAILJET2 || '<replace with your consumer secret>'
+	MAILJET1: process.env.MAILJET1 || '<replace with your mailjet consumer key>',
+	MAILJET2: process.env.MAILJET2 || '<replace with your mailjet consumer secret>'
 } ;
+
+// Comment out this line if you want in case you changed the bucket name at line #33 to a unique name
+config.bucket =config.bucket + config.credentials.client_id.toLowerCase () ;
 
 config.AuthenticateEndPoint =config.BaseEndPoint + '/authentication/' + config.Version + '/authenticate' ;
 
