@@ -146,14 +146,14 @@ function projectProgress (root, nb) {
 		contentType: 'application/json',
 		complete: null
 	}).done (function (response) {
-		var name ='#' + root ;
+		var name ='#vignette-' + root ;
 		//console.log (response) ;
 		if ( response.progress == 'complete' ) {
 			$(name + ' progress').remove () ;
 			if ( response.status == 'success' ) {
 				$(name + ' div p').text ('success (' + response.success + ')') ;
 				$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + root) ;
-				
+
 				if ( response.hasThumbnail == 'true' ) {
 					$.ajax ({
 						url: '/api/results/' + root + '/thumbnail',
@@ -183,7 +183,7 @@ function projectProgress (root, nb) {
 			setTimeout (function () { projectProgress (root, ++nb) ; }, 2500) ;
 			return ;
 		}
-		var name ='#' + root ;
+		var name ='#vignette-' + root ;
 		$(name + ' progress').remove () ;
 		$(name + ' div p').text ('Failed!') ;
 		$(name + ' img').attr ('src', '/images/failed.png') ;
@@ -199,11 +199,12 @@ function createProjectVignette (identifier, data) {
 	var name =identifier ;
 	var progressui =(data.progress != 'complete' && data.progress != 'failed' ? '<progress class="project-progress-bar" value="' + parseInt (data.success) + '" max="100"></progress>' : '') ;
 	var imageui =(data.progress == 'complete' ?
-			  '/extracted/' + name + '.png'
-			: (data.progress == 'failed' ? '/images/failed.png' : '/images/processing.png')) ;
+		  '/extracted/' + name + '.png'
+		: (data.progress == 'failed' ? '/images/failed.png' : '/images/processing.png')) ;
 	var url =(data.progress != 'failed' ? '/explore/' + identifier : '#') ;
+	$('#vignette-' + name).remove () ;
 	$('#project-results').append (
-			'<div class="view view-first flex-item" id="' + name + '">'
+			'<div class="view view-first flex-item" id="vignette-' + name + '">'
 				//+	'<a href="#' + name + '" />'
 			+	'<img src="' + imageui + '" />'
 			+ 	'<div class="mask">'
