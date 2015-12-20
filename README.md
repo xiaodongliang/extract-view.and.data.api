@@ -97,16 +97,16 @@ which would update/install automatically via 'bower':
    graphs on the client-side.
 
 All these libraries can be install via bower
-    ```
-    "jquery": "^ 2.1.4",
-    "view-and-data-toolkit": "*",
-    "flow.js": "^ 2.9.0",
-    "bootstrap": "^ 3.3.6",
-    "jquery.cookie": "^ 1.4.1",
-    "jsPlumb": "^ 2.0.4",
-    "dagre": "~0.7.4",
-    "jquery-ui": "~1.11.4"
-    ```
+```
+"jquery": "^ 2.1.4",
+"view-and-data-toolkit": "*",
+"flow.js": "^ 2.9.0",
+"bootstrap": "^ 3.3.6",
+"jquery.cookie": "^ 1.4.1",
+"jsPlumb": "^ 2.0.4",
+"dagre": "~0.7.4",
+"jquery-ui": "~1.11.4"
+```
 
 
 ## Setup/Usage Instructions
@@ -320,7 +320,7 @@ http-server [path] [options]
 ## License
 
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-Please see the [LICENSE](LICENSE) file for full details. However, the Autodesk Viewer
+Please see the [LICENSE](LICENSE) file for full details.
 
 
 ## Written by
