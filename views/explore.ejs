@@ -83,13 +83,13 @@
                 evt.stopPropagation () ;
                 var hidden =!($('#usage').hasClass ('noshow')) ;
                 $('#usage').toggleClass ('noshow') ;
-                $('#usage-control').text (hidden ? 'Show this content' : 'Hide this content') ;
+                $('#usage-control').text (hidden ? 'Show About' : 'Hide About') ;
                 $.cookie ('usage', hidden ? 'hidden' : 'visible', { expires: 365 }) ;
             }) ;
             var hidden =$.cookie ("usage") ;
             if ( hidden ) {
                 $('#usage').addClass ('noshow') ;
-                $('#usage-control').text ('Show this content') ;
+                $('#usage-control').text ('Show About') ;
             }
 
             var options ={ 'document': '<%= urn %>', 'accessToken': '<%= accessToken %>', 'env': 'AutodeskProduction' } ;
@@ -493,7 +493,7 @@
                                                 read instructions <a href="https://github.com/cyrillef/extract-view.and.data.api/blob/master/README.md#others">here</a></li>
                                         </ol>
                                     </div>
-                                    <div><button id="usage-control" type="button" class="btn btn-info">Hide this content</button></div>
+                                    <div><button id="usage-control" type="button" class="btn btn-info">Hide About</button></div>
                                 </div>
                             </div>
                         </div>

@@ -33,7 +33,7 @@ $(document).ready (function () {
 	var hidden =$.cookie ("usage") ;
 	if ( hidden ) {
 		$('#usage').addClass ('noshow') ;
-		$('#usage-control').text ('Show this content') ;
+		$('#usage-control').text ('Show About') ;
 	}
 
 	$('#new-project').click (function (evt) {

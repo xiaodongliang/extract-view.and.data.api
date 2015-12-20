@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/explore.ejs" afterPath="$PROJECT_DIR$/views/explore.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,43 +26,7 @@
     <favorites_list name="workflow-node.js-server-view.and.data.api" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.37037">
-              <caret line="93" column="72" selection-start-line="93" selection-start-column="72" selection-end-line="93" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.961538">
-              <caret line="156" column="40" selection-start-line="156" selection-start-column="36" selection-end-line="156" selection-end-column="40" />
-              <folding>
-                <element signature="n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#2;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#3;n#body#0;n#html#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="explore.ejs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/explore.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41389728">
-              <caret line="491" column="48" selection-start-line="491" selection-start-column="48" selection-end-line="491" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -121,7 +85,6 @@
         <option value="$PROJECT_DIR$/server/viewer.js" />
         <option value="$PROJECT_DIR$/views/view.ejs" />
         <option value="$PROJECT_DIR$/server/lmv-results.js" />
-        <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/test/simple.js" />
         <option value="$PROJECT_DIR$/server/lmv.js" />
         <option value="$PROJECT_DIR$/server/lmv-projects.js" />
@@ -130,6 +93,7 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/views/explore.ejs" />
+        <option value="$PROJECT_DIR$/www/js/app.js" />
       </list>
     </option>
   </component>
@@ -201,6 +165,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -414,10 +396,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="633" y="53" width="1806" height="1235" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945454" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17697595" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17697595" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39889416" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -759,29 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1627907">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#1474#2781#0" expanded="false" />
-            <element signature="e#2849#2879#0" expanded="false" />
-            <element signature="e#2945#3181#0" expanded="false" />
-            <element signature="e#3248#3324#0" expanded="false" />
-            <element signature="n#!!block;n#listProjects#0" expanded="false" />
-            <element signature="n#!!block;n#submitProject#0" expanded="false" />
-            <element signature="n#!!block;n#projectProgress#0" expanded="false" />
-            <element signature="n#!!block;n#createProjectVignette#0" expanded="false" />
-            <element signature="n#!!block;n#scrollTo#0" expanded="false" />
-            <marker date="1450610061842" expanded="true" signature="7199:7254" placeholder="..." />
-            <marker date="1450610061842" expanded="true" signature="7199:7268" placeholder="..." />
-            <marker date="1450610061842" expanded="true" signature="7199:7517" placeholder="..." />
-            <marker date="1450610061842" expanded="true" signature="7300:7487" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/setup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -942,18 +901,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/views/explore.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.37037">
-          <caret line="93" column="72" selection-start-line="93" selection-start-column="72" selection-end-line="93" selection-end-column="72" />
+        <state vertical-scroll-proportion="-8.461538">
+          <caret line="495" column="113" selection-start-line="495" selection-start-column="108" selection-end-line="495" selection-end-column="113" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="45" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="45" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1467#2774#0" expanded="false" />
+            <element signature="e#2842#2872#0" expanded="false" />
+            <element signature="e#2938#3174#0" expanded="false" />
+            <element signature="e#3241#3317#0" expanded="false" />
+            <element signature="n#!!block;n#listProjects#0" expanded="false" />
+            <element signature="n#!!block;n#submitProject#0" expanded="false" />
+            <element signature="n#!!block;n#projectProgress#0" expanded="false" />
+            <element signature="n#!!block;n#createProjectVignette#0" expanded="false" />
+            <element signature="n#!!block;n#scrollTo#0" expanded="false" />
+            <marker date="1450619356130" expanded="true" signature="7192:7247" placeholder="..." />
+            <marker date="1450619356130" expanded="true" signature="7192:7261" placeholder="..." />
+            <marker date="1450619356130" expanded="true" signature="7192:7510" placeholder="..." />
+            <marker date="1450619356130" expanded="true" signature="7293:7480" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.961538">
-          <caret line="156" column="40" selection-start-line="156" selection-start-column="36" selection-end-line="156" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.76888216">
+          <caret line="169" column="109" selection-start-line="169" selection-start-column="104" selection-end-line="169" selection-end-column="109" />
           <folding>
             <element signature="n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -963,10 +945,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/explore.ejs">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41389728">
-          <caret line="491" column="48" selection-start-line="491" selection-start-column="48" selection-end-line="491" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.3827534">
+          <caret line="93" column="72" selection-start-line="93" selection-start-column="72" selection-end-line="93" selection-end-column="72" />
           <folding />
         </state>
       </provider>
