@@ -304,11 +304,13 @@ function wf1_GetItems (data, callback_wf1b, bucket, identifier) {
 	items =items.concat (views) ;
 
 	// Add manifest & metadata files for f2d file
-	console.log ('#2b - Adding manisfest & metadata files for any .f2d files') ;
+	console.log ('#2b - Adding manifest & metadata files for any .f2d files') ;
 	for ( var i =0 ; i < items.length ; i++ ) {
 		if ( items [i].urn !== undefined && path.extname (items [i].urn) == '.f2d' ) {
-			items.push ({ urn: path.dirname (items [i].urn) + '/manifest.json.gz', size: 5000 }) ;
-			items.push ({ urn: path.dirname (items [i].urn) + '/metadata.json.gz', size: 5000 }) ;
+			items.push ({ urn: path.dirname (items [i].urn) + '/manifest.json.gz', size: 500 }) ;
+			items.push ({ urn: path.dirname (items [i].urn) + '/metadata.json.gz', size: 1000 }) ;
+			//items.push ({ urn: path.dirname (items [i].urn) + '/objects_attrs.json.gz', size: 5000 }) ;
+			//items.push ({ urn: path.dirname (items [i].urn) + '/objects_attrs.json', size: 5000 }) ;
 		}
 	}
 	extractorProgressMgr.dlProgressFull (identifier, items) ;

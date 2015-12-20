@@ -119,10 +119,12 @@
 					$('#list').append (r) ;
 					$('#view_' + i).click (function (e) {
 						e.stopPropagation () ;
-                        oViewer.impl.unloadCurrentModel () ;
+                        //oViewer.impl.unloadCurrentModel () ;
                         // API would be tearDown()/setUp()
                         // tearDown() unloads extensions too, so you need setUp() after that to load again
                         // setUp() requires the viewer configuration again, the one you use to start the viewer.
+                        oViewer.tearDown () ;
+                        oViewer.setUp ({ env: '' }) ;
 						var i =parseInt (e.target.id.substring (5)) ;
 						oViewer.load (docs [i].path) ;
 					}) ;
@@ -139,13 +141,12 @@
         <h5>This model was extracted using <a href="http://extract.autodesk.io">http://extract.autodesk.io</a></h5>
         <br />
         <div>
-            <div id="viewer" class="left" />
-            <div id="list" class="right" />
+            <div id="viewer" class="left"></div>
+            <div id="list" class="right"></div>
         </div>
         <br />
     </div>
 
-    <!-- FOOTER  -->
     <div class="clear">
         <hr />
         <p>&#169; Copyright 2015 Autodesk. All rights reserved. </p>

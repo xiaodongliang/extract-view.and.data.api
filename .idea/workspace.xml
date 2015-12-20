@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a053e59-3c81-43e9-b3bd-6f25e0976148" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/viewer.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/jsPlumbToolkit-1.0.11.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/js/jsPlumbToolkit-defaults.css" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/images/app.png" afterPath="$PROJECT_DIR$/www/images/app.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower.json" afterPath="$PROJECT_DIR$/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/credentials_.js" afterPath="$PROJECT_DIR$/server/credentials_.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-projects.js" afterPath="$PROJECT_DIR$/server/lmv-projects.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv-results.js" afterPath="$PROJECT_DIR$/server/lmv-results.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lmv.js" afterPath="$PROJECT_DIR$/server/lmv.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/sendMail.js" afterPath="$PROJECT_DIR$/server/sendMail.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/explore.ejs" afterPath="$PROJECT_DIR$/views/explore.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/view.ejs" afterPath="$PROJECT_DIR$/views/view.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
     </list>
     <ignored path="workflow-node.js-server-view.and.data.api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -104,10 +90,10 @@
         <option value="$PROJECT_DIR$/server/sendMail.js" />
         <option value="$PROJECT_DIR$/server/lmv-projects.js" />
         <option value="$PROJECT_DIR$/server/viewer.js" />
-        <option value="$PROJECT_DIR$/views/view.ejs" />
-        <option value="$PROJECT_DIR$/server/lmv-results.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/views/explore.ejs" />
+        <option value="$PROJECT_DIR$/server/lmv-results.js" />
+        <option value="$PROJECT_DIR$/views/view.ejs" />
       </list>
     </option>
   </component>
@@ -119,9 +105,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="856" />
+    <option name="x" value="633" />
     <option name="y" value="53" />
-    <option name="width" value="1583" />
+    <option name="width" value="1806" />
     <option name="height" value="1235" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -178,6 +164,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="workflow-node.js-server-view.and.data.api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -345,11 +345,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="856" y="53" width="1583" height="1235" extended-state="0" />
+    <frame x="633" y="53" width="1806" height="1235" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945454" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20091924" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17525773" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39889416" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -788,51 +788,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/view.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.5">
-          <caret line="39" column="50" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/go.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8008721">
-          <caret line="662" column="20" selection-start-line="662" selection-start-column="20" selection-end-line="662" selection-end-column="20" />
-          <folding>
-            <element signature="e#1661#2723#0" expanded="false" />
-            <element signature="e#3833#4332#0" expanded="false" />
-            <element signature="e#4435#5209#0" expanded="false" />
-            <element signature="e#7699#9989#0" expanded="false" />
-            <element signature="e#10122#10282#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetItems#0" expanded="false" />
-            <element signature="n#!!block;n#loop4Urns#0" expanded="false" />
-            <element signature="n#!!block;n#loop4Views#0" expanded="false" />
-            <element signature="n#!!block;n#DownloadUrnAndSaveItemToDisk#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadSvfF2dManifest#0" expanded="false" />
-            <element signature="n#!!block;n#filterItems#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadSvfItem#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadF2dItem#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
-            <element signature="n#!!block;n#loopManifest#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
-            <element signature="n#!!block;n#wf1_GenerateLocalHtml#0" expanded="false" />
-            <element signature="n#!!block;n#wf1End_Cleanup#0" expanded="false" />
-            <element signature="n#!!block;n#wf1End_Notify#0" expanded="false" />
-            <element signature="n#!!block;n#wf1End_NotifyError#0" expanded="false" />
-            <element signature="e#27274#27969#0" expanded="false" />
-            <element signature="e#28036#28222#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -862,6 +822,48 @@
         <state vertical-scroll-proportion="0.3721634">
           <caret line="194" column="23" selection-start-line="194" selection-start-column="9" selection-end-line="194" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/view.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5770393">
+          <caret line="130" column="17" selection-start-line="130" selection-start-column="17" selection-end-line="130" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lmv-results.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59028834">
+          <caret line="315" column="61" selection-start-line="315" selection-start-column="61" selection-end-line="315" selection-end-column="61" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1661#2723#0" expanded="false" />
+            <element signature="e#3833#4332#0" expanded="false" />
+            <element signature="e#4435#5209#0" expanded="false" />
+            <element signature="e#10122#10282#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetFullDetails#0" expanded="false" />
+            <element signature="n#!!block;n#loop4Urns#0" expanded="false" />
+            <element signature="n#!!block;n#loop4Views#0" expanded="false" />
+            <element signature="n#!!block;n#DownloadUrnAndSaveItemToDisk#0" expanded="false" />
+            <element signature="n#!!block;n#DownloadFileAndSaveItemToDisk#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadSvfF2dManifest#0" expanded="false" />
+            <element signature="n#!!block;n#filterItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadSvfItem#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadF2dItem#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_ReadManifest#0" expanded="false" />
+            <element signature="n#!!block;n#loopManifest#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GetAdditionalItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_GenerateLocalHtml#0" expanded="false" />
+            <element signature="n#!!block;n#wf1_AddViewerFiles#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_PackItems#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_Cleanup#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_Notify#0" expanded="false" />
+            <element signature="n#!!block;n#wf1End_NotifyError#0" expanded="false" />
+            <element signature="e#27463#28158#0" expanded="false" />
+            <element signature="e#28225#28411#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
