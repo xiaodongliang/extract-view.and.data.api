@@ -4,6 +4,7 @@
 var request =require ('supertest') ;
 var should =require ('should') ;
 var app =require ('../server/server') ;
+var _config =require ('../server/credentials_.js') ;
 var fs =require ('fs') ;
 var path =require ('path') ;
 app.set ('port', process.env.PORT || 8000) ;
@@ -18,25 +19,20 @@ describe ('Starting Test server...', function () {
 
 	var auObjFile ='samples/Au.obj' ;
 	var auObjIdentifier ='1866-Auobj' ;
-	var auObjBucket =process.env.transientBucket || 'autotesttransient' ;
-	if ( process.env.CONSUMERKEY ) {
-		auObjBucket +=process.env.CONSUMERKEY.toLowerCase () ;
-	} else {
-		var config =require ('../server/credentials.js') ;
-		auObjBucket +=config.credentials.client_id.toLowerCase () ;
-	}
+	var auObjBucket =_config.bucket ; /* transient */
 	//var transientAuObjUrn ='urn:adsk.objects:os.object:' + auObjBucket + '/' + path.basename (auObjFile) ;
 
-	var testFile ='Au.obj' ;
-	var testIdentifier ='1866-Auobj' ;
-	var testBucket =process.env.permanentBucket || 'autotestpermament' ;
+	/*var testFile ='Au.obj' ;
+	var testIdentifier =auObjIdentifier ;
+	var testBucket =_config.bucket ;
 	if ( process.env.CONSUMERKEY ) {
-		testBucket +=process.env.CONSUMERKEY.toLowerCase () ;
+		testBucket +='-' + process.env.CONSUMERKEY.toLowerCase () ;
 	} else {
 		var config =require ('../server/credentials.js') ;
-		testBucket +=config.credentials.client_id.toLowerCase () ;
+		testBucket +='-' + config.credentials.client_id.toLowerCase () ;
 	}
 	var permanentAuObjUrn ='urn:adsk.objects:os.object:' + testBucket + '/' + testFile ;
+	*/
 
 	// Start/End test server
 	before (function (done) {
@@ -163,29 +159,29 @@ describe ('Starting Test server...', function () {
 		it('(post) ' + projectsEP + ' - post bucket/file to oss', function (done) {
 			request (app)
 				.post (projectsEP)
-				.send ({ 'bucket': auObjBucket, 'policy': 'transient', 'connections': { 'lmv-root' : [ auObjIdentifier ] } })
+				.send ({ 'uniqueIdentifier': auObjIdentifier, 'children': [] })
 				.expect (200) //, done)
 				.expect ('Content-Type', /json/)
 				.expect ({ 'status': 'submitted' }, done) ;
 		}) ;
 
-		it('(get) ' + projectsEP + '/:bucket - get bucket details for [test file]', function (done) {
+		/*it('(get) ' + projectsEP + '/:bucket - get bucket details for [test file]', function (done) {
 			this.timeout (9000) ;
 			request (app)
 				.get (projectsEP + '/' + testBucket)
 				.expect ('Content-Type', /json/)
 				.expect (200, done) ;
-		}) ;
+		}) ;*/
 
-		it('(get) ' + projectsEP + '/:bucket/:identifier - get bucket/identifier details for [test file]', function (done) {
+		/*it('(get) ' + projectsEP + '/:identifier - get details for [test file]', function (done) {
 			this.timeout (9000) ;
 			request (app)
-				.get (projectsEP + '/' + testBucket + '/' + testFile)
+				.get (projectsEP + '/' + testFile)
 				.expect ('Content-Type', /json/)
 				.expect (200, done) ;
-		}) ;
+		}) ;*/
 
-		it('(get) ' + projectsEP + '/:bucket/:identifier/progress - get translation progress [test file]', function (done) {
+		/*it('(get) ' + projectsEP + '/:bucket/:identifier/progress - get translation progress [test file]', function (done) {
 			this.timeout (9000) ;
 			request (app)
 				.get (projectsEP + '/' + testBucket + '/' + testIdentifier + '/progress')
@@ -198,7 +194,7 @@ describe ('Starting Test server...', function () {
 					res.body.should.have.property ('guid').and.be.equal (encodedURN) ;
 					done () ;
 				}) ;
-		}) ;
+		}) ;*/
 
 	}) ;
 
@@ -211,26 +207,26 @@ describe ('Starting Test server...', function () {
 			setTimeout (done, 10000) ;
 		}) ;
 
-		it('(get) ' + projectsEP + '/:bucket - get bucket details', function (done) {
+		/*it('(get) ' + projectsEP + '/:bucket - get bucket details', function (done) {
 			this.timeout (9000) ;
 			request (app)
 				.get (projectsEP + '/' + auObjBucket)
 				.expect ('Content-Type', /json/)
 				.expect (200, done) ;
-		}) ;
+		}) ;*/
 
-		it('(get) ' + projectsEP + '/:bucket/:identifier - get bucket-file details', function (done) {
+		it('(get) ' + projectsEP + '/:identifier - get bucket-file details', function (done) {
 			this.timeout (9000) ;
 			request (app)
-				.get (projectsEP + '/' + auObjBucket + '/' + auObjIdentifier)
+				.get (projectsEP + '/' + auObjIdentifier)
 				.expect ('Content-Type', /json/)
 				.expect (200, done) ;
 		}) ;
 
-		it('(get) ' + projectsEP + '/:bucket/:identifier/progress - get translation progress', function (done) {
+		it('(get) ' + projectsEP + '/:identifier/progress - get translation progress', function (done) {
 			this.timeout (9000) ;
 			request (app)
-				.get (projectsEP + '/' + auObjBucket + '/' + auObjIdentifier + '/progress')
+				.get (projectsEP + '/' + auObjIdentifier + '/progress')
 				.expect ('Content-Type', /json/)
 				.expect (200, done) ;
 		}) ;

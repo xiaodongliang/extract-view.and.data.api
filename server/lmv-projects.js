@@ -200,8 +200,9 @@ router.get ('/projects/:identifier', function (req, res) {
 		idData =JSON.parse (idData) ;
 		filename =idData.name ;
 	} catch ( err ) {
-		filename =identifier ;
-		identifier =filename.replace (/[^0-9A-Za-z_-]/g, '') ;
+		filename =identifier.replace (/^[0-9]*\-/, '') ;
+		var position =filename.length - 3 ;
+		filename =[filename.slice (0, position), '.', filename.slice (position)].join ('') ;
 	}
 
 	// GET /oss/{apiversion}/buckets/{bucketkey}/objects/{objectKey}/details
