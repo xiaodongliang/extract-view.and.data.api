@@ -149,20 +149,25 @@ function projectProgress (root, nb) {
 		var name ='#' + root ;
 		//console.log (response) ;
 		if ( response.progress == 'complete' ) {
-			$(name + ' div p').text ('success (100%)') ;
-			$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + root) ;
 			$(name + ' progress').remove () ;
-
-			if ( response.hasThumbnail == 'true' ) {
-				$.ajax ({
-					url: '/api/results/' + root + '/thumbnail',
-					type: 'get',
-					complete: null
-				}).done (function (response) {
-					$(name + ' img').attr ('src', '/extracted/' + root + '.png') ;
-				}) ;
+			if ( response.status == 'success' ) {
+				$(name + ' div p').text ('success (' + response.success + ')') ;
+				$(name + ' div a.info').unbind ('click').text ('Explore').attr ('href', '/explore/' + root) ;
+				
+				if ( response.hasThumbnail == 'true' ) {
+					$.ajax ({
+						url: '/api/results/' + root + '/thumbnail',
+						type: 'get',
+						complete: null
+					}).done (function (response) {
+						$(name + ' img').attr ('src', '/extracted/' + root + '.png') ;
+					}) ;
+				} else {
+					$(name + ' img').attr ('src', '/images/project.png') ;
+				}
 			} else {
-				$(name + ' img').attr ('src', '/images/project.png') ;
+				$(name + ' div p').text ('Failed!') ;
+				$(name + ' img').attr ('src', '/images/failed.png') ;
 			}
 		} else {
 			if ( response.progress === 'uploading to oss' )
