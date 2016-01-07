@@ -113,7 +113,7 @@ module.exports =flow =function (temporaryFolder) {
                 // Do we have all the chunks?
                 var currentTestChunk =1 ;
                 var numberOfChunks =Math.max (Math.floor (totalSize / (chunkSize * 1.0)), 1) ;
-                var testChunkExists =function() {
+                var testChunkExists =function () {
                     fs.exists (getChunkFilename (currentTestChunk, identifier), function (exists) {
                         if ( exists ) {
                             currentTestChunk++ ;

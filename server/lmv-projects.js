@@ -32,45 +32,46 @@ var router =express.Router () ;
 router.use (bodyParser.json ()) ;
 
 // List local buckets since we cannot list server buckets
-router.get ('/projects', function (req, res) {
+router.get ('/projects/buckets', function (req, res) {
 	try {
 		fs.readdir ('data', function (err, files) {
 			if ( err )
 				throw err;
 			var files =filterBucket (files, '(.*)\.bucket\.json') ;
 			// Verify that the bucket is still valid before returning it
-			async.mapLimit (files, 10,
-				function (item, callback_map) { // Each tasks execution
-					fs.readFile ('data/' + item + '.bucket.json', 'utf-8', function (err, content) {
-							if ( err )
-								return (callback_map (err, null)) ;
-							var js =JSON.parse (content) ;
-							var dt =moment (js.createDate), now =moment () ;
-							switch ( js.policyKey ) {
-								case 'transient': // 24h
-									dt.add (24, 'hours') ;
-									if ( dt <= now )
-										return (callback_map (null, null)) ;
-									break ;
-								case 'temporary': // 30 days
-									dt.add (30, 'days') ;
-									if ( dt <= now )
-										return (callback_map (null, null)) ;
-									break ;
-								default:
-									break ;
-							}
-							callback_map (null, item) ;
-						}
-					) ;
-				},
-				function (err, results) { //- All tasks are done
-					if ( err !== undefined && err !== null )
-						return (res.json ([])) ;
-					var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
-					res.json (filtered) ;
-				}
-			) ;
+			//async.mapLimit (files, 10,
+			//	function (item, callback_map) { // Each tasks execution
+			//		fs.readFile ('data/' + item + '.bucket.json', 'utf-8', function (err, content) {
+			//				if ( err )
+			//					return (callback_map (err, null)) ;
+			//				var js =JSON.parse (content) ;
+			//				var dt =moment (js.createDate), now =moment () ;
+			//				switch ( js.policyKey ) {
+			//					case 'transient': // 24h
+			//						dt.add (24, 'hours') ;
+			//						if ( dt <= now )
+			//							return (callback_map (null, null)) ;
+			//						break ;
+			//					case 'temporary': // 30 days
+			//						dt.add (30, 'days') ;
+			//						if ( dt <= now )
+			//							return (callback_map (null, null)) ;
+			//						break ;
+			//					default:
+			//						break ;
+			//				}
+			//				callback_map (null, item) ;
+			//			}
+			//		) ;
+			//	},
+			//	function (err, results) { //- All tasks are done
+			//		if ( err !== undefined && err !== null )
+			//			return (res.json ([])) ;
+			//		var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
+			//		res.json (filtered) ;
+			//	}
+			//) ;
+			res.json (files) ;
 		}) ;
 	} catch ( err ) {
 		res.status (404).send () ;
@@ -198,7 +199,10 @@ router.get ('/projects/:identifier', function (req, res) {
 	try {
 		var idData =fs.readFileSync ('data/' + identifier + '.json') ;
 		idData =JSON.parse (idData) ;
-		filename =idData.name ;
+		if ( idData.hasOwnProperty ('name') )
+			filename =idData.name ;
+		else
+			filename =idData.objects [0].key ;
 	} catch ( err ) {
 		filename =identifier.replace (/^[0-9]*\-/, '') ;
 		var position =filename.length - 3 ;

@@ -51,31 +51,31 @@ router.get ('/results', function (req, res) {
 				throw err ;
 			files =filterProject (files, '(.*)\\.resultdb\\.json') ;
 			async.mapLimit (files, 10,
-					function (file, callback_map) { // Each tasks execution
-						fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
-							if ( err || data == '' )
-								return (callback_map (null, null)) ;
-							data =JSON.parse (data) ;
-							if ( data.progress == 'failed' || data.status == 'failed' )
-								return (callback_map (null, null)) ;
-							var out ={
-								name: file,
-								urn: data.urn,
-								date: data.startedAt,
-								hasThumbnail: data.hasThumbnail,
-								status: data.status,
-								success: data.success,
-								progress: data.progress
-							} ;
-							callback_map (null, out)
-						}) ;
-					},
-					function (err, results) { //- All tasks are done
-						if ( err !== undefined && err !== null )
-							return (res.json ([])) ;
-						var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
-						res.json (filtered) ;
-					}
+				function (file, callback_map) { // Each tasks execution
+					fs.readFile ('data/' + file + '.resultdb.json', 'utf-8', function (err, data) {
+						if ( err || data == '' )
+							return (callback_map (null, null)) ;
+						data =JSON.parse (data) ;
+						if ( data.progress == 'failed' || data.status == 'failed' )
+							return (callback_map (null, null)) ;
+						var out ={
+							name: file,
+							urn: data.urn,
+							date: data.startedAt,
+							hasThumbnail: data.hasThumbnail,
+							status: data.status,
+							success: data.success,
+							progress: data.progress
+						} ;
+						callback_map (null, out)
+					}) ;
+				},
+				function (err, results) { //- All tasks are done
+					if ( err !== undefined && err !== null )
+						return (res.json ([])) ;
+					var filtered =results.filter (function (obj) { return (obj != null) ; }) ;
+					res.json (filtered) ;
+				}
 			) ;
 		}) ;
 	} catch ( err ) {
@@ -144,6 +144,7 @@ router.delete ('/results/:identifier', function (req, res) {
 		if ( !exist )
 			return (res.status (404).end ()) ;
 		fs.unlink ('data/' + identifier + '.resultdb.json', function (err) { res.end () ; }) ;
+		res.end () ;
 	}) ;
 	fs.exists ('www/extracted/' + identifier + '.png', function (exist) {
 		if ( !exist )
@@ -241,7 +242,7 @@ var ExtractorProgressMgr =function () {
 		this.factor =factor ;
 	} ;
 
-	this.setError =function (err) {
+	this.setError =function (identifier, err) {
 		this.projects [identifier] =err ;
 	} ;
 
@@ -273,6 +274,7 @@ var ExtractorProgressMgr =function () {
 } ;
 var extractorProgressMgr =new ExtractorProgressMgr () ;
 
+// Get the bucket/identifier viewable data creation progress
 router.get ('/results/:identifier/project/progress', function (req, res) {
 	//var bucket =lmv.Lmv.getDefaultBucket () ;
 	var identifier =req.params.identifier ;
@@ -377,7 +379,7 @@ function DownloadUrnAndSaveItemToDisk (callback_mapx, bucket, identifier, item) 
 		new lmv.Lmv (bucket).downloadItem (urn)
 			.on ('success', function (data) {
 				//var filename =item.split ('/').pop () ;
-				var filename =path.basename (urn) ;
+				//var filename =path.basename (urn) ;
 				var fullpath ='data/' + identifier + '/' + urn.substring (urn.indexOf ('/output/') + 8) ;
 				var filepath =path.dirname (fullpath) ;
 				try {
@@ -399,13 +401,13 @@ function DownloadUrnAndSaveItemToDisk (callback_mapx, bucket, identifier, item) 
 				}
 			})
 			.on ('fail', function (err) {
-				if ( err == 404 ) {
-					console.log ('Error 404 - ' + urn + ' <ignoring>') ;
+				if ( err == 404 || err == 504 ) {
+					console.log ('Warning(' + err + ') - ' + urn + ' <ignoring>') ;
 					var fullpath ='data/' + identifier + '/' + urn.substring (urn.indexOf ('/output/') + 8) ;
-					callback_mapx (null, { urn: urn, name: fullpath.substring (5), size: item.size, error: 404 }) ;
+					callback_mapx (null, { urn: urn, name: fullpath.substring (5), size: item.size, error: err }) ;
 					return ;
 				}
-				console.log ('Download failed for ' + urn) ;
+				console.log ('Error(' + err + ') - Download failed for - ' + urn) ;
 				callback_mapx (err, null) ;
 			})
 		;
@@ -421,13 +423,13 @@ function DownloadFileAndSaveItemToDisk (callback_mapx, bucket, identifier, item)
 		//.timeout (2 * 60 * 1000) // 2 min
 		.end (function (response) {
 			try {
-				var filename =path.basename (item) ;
+				//var filename =path.basename (item) ;
 				var fullpath ='data/' + identifier + '/' + item.substring (item.indexOf ('/viewers/') + 9) ;
 				var filepath =path.dirname (fullpath) ;
 
 				if ( response.statusCode != 200 ) {
-					console.log ('Download failed for ' + fullpath) ;
-					callback_mapx (null, { urn: item, name: fullpath.substring (5), size: 0, dl: 0 }) ;
+					console.log ('Warning(' + response.statusCode + ') - Download failed for ' + fullpath + ' <ignoring>') ;
+					callback_mapx (null, { urn: item, name: fullpath.substring (5), size: 0, dl: 0, error: response.statusCode }) ;
 					return ;
 				}
 
@@ -574,7 +576,7 @@ function wf1_ReadManifest (callback_map4, item, identifier) {
 
 function loopManifest (doc, urnParent) {
 	var data =[] ;
-	if ( doc.URI !== undefined &&  doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
+	if ( doc.URI !== undefined && doc.URI.indexOf ('embed:/') != 0 ) // embed:/ - Resource embedded into the svf file, so just ignore it
 		//data.push (urnParent + '/' + doc.URI) ;
 		//data.push (path.normalize (urnParent + '/' + doc.URI).split (path.sep).join ('/')) ;
 		data.push ({
@@ -619,7 +621,7 @@ function wf1_GenerateLocalHtml (refs, callback_wf1e, bucket, identifier) {
 	refs =refs.filter (function (obj) { return (!obj.hasOwnProperty ('path')) ; }) ;
 
 	fs.createReadStream ('views/go.ejs').pipe (fs.createWriteStream ('data/' + identifier + '/index.bat')) ;
-	refs.push ({ name: identifier + '/index.bat' }) ;
+	refs.push ({ name: identifier + '/index.bat', size: 602, dl: 602 }) ;
 	fs.readFile ('views/view.ejs', 'utf-8', function (err, st) {
 		if ( err )
 			return (callback_wf1e (err, refs)) ;

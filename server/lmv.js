@@ -47,6 +47,7 @@ util.inherits (Lmv, events.EventEmitter) ;
 	console.log ('Refreshing Autodesk Service token') ;
 	unirest.post (config.AuthenticateEndPoint)
 		.header ('Accept', 'application/json')
+		//.proxy ('http://127.0.0.1:8888').followAllRedirects (true) // requires NODE_TLS_REJECT_UNAUTHORIZED=0
 		.send (config.credentials)
 		.end (function (response) {
 			try {
@@ -83,7 +84,7 @@ util.inherits (Lmv, events.EventEmitter) ;
 
 /*static*/ Lmv.getDefaultBucket =function (name, addKey) {
 	addKey =addKey || false ;
-	var possible ="abcdefghijklmnopqrstuvwxyz0123456789" ;
+	var possible ='abcdefghijklmnopqrstuvwxyz0123456789' ;
 	var text ='z' ;
 	for ( var i =0 ; i < 32 ; i++ )
 		text +=possible.charAt (Math.floor (Math.random () * possible.length)) ;
@@ -203,11 +204,11 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 // PUT /oss/v1/buckets/:bucket/objects/:filename
 Lmv.prototype.uploadFile =function (identifier) {
 	var self =this ;
-	fs.readFile ('data/' + identifier + '.json', function (err, idData) {
+	fs.readFile ('data/' + identifier + '.json', function (err, data) {
 		if ( err )
 			return (self.emit ('fail', err)) ;
-		idData =JSON.parse (idData) ;
-		var serverFile =path.normalize (__dirname + '/../tmp/' + idData.name) ;
+		data =JSON.parse (data) ;
+		var serverFile =path.normalize (__dirname + '/../tmp/' + data.name) ;
 
 		fs.stat (serverFile, function (err, stats) {
 			if ( err )
@@ -390,7 +391,7 @@ Lmv.prototype.getURN =function (identifier) {
 	try {
 		var data =fs.readFileSync ('data/' + identifier + '.json') ; // keep Sync version here
 		data =JSON.parse (data) ;
-		return (data.name || data.objects [0 ].key) ;
+		return (data.name || data.objects [0].key) ;
 	} catch ( err ) {
 		//console.log (__function + ' ' + __line) ;
 		console.log (err) ;
@@ -579,7 +580,7 @@ Lmv.prototype.download =function (identifier) {
 	var self =this ;
 
 	var endpoint ='' ;
-	var filename ='default.bin';
+	var filename ='default.bin' ;
 	var accept ='application/octet-stream' ;
 	try {
 		var data =fs.readFileSync ('data/' + identifier + '.json') ;
@@ -611,7 +612,7 @@ Lmv.prototype.download =function (identifier) {
 		})
 	;
 	return (this) ;
-};
+} ;
 
 // GET /viewingservice/v1/items/:encodedURN
 Lmv.prototype.downloadItem =function (urn) { // TODO: range header?

@@ -37,9 +37,9 @@ router.post ('/file', multipartMiddleware, function (req, res) {
 			var data ={
 				'key': identifier,
 				'name': original_filename,
-				"size": totalSize,
-				"bytesRead": totalSize,
-				"bytesPosted": 0
+				'size': totalSize,
+				'bytesRead': totalSize,
+				'bytesPosted': 0
 			} ;
 			fs.writeFile ('data/' + identifier + '.json', JSON.stringify (data), function (err) {
 				if ( err )
@@ -83,7 +83,7 @@ router.get ('/file/*/details', function (req, res) {
 	var identifier =req.url.split ('/') [2] ;
 	fs.readFile ('data/' + identifier + '.json', function (err, data) {
 		if ( err )
-			throw err ;
+			return (res.status (404).send ()) ; //- 404 Not Found
 		data =JSON.parse (data) ;
 		//res.setHeader ('Content-Type', 'application/json') ;
 		res.json (data) ;
