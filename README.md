@@ -251,8 +251,7 @@ Viewing 'bubbles' offline using Python
 
 1. This step needs to be done only once per machine. Download and install Python on your computer.
 2. Unzip the project result zip file into a folder.
-3. Download and unzip the 'Autodesk viewer engine' in the same folder.
-4. Start your local Python http server.<br />
+3. Start your local Python http server.<br />
    ```
    cd <myfolder>
 
@@ -272,14 +271,13 @@ Viewing 'bubbles' offline using Ruby
 
 1. This step needs to be done only once per machine. Download and install Ruby on your computer.
 2. Unzip the project result zip file into a folder.
-3. Download and unzip the 'Autodesk viewer engine' in the same folder.
-4. Start your local Ruby http server.<br />
+3. Start your local Ruby http server.<br />
    ```
    cd <myfolder>
 
    ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd); trap('INT') { s.shutdown }; s.start"
    ```
-5. Start your favorite browser supporting HTML5 and WEBGL and browse to
+4. Start your favorite browser supporting HTML5 and WEBGL and browse to
    [http://localhost:8000/](http://localhost:8000/) and select any of the html *.svf.* files.
 
 
